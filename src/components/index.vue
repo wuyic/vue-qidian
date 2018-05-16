@@ -9,9 +9,6 @@
     <div class="index-booklist">
       <bookList></bookList>
     </div>
-    {{
-    count
-    }}
   </div>
 </template>
 
@@ -45,6 +42,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
+
   .index-title {
     top:0;
     left:0;

@@ -31,29 +31,24 @@
 		data() {
 			return {
 			  jiying:'都市',
-			  list:{
-
-        },
-        serverTime:new Date(),
       }
 		},
-    mounted() {
-		  this.getData();
+
+    created() {
+      //获取书架列表数据
+      this.$store.dispatch('getBookList');
     },
-    methods:{
-		  //获取书架列表数据
-		  getData: function() {
-        this.$http.get(
-          this.baseUrl,
-          { params:{
-            'url': "https://mage.if.qidian.com/Atom.axd/Api/BookCase/Refresh",
-            'method': 'post'
-          }}
-        ).then((data)=>{
-		      this.list = [...[], ...data.data.ServerCase.BookInfo];
-		      this.serverTime = data.data.ServerTime;
-        })
+
+    computed: {
+      list () {
+        return this.$store.state.book.bookList
       },
+      serverTime() {
+        return this.$store.state.serverTime
+      }
+    },
+
+    methods:{
       //处理时间
       getTime: function (index) {
         let item = this.list[index];
@@ -78,6 +73,8 @@
         return "未读";
       }
     }
+
+
 	}
 </script>
 

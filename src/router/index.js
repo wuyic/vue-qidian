@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
+  import shaixuan from '@/components/index/other/shaixuan'
+
 import good from '@/components/good'
 import find from '@/components/find'
 import mine from '@/components/mine'
@@ -20,7 +22,15 @@ export default new Router({
         bottom:1,
       },
     },
-   {
+    {
+      path:'/index/shaixuan',
+      name:'shaixuan',
+      component:shaixuan,
+      meta:{
+        title:'筛选'
+      }
+    },
+     {
       path: '/good',
       name: 'good',
       component: good,
@@ -30,28 +40,28 @@ export default new Router({
         isShowFoot:true,
         bottom:2,
       },
-   },
- {
-      path: '/find',
-      name: 'find',
-      component: find,
-      meta: {
-        title: '',
-        isCommTitle: false,
-        isShowFoot:true,
-        bottom:3,
+     },
+     {
+        path: '/find',
+        name: 'find',
+        component: find,
+        meta: {
+          title: '',
+          isCommTitle: false,
+          isShowFoot:true,
+          bottom:3,
+        },
       },
-   },
- {
-      path: '/mine',
-      name: 'mine',
-      component: mine,
-      meta: {
-        title: '',
-        isCommTitle: false,
-        isShowFoot:true,
-        bottom:4,
-      },
-   },
+     {
+          path: '/mine',
+          name: 'mine',
+          component: mine,
+          meta: {
+            title: '',
+            isCommTitle: false,
+            isShowFoot:true,
+            bottom:4,
+          },
+       },
   ]
 })

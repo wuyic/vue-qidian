@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import titleCommon from './components/public/title.vue'
-  import footCommon from './components/public/foot.vue';
+  import titleCommon from './components/common/title.vue'
+  import footCommon from './components/common/foot.vue';
 
   export default {
     name: 'App',
@@ -26,6 +26,15 @@
     padding:0;
     font-family: sans-serif;
   }
+
+  .head-title {
+    top:0;
+    left:0;
+    width: 100vw;
+    position:fixed;
+    z-index:1000;
+  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

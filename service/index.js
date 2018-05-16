@@ -39,35 +39,6 @@ app.get('/get', function(req, res){
       }
     })
   }
-
-  // request.post({url:'http://service.com/upload', form:{key:'value'}}, function(error, response, body) {
-  //   if (!error && response.statusCode == 200) {
-  //   }
-  // })
-
-  //
-  // if (req.params.key == 'getList') {
-  //   let type = req.query.type ? req.query.type : 1;
-  //   let page = req.query.page ? req.query.page : 1;
-  //   let pageCount = 200;
-  //
-  //   let start = (page - 1) * pageCount;
-  //   let end = page * pageCount;
-  //   let sql;
-  //
-  //   console.log(sql);
-  //   // sql = 'select * from story limit 1;';
-  //   let result;
-  //   mysql.queryInfo(sql, (err, rr)=>{
-  //     result = rr;
-  //     console.log(result);
-  //     res.send(JSON.stringify(result));//显示页面文字信息
-  //   });
-  //
-  // } else if (req.params.key == 'storyInfo') {
-  //   let id=req.query.id;
-  //   res.send(JSON.stringify(result));//显示页面文字信息
-  // }
 });
 
 app.listen(5678);
