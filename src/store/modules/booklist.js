@@ -8,12 +8,14 @@ const state = {
 
   },
   count:0,
-  bookBigType:[
-
-  ],
-  bookType:[
-
-  ]
+  bookBigType: [],
+  bookSmallType:{
+    type11:[], //男生
+    type12:[],//女生
+    type2:[], //听书
+    type3:[], //漫画
+    type4:[], //出版
+  }
 };
 
 
@@ -32,6 +34,14 @@ const mutations = {
   //设置booklist
   setBookList(state, booklist) {
     state.bookList = booklist;
+  },
+
+  setBookBigType(state, bigtype) {
+    state.bookBigType = bigtype;
+  },
+
+  setBookType(state, data) {
+    state.bookType['type'+data.id] = data.list;
   }
 };
 
@@ -65,8 +75,27 @@ const actions = {
   getBookList({state, commit, rootState}) {
     api.getBookList().then(
       (data) => {
+        console.log(data);
         commit('setBookList', data.data.ServerCase.BookInfo);
         commit('setServiceTime', data.data.ServerTime, { root: true })
+      }
+    )
+  },
+
+  getBookBigType({state, commit, rootState}) {
+    api.getBookBigType().then(
+      (data) => {
+        console.log('获取大bℹ️g type  回调');
+        console.log(data)
+      }
+    )
+  },
+
+  getBookSmallType({state, commit, rootState}) {
+    api.getBookType(id).then(
+      (data) => {
+        console.log('获取small type  回调');
+        console.log(data)
       }
     )
   }

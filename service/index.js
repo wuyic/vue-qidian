@@ -17,17 +17,21 @@ app.get('/get', function(req, res){
   if (!req.query.method) {
     req.query.method = 'get';
   }
-
+  // _csrfToken
+  // ywBP6mPHUlzl
+  // ywj0ff7NJNgE
   let options = {
     method: req.query.method,
     url:req.query.url,
-    headers:{
-      'Accept':	'application/json',
-      'Cookie':	'  QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NS4wLjF8MTI0MnwyMjA4fEFwcFN0b3JlfDEwLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjE2fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MjYwMjE2ODM4ODV8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=; appId=12; areaId=40; cmfuToken=N((rxlb-xMjihpazWgs-2qLPmNA-Y-Uib7zwYg6ptfnDMTiz9c1NUqKPnsSGGwCuYrQemvRJd04sf75WFwQG_S5sk_5xXpp4wf4luO3jXVbC3irbSqku_0arbVEbu5T2UZAqLVYwPIz7eSdRESW4LdV_Pet0HInuS8W7SX_GBYwRwQFwMBuyL5z9wXwPvFIZdNgTiQ9183Cv5RZrHfFU58j9WWY-Tk8ADOQcyVjALQca6Un5Tje2rzI1n9B3IVVdNYO0; ywguid=461199585; ywkey=ywj0ff7NJNgE',
-      'User-Agent':	'QDReaderAppStore/5.0.1 (iPhone; iOS 10.3.3; Scale/3.00)',
-      'Accept-Language':	'zh-Hans-CN;q=1',
-      'Accept-Encoding':	'gzip, deflate',
-    }
+    headers: {
+    'Accept': 'application/json',
+
+    'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NS4wLjF8MTI0MnwyMjA4fEFwcFN0b3JlfDEwLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjE2fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MjY1MzkyMDQyMjB8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=; appId=12; areaId=40; cmfuToken=N((FHppfswJHslWgJGk_rSecvr6btnxGlOGhsWA0XTPDgwSJO2GydbQ3x9JJGTXC5l_XN7xbjBoZUiSwjCbUfqNJUnu2wR1-2typqtnukEkPaah1ygfEHgyss5f9VU54YVK1IsfOaGbaIYrp1ephU2DKsWo7ss6NblLPxVIky8JlppKb6J78w2nt40P_Hbzqaf9o6cJN0AlWXsExp0CK3MH1FGdGSrOHl9KFAr9uA_KvCp2uHaBCk1M6yKx1SMGCeZU0; ywguid=461199585; ywkey=ywBP6mPHUlzl; _csrfToken=HcCLmmwdrodGmC1ffNGJEk4w6iESJ8W09la333dD; wal=1',
+    'User-Agent': 'QDReaderAppStore/4.0.1 (iPhone; iOS 10.3.3; Scale/3.00)',
+    'Accept-Language': 'zh-Hans-CN;q=1',
+    'Accept-Encoding': 'gzip, deflate',
+    'QDHeader': 'OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NS4wLjF8MTI0MnwyMjA4fEFwcFN0b3JlfDEwLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjE2fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MjY1MzYyNTg0NzZ8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=',
+  }
   };
 
   if (req.query.url) {
@@ -39,6 +43,8 @@ app.get('/get', function(req, res){
       }
     })
   }
+
+  // }
 });
 
 app.listen(5678);

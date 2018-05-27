@@ -13,6 +13,12 @@
 	"message": "\u7248\u672c\u592a\u4f4e\uff0c\u8bf7\u5347\u7ea7\u81f3\u6700\u65b0\u7248\u672c\u4e4b\u540e\u518d\u767b\u5f55\u3002"
 }
 
+http://221.228.87.82/apps/public/history/check_update
+
+  http://4g.if.qidian.com  601
+
+    http://4g.if.qidian.com 6.10 蛮像的 api
+      http://druid.if.qidian.com       6.50 未加密
 
 1.刷新首页书单
   URL： https://mage.if.qidian.com/Atom.axd/Api/BookCase/Refresh

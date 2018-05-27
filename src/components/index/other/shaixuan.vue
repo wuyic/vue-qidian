@@ -18,10 +18,25 @@
     </div>
 
     <div class="body">
-      <div class="type-value allbook">
-        <p class="name">全部</p>
-        <p class="value">0</p>
+      <div class="all">
+        <div class="type-value allbook">
+          <p class="name">全部</p>
+          <p class="value">0</p>
+        </div>
       </div>
+
+      <div class="state">
+        <div class="state-title">
+          <p>状态</p>
+        </div>
+        <div class="state-body">
+          <div class="type-value statebook" v-for="item in state">
+            <p class="name">{{item.name}}</p>
+            <p class="value">{{item.value}}</p>
+          </div>
+        </div>
+      </div>
+
 
 
     </div>
@@ -30,12 +45,24 @@
 </template>
 
 <script>
-
 	export default {
 		name: 'shaixuan',
 		data() {
-			return {}
+			return {
+        state:[
+          {name:'连载', value:"124"},
+          {name:'完本', value:"124"},
+          {name:'超过50章未读', value:"124"},
+          {name:'超过100章未读', value:"124"},
+          {name:'未读过', value:"124"},
+          {name:'读完', value:"124"},
+        ]
+      }
 		},
+    created() {
+		  this.$store.dispatch('getBookBigType');
+    },
+
 		mounted() {
 
 		},
@@ -86,7 +113,6 @@
 
   .shaixuan .type-value {
     height: 37px;
-    width: 100%;
     display: -webkit-flex;
     display: flex;
     flex-direction: row;
@@ -94,27 +120,50 @@
     justify-content: space-between;
   }
 
-  .shaxuan .type-value .name {
+  .shaixuan .type-value .name {
     padding-left: 12px;
+    font-size: 14px;
+    color: #33373d;
   }
-  .shaxuan .type-value .value {
+  .shaixuan .type-value .value {
     padding-right: 12px;
+    font-size: 12px;
+    color: #969ba3;
   }
 
   .shaixuan .allbook {
     background-color: #fff5f4;
+    width: 100%;
   }
-
-
 
   .shaixuan .allbook .name {
     color:#dc5051;
-    font-size: 14px;
+    font-weight: 700;
   }
+
   .shaixuan .allbook .value {
     color:#db5568;
-    font-size: 12px;
-    font-weight: 700;
+  }
+
+  .shaixuan .state-title {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    text-align: left;
+  }
+
+  .shaixuan .state-body {
+    width: 100%;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .shaixuan .state .statebook {
+    margin-bottom: 15px;
+    width: 48%;
+    background-color: #f6f7fb;
   }
 
 </style>
