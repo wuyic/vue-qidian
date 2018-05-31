@@ -18,7 +18,6 @@ export default {
   getBookBigType() {
     return new Promise(function(resolve, reject) {
       let data = bookBigType();
-
       setTimeout(()=>{
         resolve({data:data});
       }, 100);
@@ -28,7 +27,9 @@ export default {
   //获取书籍小分类  都市。。。
   getBookType(type) {
     return new Promise(function(resolve, reject) {
-      let data = bookSmallType();
+      let data = bookSmallType(type);
+      console.log("123")
+      console.log(data);
       setTimeout(()=>{
         resolve({data:data});
       }, 100);

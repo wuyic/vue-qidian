@@ -2,7 +2,7 @@
   <!--主页下拉刷新的导读页面， 上滑后取消-->
   <div class="bookList">
     <!--font-size:0 消除img的尾巴-->
-    <div class="list" v-for="(item, index) in list">
+    <div class="list" v-for="(item, index) in list"  v-if="">
       <div style="font-size: 0; flex-grow: 0;">
         <img class="book-img" :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"' alt="">
       </div>
@@ -23,7 +23,6 @@
     </div>
   </div>
 </template>
-
 <script>
 
 	export default {
@@ -36,12 +35,16 @@
 
     created() {
       //获取书架列表数据
+      this.$store.dispatch('getBookBigType');
+      this.$store.dispatch('getBookSmallTypeAll');
       this.$store.dispatch('getBookList');
     },
 
     computed: {
       list () {
-        return this.$store.state.book.bookList
+        let bookList = this.$store.state.book.bookList;
+
+        return bookList;
       },
       serverTime() {
         return this.$store.state.serverTime
@@ -58,6 +61,7 @@
           return this.judgeTime(item.LastChapterUpdateTime, this.serverTime);
         }
       },
+
       //判断当前最新章节
       getNewChapter: function (index) {
         let item = this.list[index];

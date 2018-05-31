@@ -3,7 +3,7 @@
     <div class="flexbox">
       <div class="left">
         <img src="../../assets/image/saixuan.png" alt="" class="left-img">
-        <p class="left-word">筛选</p>
+        <p class="left-word" @click="goTo('shaixuan')">筛选</p>
       </div>
 
       <div class="center">
@@ -39,7 +39,9 @@
 
 		},
 		methods: {
-
+      goTo: function (name) {
+        this.$router.push({name:name})
+      }
     },
 	}
 </script>

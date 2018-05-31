@@ -1,12 +1,8 @@
 import api from '../../api/api'
 
 const state = {
-  bookInfo:{
-
-  },
-  bookList:{
-
-  },
+  bookInfo:{},
+  bookList:[],
   count:0,
   bookBigType: [],
   bookSmallType:{
@@ -15,7 +11,17 @@ const state = {
     type2:[], //听书
     type3:[], //漫画
     type4:[], //出版
-  }
+  },
+  bookListState:[
+    {name:'连载', value:0, Id:-2},
+    {name:'完本', value:0, Id:-3},
+    {name:'超过50章未读', value: 0, Id:-4},
+    {name:'超过100章未读', value: 0, Id:-5},
+    {name:'未读过', value: 0, Id:-6},
+    {name:'读完', value: 0, Id:-7},
+  ],
+
+  saixuanChoosed:-1,
 };
 
 
@@ -40,8 +46,26 @@ const mutations = {
     state.bookBigType = bigtype;
   },
 
+  /**
+   * 部分类型放入
+   * @param state
+   * @param data
+   */
   setBookType(state, data) {
-    state.bookType['type'+data.id] = data.list;
+    state.bookSmallType['type'+data.id] = data.list;
+  },
+
+  /**
+   * 全部类型放入
+   * @param state
+   * @param data
+   */
+  setBookTypeAll(state, data) {
+    state.bookSmallType = data;
+  },
+
+  setSaixuanChoosed(state, data) {
+    state.saixuanChoosed = data;
   }
 };
 
@@ -85,17 +109,15 @@ const actions = {
   getBookBigType({state, commit, rootState}) {
     api.getBookBigType().then(
       (data) => {
-        console.log('获取大bℹ️g type  回调');
-        console.log(data)
+        commit('setBookBigType', data.data.data);
       }
-    )
+    );
   },
 
-  getBookSmallType({state, commit, rootState}) {
-    api.getBookType(id).then(
+  getBookSmallTypeAll({state, commit, rootState}) {
+    api.getBookType(-1).then(
       (data) => {
-        console.log('获取small type  回调');
-        console.log(data)
+        commit('setBookTypeAll', data.data.data);
       }
     )
   }
