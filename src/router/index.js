@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-  import shaixuan from '@/components/index/other/shaixuan'
+import shaixuan from '@/components/index/other/shaixuan'
+import attention from '@/components/index/attention/index'
 
 import good from '@/components/good'
 import find from '@/components/find'
@@ -23,13 +24,21 @@ export default new Router({
       },
     },
     {
-      path:'/index/shaixuan',
-      name:'shaixuan',
-      component:shaixuan,
-      meta:{
-        title:'筛选'
-      }
-    },
+		  path:'/index/shaixuan',
+		  name:'shaixuan',
+		  component:shaixuan,
+		  meta:{
+			  title:'筛选'
+		  }
+	  },
+	  {
+		  path:'/index/attention',
+		  name:'attention',
+		  component:attention,
+		  meta:{
+			  title:'关注'
+		  }
+	  },
      {
       path: '/good',
       name: 'good',

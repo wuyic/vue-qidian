@@ -1,13 +1,10 @@
 <template>
   <div>
     <div class="index-title">
-      <indexTitle></indexTitle>
+      <Title></Title>
     </div>
     <div class="index-reco">
-      <recommendRead></recommendRead>
-    </div>
-    <div class="index-booklist">
-      <bookList></bookList>
+      <List></List>
     </div>
   </div>
 </template>
@@ -15,9 +12,8 @@
 <script>
 
   import { mapState } from 'vuex'
-import indexTitle from './index/index/title.vue';
-import recommendRead from './index/index/recommendRead.vue';
-import bookList from './index/index/bookList.vue';
+import Title from './title.vue';
+import List from './list.vue';
 export default {
   name: 'index',
   data () {
@@ -26,9 +22,7 @@ export default {
     }
   },
   components: {
-    indexTitle:indexTitle,
-    recommendRead:recommendRead,
-    bookList:bookList
+	 Title, List,
   },
   computed: {
     ...mapState({
@@ -41,7 +35,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 
 
   .index-title {

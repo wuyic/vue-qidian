@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import indexTitle from './index/title.vue';
+import indexTitle from './index/index/title.vue';
 export default {
   name: 'good',
   data () {
@@ -20,6 +20,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 
 </style>

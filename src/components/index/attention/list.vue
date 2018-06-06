@@ -4,21 +4,21 @@
     <!--font-size:0 消除img的尾巴-->
     <div class="list" v-for="(item, index) in list"  v-if="">
       <div style="font-size: 0; flex-grow: 0;">
-        <img class="book-img" :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"' alt="">
+        <img class="book-img" :src='"https://qidian.qpic.cn/qdbimg/" + item.bookInfo.AuthorId + "/" + item.bookInfo.BookId + "/180"' alt="">
       </div>
       <div class="info" style="flex-grow: 1;">
         <p class="title">
-          {{item.BookName}}
+          {{item.bookInfo.BookName}}
         </p>
         <p class="author">
-          {{item.Author}} · {{getUserStatus(index)}}
+          {{item.bookInfo.Author}} · {{getUserStatus(index)}}
         </p>
         <p class="status">
           {{getTime(index)}}前 · {{getNewChapter(index)}}
         </p>
       </div>
       <div class="more" style="flex-grow: 0;">
-        <img src="../../assets/image/more969ba3.png" alt="">
+        <img src="../../../assets/image/more969ba3.png" alt="">
       </div>
     </div>
   </div>
@@ -42,8 +42,8 @@
 
     computed: {
       list () {
-        let bookList = this.$store.state.book.bookList;
-
+        let bookList = this.$store.state.book.bookList.getMyBookList();
+        console.log(bookList);
         return bookList;
       },
       serverTime() {
@@ -54,7 +54,7 @@
     methods:{
       //处理时间
       getTime: function (index) {
-        let item = this.list[index];
+        let item = this.list[index].bookInfo;
         if (item.IsVip == 1) {
           return this.judgeTime(item.LastVipChapterUpdateTime, this.serverTime);
         } else {
@@ -64,7 +64,7 @@
 
       //判断当前最新章节
       getNewChapter: function (index) {
-        let item = this.list[index];
+        let item = this.list[index].bookInfo;
         if (item.IsVip == 1 || item.IsVip == '1') {
           return item.LastVipUpdateChapterName;
         } else {

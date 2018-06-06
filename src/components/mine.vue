@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import indexTitle from './index/title.vue';
+import indexTitle from './index/index/title.vue';
 export default {
   name: 'good',
   data () {

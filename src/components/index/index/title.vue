@@ -2,7 +2,7 @@
   <div class="index-title">
     <div class="flexbox">
       <div class="left">
-        <img src="../../assets/image/saixuan.png" alt="" class="left-img">
+        <img src="../../../assets/image/saixuan.png" alt="" class="left-img">
         <p class="left-word" @click="goTo('shaixuan')">筛选</p>
       </div>
 
@@ -13,15 +13,15 @@
           </div>
         </div>
 
-        <div style="margin-left: 20px">
+        <div style="margin-left: 20px" @click="goTo('attention')">
           <p :class="{centerWord:true, isSelectedWord:isSelected=='guanzhu'}">关注</p>
           <div :class="{line:true, selectedLine:isSelected=='guanzhu'}">
           </div>
         </div>
       </div>
       <div class="right">
-        <img class="right-img" src="../../assets/image/search.png"  alt="">
-        <img style="margin-left: 10px" class="right-img" src="../../assets/image/more.png" alt="">
+        <img class="right-img" src="../../../assets/image/search.png"  alt="">
+        <img style="margin-left: 10px" class="right-img" src="../../../assets/image/more.png" alt="">
       </div>
     </div>
   </div>
@@ -39,9 +39,9 @@
 
 		},
 		methods: {
-      goTo: function (name) {
-        this.$router.push({name:name})
-      }
+          goTo: function (name) {
+            this.$router.push({name:name})
+          }
     },
 	}
 </script>

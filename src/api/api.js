@@ -4,6 +4,16 @@ import {bookBigType,bookSmallType} from './data'
 const nodeServiceUrl = 'http://127.0.0.1:5678/get';
 
 export default {
+	//获取书架列表
+	test() {
+		return axios.get(
+			nodeServiceUrl,
+			{
+				params:{
+					'url': "https://mage.if.qidian.com/argus/api/v1/feeds/getuserfeeds?lastTime=0&pg=1&pz=20",
+					'method': 'get'
+				}})
+	},
   //获取书架列表
   getBookList() {
     return axios.get(

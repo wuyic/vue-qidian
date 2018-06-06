@@ -1,8 +1,10 @@
 import api from '../../api/api'
+import {BookList} from '../class/bookList'
+import {bookSmallType} from '../../api/data'
 
 const state = {
-  bookInfo:{},
-  bookList:[],
+  bookList: new BookList(),
+
   count:0,
   bookBigType: [],
   bookSmallType:{
@@ -13,15 +15,9 @@ const state = {
     type4:[], //出版
   },
   bookListState:[
-    {name:'连载', value:0, Id:-2},
-    {name:'完本', value:0, Id:-3},
-    {name:'超过50章未读', value: 0, Id:-4},
-    {name:'超过100章未读', value: 0, Id:-5},
-    {name:'未读过', value: 0, Id:-6},
-    {name:'读完', value: 0, Id:-7},
+
   ],
 
-  saixuanChoosed:-1,
 };
 
 
@@ -39,7 +35,9 @@ const state = {
 const mutations = {
   //设置booklist
   setBookList(state, booklist) {
-    state.bookList = booklist;
+    booklist.forEach((value, index) => {
+      state.bookList.addBook(value);
+    });
   },
 
   setBookBigType(state, bigtype) {
@@ -65,7 +63,7 @@ const mutations = {
   },
 
   setSaixuanChoosed(state, data) {
-    state.saixuanChoosed = data;
+    state.bookList.saixuanChoosed = data;
   }
 };
 
@@ -96,30 +94,48 @@ const getters = {
  * @type {{}}
  */
 const actions = {
+
+
+	test({state, commit, rootState}) {
+		api.test().then((data)=>{
+			console.log(data);
+			}
+		)
+	},
+
   getBookList({state, commit, rootState}) {
-    api.getBookList().then(
-      (data) => {
-        console.log(data);
-        commit('setBookList', data.data.ServerCase.BookInfo);
-        commit('setServiceTime', data.data.ServerTime, { root: true })
-      }
-    )
+
+    if (state.bookList.getBookBigType == 0) {
+      api.getBookList().then(
+        (data) => {
+          commit('setBookList', data.data.ServerCase.BookInfo);
+          commit('setServiceTime', data.data.ServerTime, { root: true })
+          state.bookList.getBookBigType = 1;
+        }
+      )
+    }
   },
 
   getBookBigType({state, commit, rootState}) {
-    api.getBookBigType().then(
-      (data) => {
-        commit('setBookBigType', data.data.data);
-      }
-    );
+    if (state.bookList.getBookBigType == 0) {
+      api.getBookBigType().then(
+        (data) => {
+          commit('setBookBigType', data.data.data);
+          state.bookList.getBookBigType = 1;
+        }
+      );
+    }
   },
 
   getBookSmallTypeAll({state, commit, rootState}) {
-    api.getBookType(-1).then(
-      (data) => {
-        commit('setBookTypeAll', data.data.data);
-      }
-    )
+    if (state.bookList.getBookBigType) {
+      api.getBookType(-1).then(
+        (data) => {
+          commit('setBookTypeAll', data.data.data);
+          state.bookList.getBookBigType = 1;
+        }
+      )
+    }
   }
 };
 
