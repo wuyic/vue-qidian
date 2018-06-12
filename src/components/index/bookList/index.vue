@@ -26,8 +26,8 @@ export default {
   },
   computed: {
     ...mapState({
-      count:state => state.booklist.count,
-      bookList:state => state.booklist.bookList
+      count:state => state.bookcase.count,
+      bookCase:state => state.bookcase.bookCase
     })
   }
 
@@ -51,7 +51,7 @@ export default {
     height: 87px;
   }
 
-  .index-booklist {
+  .index-bookcase {
     width:100vw;
     height: calc(100vh - 44px - 50px);
   }

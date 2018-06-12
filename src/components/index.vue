@@ -6,8 +6,8 @@
     <div class="index-reco">
       <recommendRead></recommendRead>
     </div>
-    <div class="index-booklist">
-      <bookList></bookList>
+    <div class="index-bookcase">
+      <bookCase></bookCase>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
   import { mapState } from 'vuex'
 import indexTitle from './index/index/title.vue';
 import recommendRead from './index/index/recommendRead.vue';
-import bookList from './index/index/bookList.vue';
+import bookCase from './index/index/bookCase.vue';
 export default {
   name: 'index',
   data () {
@@ -28,12 +28,12 @@ export default {
   components: {
     indexTitle:indexTitle,
     recommendRead:recommendRead,
-    bookList:bookList
+    bookCase:bookCase
   },
   computed: {
     ...mapState({
-      count:state => state.booklist.count,
-      bookList:state => state.booklist.bookList
+      count:state => state.bookcase.count,
+      bookCase:state => state.bookcase.bookCase
     })
   }
 
@@ -57,7 +57,7 @@ export default {
     height: 87px;
   }
 
-  .index-booklist {
+  .index-bookcase {
     width:100vw;
     height: calc(100vh - 44px - 50px);
   }

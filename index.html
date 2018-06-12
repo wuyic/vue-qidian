@@ -9,4 +9,24 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+<script>
+	(function (documents, windows) {
+		let domElement= documents.documentElement,
+			resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+			setRem= function () {
+				let clientWidth = domElement.clientWidth;
+				if (!clientWidth) return;
+				console.log('clientWidth = ' + clientWidth);
+				if (clientWidth >= 750) {
+					domElement.style.fontSize = '100px';
+				} else {
+					domElement.style.fontSize = 100 * (clientWidth / 750) + 'px';
+				}
+			};
+		if (!documents.addEventListener) return;
+		setRem();
+		windows.addEventListener(resizeEvt, setRem, false);
+		documents.addEventListener('DOMContentLoaded', setRem, false);
+	})(document, window);
+</script>
 </html>

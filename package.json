@@ -5,13 +5,14 @@
   "author": "xinfeng <2410686864@qq.com>",
   "private": true,
   "scripts": {
-    "service":"node service/index.js",
+    "service": "node service/index.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
     "es6-promise": "^4.2.4",
     "qs": "^6.5.2",
     "request": "^2.85.0",

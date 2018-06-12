@@ -1,6 +1,6 @@
 <template>
   <!--主页下拉刷新的导读页面， 上滑后取消-->
-  <div class="bookList">
+  <div class="bookCase">
     <!--font-size:0 消除img的尾巴-->
     <div class="list" v-for="(item, index) in list"  v-if="">
       <div style="font-size: 0; flex-grow: 0;">
@@ -26,7 +26,7 @@
 <script>
 
 	export default {
-		name: 'bookList',
+		name: 'bookCase',
 		data() {
 			return {
 			  jiying:'都市',
@@ -35,17 +35,17 @@
 
     created() {
       //获取书架列表数据
-//      this.$store.dispatch('getBookBigType');
-//      this.$store.dispatch('getBookSmallTypeAll');
-//      this.$store.dispatch('getBookList');
-      this.$store.dispatch('test');
+      this.$store.dispatch('getBookBigType');
+      this.$store.dispatch('getBookSmallTypeAll');
+      this.$store.dispatch('getBookCase');
+//      this.$store.dispatch('test');
     },
 
     computed: {
       list () {
-        let bookList = this.$store.state.book.bookList.getMyBookList();
-        console.log(bookList);
-        return bookList;
+        let bookCase = this.$store.state.book.bookCase.getMyBookCase();
+        console.log(bookCase);
+        return bookCase;
       },
       serverTime() {
         return this.$store.state.serverTime
@@ -84,7 +84,7 @@
 </script>
 
 <style>
-  .bookList .list {
+  .bookCase .list {
     height: 93px;
     display: -webkit-flex;
     display: flex;
@@ -92,13 +92,13 @@
     align-items: center;
   }
 
-   .bookList .list .book-img {
+   .bookCase .list .book-img {
      width: 55px;
      height: 73px;
      padding: 15px 10px 5px 15px;
    }
 
-  .bookList .info {
+  .bookCase .info {
     padding: 15px 10px 5px 0px;
     height: 73px;
     text-align: left;
@@ -114,7 +114,7 @@
     border-bottom: 1px solid #eee;
   }
 
-  .bookList .info .title {
+  .bookCase .info .title {
     font-weight: 600;
     color: #33373d;
     font-size: 16px;
@@ -125,20 +125,20 @@
     text-overflow: ellipsis;
   }
 
-  .bookList .author {
+  .bookCase .author {
     padding-bottom: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .bookList .status {
+  .bookCase .status {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .bookList .more {
+  .bookCase .more {
     margin-right: 15px;
     padding: 15px 0px 5px 0px;;
     height: 73px;
@@ -147,7 +147,7 @@
     border-bottom: 1px solid #eee;
   }
 
-  .bookList .more img {
+  .bookCase .more img {
     width: 30px;
     height: 30px;
   }

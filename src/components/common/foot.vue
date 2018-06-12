@@ -3,8 +3,8 @@
       <div class="flex-box">
         <div class="flex-squ" @click="goto('/')">
             <div style="font-size: 0">
-              <img v-if="titleInfo.bottom != 1" src="../../assets/image/booklist.png" class="img"/>
-              <img v-if="titleInfo.bottom == 1" src="../../assets/image/booklist_selected.png" class="img"/>
+              <img v-if="titleInfo.bottom != 1" src="../../assets/image/bookcase.png" class="img"/>
+              <img v-if="titleInfo.bottom == 1" src="../../assets/image/bookcase_selected.png" class="img"/>
             </div>
             <div :class="{word:1, colorRed:titleInfo.bottom == 1}">书架</div>
         </div>

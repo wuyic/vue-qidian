@@ -2,13 +2,13 @@ import Vue from 'vue'
 import {bookSmallType} from '../../api/data'
 
 
-export function BookList() {
+export function BookCase() {
 
 	/**
 	 * 是否访问过api
 	 * @type {number}
 	 */
-    this.getBookList = 0;
+    this.getBookCase = 0;
     this.getBookBigType = 0;
     this.getBookSmallTypeAll = 0;
 
@@ -52,7 +52,7 @@ export function BookList() {
      * 书籍列表
      * @type {{}}
      */
-    this.booklist = {};
+    this.bookcase = {};
 
     /**
      * 添加书籍
@@ -86,7 +86,7 @@ export function BookList() {
                 }
             })
         });
-        Vue.set(this.booklist, key, {bookInfo:bookInfo, isRead:0, bookCaptia:[], readCap:0, allCap:0, bigType:bigType, isOver:isOver});
+        Vue.set(this.bookcase, key, {bookInfo:bookInfo, isRead:0, bookCaptia:[], readCap:0, allCap:0, bigType:bigType, isOver:isOver});
     };
 
     /**
@@ -108,18 +108,18 @@ export function BookList() {
      * 获取书籍列表 带筛选功能
      * @returns {Array}
      */
-    this.getMyBookList = () => {
+    this.getMyBookCase = () => {
         let array = [];
-        Object.keys(this.booklist).forEach((key)=>{
+        Object.keys(this.bookcase).forEach((key)=>{
         if (this.saixuanChoosed == -1) {  //全部
-            array.push(this.booklist[key]);
-        } else if ([-2, -3].indexOf(Math.round(this.saixuanChoosed)) !== -1 && this.saixuanChoosed == this.booklist[key].isOver) { //状态
-            array.push(this.booklist[key]);
-        } else if ([4, 11, 12, 50001, 80001].indexOf(Math.round(this.saixuanChoosed)) !== -1 && this.saixuanChoosed == this.booklist[key].bigType) { //大类别
-            array.push(this.booklist[key]);
+            array.push(this.bookcase[key]);
+        } else if ([-2, -3].indexOf(Math.round(this.saixuanChoosed)) !== -1 && this.saixuanChoosed == this.bookcase[key].isOver) { //状态
+            array.push(this.bookcase[key]);
+        } else if ([4, 11, 12, 50001, 80001].indexOf(Math.round(this.saixuanChoosed)) !== -1 && this.saixuanChoosed == this.bookcase[key].bigType) { //大类别
+            array.push(this.bookcase[key]);
         } else {  //小类别
-	        if (this.booklist[key].bookInfo.CategoryId == this.saixuanChoosed) {
-                array.push(this.booklist[key]);
+	        if (this.bookcase[key].bookInfo.CategoryId == this.saixuanChoosed) {
+                array.push(this.bookcase[key]);
             }
         }});
         return array;

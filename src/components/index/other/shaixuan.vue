@@ -30,7 +30,7 @@
             <p>状态</p>
           </div>
           <div class="state-body">
-            <div v-for="item in bookListState" :class="{'type-value':true, 'statebook':true,  colorPink:saixuanChoosed == item.Id, colorNone:item.num == 0}" @click="goToBookCase(item.Id, item.num)">
+            <div v-for="item in bookCaseState" :class="{'type-value':true, 'statebook':true,  colorPink:saixuanChoosed == item.Id, colorNone:item.num == 0}" @click="goToBookCase(item.Id, item.num)">
               <p class="name">{{item.name}}</p>
               <p class="value">{{item.num}}</p>
             </div>
@@ -60,12 +60,9 @@
               <p class="value">{{item.num}}</p>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -82,36 +79,36 @@
     },
 
     computed:{
-		  bookList() {
-        return this.$store.state.book.bookList;
+		  bookCase() {
+        return this.$store.state.book.bookCase;
       },
 
       bigType () {
-		    let bookBigType = this.$store.state.book.bookList.bookTypeDivide;
+		    let bookBigType = this.$store.state.book.bookCase.bookTypeDivide;
         return bookBigType;
       },
 
       boyBookTypeHave() {
-         let boyType = this.$store.state.book.bookList.bookTypeDivide[0].subType;
+         let boyType = this.$store.state.book.bookCase.bookTypeDivide[0].subType;
          return boyType;
       },
 
       girlBookTypeHave() {
-        let girlType = this.$store.state.book.bookList.bookTypeDivide[1].subType;
+        let girlType = this.$store.state.book.bookCase.bookTypeDivide[1].subType;
 
         return girlType;
       },
 
       saixuanChoosed() {
-		    console.log(this.$store.state.book.bookList.saixuanChoosed);
-		    return this.$store.state.book.bookList.saixuanChoosed;
+		    console.log(this.$store.state.book.bookCase.saixuanChoosed);
+		    return this.$store.state.book.bookCase.saixuanChoosed;
       },
 
-      bookListState() {
-		    console.log(this.$store.state.book.bookList);
-        let bookListState = this.$store.state.book.bookList.bookState;
+      bookCaseState() {
+		    console.log(this.$store.state.book.bookCase);
+        let bookCaseState = this.$store.state.book.bookCase.bookState;
 
-		    return bookListState;
+		    return bookCaseState;
       }
 
     },

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
 import shaixuan from '@/components/index/other/shaixuan'
-import attention from '@/components/index/attention/index'
+import booklist from '@/components/index/bookList/index'
 
 import good from '@/components/good'
 import find from '@/components/find'
@@ -32,9 +32,9 @@ export default new Router({
 		  }
 	  },
 	  {
-		  path:'/index/attention',
-		  name:'attention',
-		  component:attention,
+		  path:'/index/booklist',
+		  name:'booklist',
+		  component:booklist,
 		  meta:{
 			  title:'关注'
 		  }

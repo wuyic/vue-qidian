@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import book from './modules/booklist'
+import book from './modules/bookcase'
 
 Vue.use(Vuex);
 
