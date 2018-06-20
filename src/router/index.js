@@ -36,7 +36,7 @@ export default new Router({
 		  name:'booklist',
 		  component:booklist,
 		  meta:{
-			  title:'关注'
+			  title:'书单'
 		  }
 	  },
      {
@@ -74,3 +74,6 @@ export default new Router({
        },
   ]
 })
+
+
+

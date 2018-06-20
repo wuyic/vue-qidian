@@ -3,29 +3,29 @@
       <div class="flex-box">
         <div class="flex-squ" @click="goto('/')">
             <div style="font-size: 0">
-              <img v-if="titleInfo.bottom != 1" src="../../assets/image/bookcase.png" class="img"/>
-              <img v-if="titleInfo.bottom == 1" src="../../assets/image/bookcase_selected.png" class="img"/>
+              <img v-if="titleInfo.bottom != 1" src="../../assets/image/icon_bookshelf_normal_30x30.png" class="img"/>
+              <img v-if="titleInfo.bottom == 1" src="../../assets/image/icon_bookshelf_30x30.png" class="img"/>
             </div>
             <div :class="{word:1, colorRed:titleInfo.bottom == 1}">书架</div>
         </div>
         <div class="flex-squ" @click="goto('/good')">
             <div style="font-size: 0">
-              <img v-if="titleInfo.bottom != 2"  src="../../assets/image/good.png" class="img"/>
-              <img v-if="titleInfo.bottom == 2"  src="../../assets/image/good_selected.png" class="img"/>
+              <img v-if="titleInfo.bottom != 2"  src="../../assets/image/icon_collection_normal_30x30_@3x.png" class="img"/>
+              <img v-if="titleInfo.bottom == 2"  src="../../assets/image/icon_collection_30x30_@3x.png" class="img"/>
             </div>
             <div :class="{word:1, colorRed:titleInfo.bottom == 2}">精选</div>
         </div>
         <div class="flex-squ" @click="goto('/find')">
             <div style="font-size: 0">
-              <img v-if="titleInfo.bottom != 3"  src="../../assets/image/find.png" class="img"/>
-              <img v-if="titleInfo.bottom == 3"  src="../../assets/image/find_selected.png" class="img"/>
+              <img v-if="titleInfo.bottom != 3"  src="../../assets/image/icon_discover_normal_30x30_@3x.png" class="img"/>
+              <img v-if="titleInfo.bottom == 3"  src="../../assets/image/icon_discover_30x30_@3x.png" class="img"/>
             </div>
             <div :class="{word:1, colorRed:titleInfo.bottom == 3}">发现</div>
         </div>
         <div class="flex-squ" @click="goto('/mine')">
             <div style="font-size: 0">
-              <img v-if="titleInfo.bottom != 4" src="../../assets/image/my.png" class="img"/>
-              <img v-if="titleInfo.bottom == 4" src="../../assets/image/my_selected.png" class="img"/>
+              <img v-if="titleInfo.bottom != 4" src="../../assets/image/icon_account_normal_30x30_@3x.png" class="img"/>
+              <img v-if="titleInfo.bottom == 4" src="../../assets/image/icon_account_30x30_@3x.png" class="img"/>
             </div>
             <div :class="{word:1, colorRed:titleInfo.bottom == 4}">我</div>
         </div>
@@ -97,6 +97,7 @@
     height: 13px;
     line-height: 13px;
     font-size: 12px;
+      color:#666;
     transform:scale(0.8);
   }
 
