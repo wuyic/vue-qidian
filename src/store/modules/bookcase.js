@@ -3,20 +3,18 @@ import {BookCase} from '../class/bookCase'
 import {bookSmallType} from '../../api/data'
 
 const state = {
-  bookCase: new BookCase(),
+	bookCase: new BookCase(),
 
-  count:0,
-  bookBigType: [],
-  bookSmallType:{
-    type11:[], //男生
-    type12:[],//女生
-    type2:[], //听书
-    type3:[], //漫画
-    type4:[], //出版
-  },
-  bookCaseState:[
-
-  ],
+	count: 0,
+	bookBigType: [],
+	bookSmallType: {
+		type11: [], //男生
+		type12: [],//女生
+		type2: [], //听书
+		type3: [], //漫画
+		type4: [], //出版
+	},
+	bookCaseState: [],
 
 };
 
@@ -33,38 +31,38 @@ const state = {
  * @type {{}}
  */
 const mutations = {
-  //设置bookcase
-  setBookCase(state, bookcase) {
-    bookcase.forEach((value, index) => {
-      state.bookCase.addBook(value);
-    });
-  },
+	//设置bookcase
+	setBookCase(state, bookcase) {
+		bookcase.forEach((value, index) => {
+			state.bookCase.addBook(value);
+		});
+	},
 
-  setBookBigType(state, bigtype) {
-    state.bookBigType = bigtype;
-  },
+	setBookBigType(state, bigtype) {
+		state.bookBigType = bigtype;
+	},
 
-  /**
-   * 部分类型放入
-   * @param state
-   * @param data
-   */
-  setBookType(state, data) {
-    state.bookSmallType['type'+data.id] = data.list;
-  },
+	/**
+	 * 部分类型放入
+	 * @param state
+	 * @param data
+	 */
+	setBookType(state, data) {
+		state.bookSmallType['type' + data.id] = data.list;
+	},
 
-  /**
-   * 全部类型放入
-   * @param state
-   * @param data
-   */
-  setBookTypeAll(state, data) {
-    state.bookSmallType = data;
-  },
+	/**
+	 * 全部类型放入
+	 * @param state
+	 * @param data
+	 */
+	setBookTypeAll(state, data) {
+		state.bookSmallType = data;
+	},
 
-  setSaixuanChoosed(state, data) {
-    state.bookCase.saixuanChoosed = data;
-  }
+	setSaixuanChoosed(state, data) {
+		state.bookCase.saixuanChoosed = data;
+	}
 };
 
 /**
@@ -79,17 +77,15 @@ const mutations = {
  *
  * @type {{}}
  */
-const getters = {
-
-};
+const getters = {};
 
 /**
  * Action 类似于 mutation，不同在于：
-      Action 提交的是 mutation，而不是直接变更状态。
-      Action 可以包含任意异步操作。
+ Action 提交的是 mutation，而不是直接变更状态。
+ Action 可以包含任意异步操作。
 
  如何使用？
-      Action 通过 store.dispatch 方法触发：
+ Action 通过 store.dispatch 方法触发：
 
  * @type {{}}
  */
@@ -97,8 +93,8 @@ const actions = {
 
 
 	test({state, commit, rootState}) {
-		api.test().then((data)=>{
-			console.log(data);
+		api.test().then((data) => {
+				console.log(data);
 			}
 		)
 	},
@@ -109,17 +105,17 @@ const actions = {
 	 * @param commit
 	 * @param rootState
 	 */
-    getBookCase({state, commit, rootState}) {
-	    if (state.bookCase.getBookBigType == 0) {
-	        api.getBookCase().then((data) => {
-		            console.log(data);
-		            commit('setBookCase', data.data.ServerCase.BookInfo);
-		            commit('setServiceTime', data.data.ServerTime, { root: true });
-		            state.bookCase.getBookBigType = 1;
-		        }
-	        )
-	    }
-    },
+	getBookCase({state, commit, rootState}) {
+		if (state.bookCase.getBookBigType == 0) {
+			api.getBookCase().then((data) => {
+					console.log(data);
+					commit('setBookCase', data.data.ServerCase.BookInfo);
+					commit('setServiceTime', data.data.ServerTime, {root: true});
+					state.bookCase.getBookBigType = 1;
+				}
+			)
+		}
+	},
 
 	/**
 	 * 获取书籍大分类
@@ -127,15 +123,15 @@ const actions = {
 	 * @param commit
 	 * @param rootState
 	 */
-    getBookBigType({state, commit, rootState}) {
-	    if (state.bookCase.getBookBigType == 0) {
-	        api.getBookBigType().then((data) => {
-	          commit('setBookBigType', data.data.data);
-	          state.bookCase.getBookBigType = 1;
-	        }
-	      );
-	    }
-    },
+	getBookBigType({state, commit, rootState}) {
+		if (state.bookCase.getBookBigType == 0) {
+			api.getBookBigType().then((data) => {
+					commit('setBookBigType', data.data.data);
+					state.bookCase.getBookBigType = 1;
+				}
+			);
+		}
+	},
 
 	/**
 	 * 获取 书籍小分类
@@ -143,21 +139,21 @@ const actions = {
 	 * @param commit
 	 * @param rootState
 	 */
-    getBookSmallTypeAll({state, commit, rootState}) {
-	    if (state.bookCase.getBookBigType) {
-	        api.getBookType(-1).then(
-	        (data) => {
-	            commit('setBookTypeAll', data.data.data);
-	            state.bookCase.getBookBigType = 1;
-	        }
-	      )
-	    }
-    }
+	getBookSmallTypeAll({state, commit, rootState}) {
+		if (state.bookCase.getBookBigType) {
+			api.getBookType(-1).then(
+				(data) => {
+					commit('setBookTypeAll', data.data.data);
+					state.bookCase.getBookBigType = 1;
+				}
+			)
+		}
+	}
 };
 
 export default {
-  state,
-  mutations,
-  getters,
-  actions
+	state,
+	mutations,
+	getters,
+	actions
 }

@@ -1,31 +1,29 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import book from './modules/bookcase'
+import bookcase from './modules/bookcase'
+import search from './modules/search'
 
 Vue.use(Vuex);
 
 
 export default new Vuex.Store({
-  state:{
-    serverTime:new Date().getTime()
-  },
+	state: {
+		serverTime: new Date().getTime()
+	},
 
-  getters:{
+	getters: {},
 
-  },
+	mutations: {
+		setServiceTime(state, time) {
+			state.serverTime = time;
+		}
+	},
 
-  mutations:{
-    setServiceTime(state, time) {
-      state.serverTime = time;
-    }
-  },
+	actions: {},
 
-  actions:{
+	modules: {
+		book:   bookcase,
+		search: search,
 
-  },
-
-  modules: {
-    book:book,
-
-  },
+	},
 })

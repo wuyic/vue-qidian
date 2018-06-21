@@ -1,13 +1,10 @@
 <template>
     <div>
         <div class="index-title">
-            <indexTitle></indexTitle>
+            <Title></Title>
         </div>
         <div class="index-reco">
-            <recommendRead></recommendRead>
-        </div>
-        <div class="index-bookcase">
-            <bookCase></bookCase>
+            <List></List>
         </div>
     </div>
 </template>
@@ -15,27 +12,21 @@
 <script>
 
 	import {mapState} from 'vuex'
-	import indexTitle from './index/index/title.vue';
-	import recommendRead from './index/index/recommendRead.vue';
-	import bookCase from './index/index/bookCase.vue';
+	import Title from './title.vue';
+	import List from './list.vue';
 
 	export default {
-		name: 'index',
+		name: 'searchIndex',
 		data() {
 			return {
 				msg: 'Welcome to Your Vue.js App',
 			}
 		},
 		components: {
-			indexTitle: indexTitle,
-			recommendRead: recommendRead,
-			bookCase: bookCase
+			Title, List,
 		},
 		computed: {
-			...mapState({
-				count: state => state.bookcase.count,
-				bookCase: state => state.bookcase.bookCase
-			})
+			...mapState({})
 		}
 
 	}
@@ -43,8 +34,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
     .index-title {
         top: 0;
         left: 0;
@@ -58,7 +47,8 @@
         height: 87px;
     }
 
-    .index-bookcase {
+    .index-reco {
+        background-color: #eee;
         width: 100vw;
         height: calc(100vh - 44px - 50px);
     }

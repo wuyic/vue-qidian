@@ -7,7 +7,7 @@
           <img class="head-left-img" src="../../../assets/image/close.png" alt="">
         </div>
 
-        <div class="head-center">
+        <div class="head-center fontSize">
           <p>{{getTitle.title}}</p>
         </div>
         <div class="head-right">
@@ -19,14 +19,14 @@
     <div class="body">
       <div class="all">
         <div :class="{'type-value':true, 'bookType':true,  colorPink:saixuanChoosed == -1}" @click="goToBookCase(-1, 100)">
-          <p class="name">全部</p>
+          <p class="name fontSize">全部</p>
           <p class="value">0</p>
         </div>
       </div>
 
       <div class="state">
         <div>
-          <div class="state-title">
+          <div class="state-title fontSize">
             <p>状态</p>
           </div>
           <div class="state-body">
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div>
-          <div class="state-title">
+          <div class="state-title fontSize" >
             <p>类型</p>
           </div>
           <div class="state-body" style="border-bottom: 1px solid #e3e3e3;">
@@ -187,6 +187,11 @@
     font-size: 14px;
     color: #33373d;
   }
+
+  .fontSize {
+      font-size: 0.3rem;
+  }
+
   .shaixuan .type-value .value {
     padding-right: 12px;
     font-size: 12px;

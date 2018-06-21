@@ -31,29 +31,29 @@ Vue.config.productionTip = false;
 
 //请求捕获， 在这里统处理
 axios.interceptors.response.use(
-  response => {
-    // if (response.data.Ret == 90000) {
-    //   Vue.prototype.$dialog.toast({mes:'会话超时，请重新登陆！', timeout:2000});
-    //   router.push({
-    //     name: 'login',
-    //   })
-    // } else if (response.data.Ret == -1) {
-    //   Vue.prototype.$dialog.toast({mes:response.data.Msg, timeout:2000});
-    // }
-    return response;
-  },
-  error => {
-    // console.log(error.response);
-    // if (error.response) {
-    //   switch (error.response.status) {
-    //     case 500:
-    //       Vue.prototype.$dialog.toast({mes:'服务器错误！', timeout:2000});
-    //       break;
-    //   }
-    // }
+	response => {
+		// if (response.data.Ret == 90000) {
+		//   Vue.prototype.$dialog.toast({mes:'会话超时，请重新登陆！', timeout:2000});
+		//   router.push({
+		//     name: 'login',
+		//   })
+		// } else if (response.data.Ret == -1) {
+		//   Vue.prototype.$dialog.toast({mes:response.data.Msg, timeout:2000});
+		// }
+		return response;
+	},
+	error => {
+		// console.log(error.response);
+		// if (error.response) {
+		//   switch (error.response.status) {
+		//     case 500:
+		//       Vue.prototype.$dialog.toast({mes:'服务器错误！', timeout:2000});
+		//       break;
+		//   }
+		// }
 
-    return error
-  });
+		return error
+	});
 
 
 Vue.prototype.$http = axios;
@@ -62,17 +62,17 @@ Vue.prototype.$qs = qs;
 
 // 设置路由title
 router.beforeEach((to, from, next) => {
-  window.document.title = to.meta.title;
-  Vue.prototype.getTitle = to.meta;
-  next()
+	window.document.title = to.meta.title;
+	Vue.prototype.getTitle = to.meta;
+	next()
 });
 
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
+	el: '#app',
+	router,
+	store,
+	components: {App},
+	template: '<App/>'
 });

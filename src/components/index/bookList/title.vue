@@ -14,25 +14,25 @@
                     </div>
                 </div>
 
-                <div  style="margin-left: 20px" >
+                <div style="margin-left: 20px">
                     <p :class="{centerWord:true, isSelectedWord:isSelected=='guanzhu'}">书单</p>
                     <div :class="{line:true, selectedLine:isSelected=='guanzhu'}">
                     </div>
                 </div>
             </div>
             <div class="right">
-                <img class="right-img" src="../../../assets/image/search.png"  alt="">
-                <img style="margin-left: 0.15rem"  class="right-img" src="../../../assets/image/more.png" alt="" @click="changeState()">
+                <img class="right-img" src="../../../assets/image/search.png" alt=""  @click="goTo('search')">
+                <img style="margin-left: 0.15rem" class="right-img" src="../../../assets/image/more.png" alt="" @click="changeState()">
             </div>
         </div>
 
-        <div :class="{floatBox:1 , styleHeight:showTab}" >
+        <div :class="{floatBox:1 , styleHeight:showTab}">
             <div class="top">
             </div>
             <div class="mid">
-                <div v-for="(item, index) in list" :class="{tabList:1, borderBottom: (index < list.length-1) }"  >
+                <div v-for="(item, index) in list" :class="{tabList:1, borderBottom: (index < list.length-1) }">
                     <img class="tab-list-img" :src="item.iconUrl" alt="">
-                    <p  class="tab-list-word">{{item.name}}</p>
+                    <p class="tab-list-word">{{item.name}}</p>
                 </div>
             </div>
         </div>
@@ -44,12 +44,12 @@
 		name: 'indexTitle',
 		data() {
 			return {
-				isSelected:'guanzhu',
-				showTab:false,
-				list:[
-					{name:'创建书单', iconUrl:require('../../../assets/image/icon_picture_25x25_@3x.png')},
-					{name:'花束明细', iconUrl:require('../../../assets/image/icon_nightMode_24x24_@3x.png')},
-					{name:'关于书单', iconUrl:require('../../../assets/image/QDScanner_bookCase_icon.png')},
+				isSelected: 'guanzhu',
+				showTab: false,
+				list: [
+					{name: '创建书单', iconUrl: require('../../../assets/image/icon_picture_25x25.png')},
+					{name: '花束明细', iconUrl: require('../../../assets/image/icon_nightMode_24x24.png')},
+					{name: '关于书单', iconUrl: require('../../../assets/image/QDScanner_bookCase_icon.png')},
 				],
 			}
 		},
@@ -58,7 +58,7 @@
 		},
 		methods: {
 			goTo: function (name) {
-				this.$router.push({name:name})
+				this.$router.push({name: name})
 			},
 			changeState: function () {
 				this.showTab = !this.showTab;
@@ -115,7 +115,7 @@
         transform: scale(1);
         height: 0.36rem;
         line-height: 0.36rem;
-        color:#fff
+        color: #fff
     }
 
     .index-title .center {
@@ -128,9 +128,9 @@
         align-items: center;
     }
 
-    .index-title .centerWord{
+    .index-title .centerWord {
         font-size: 0.29rem;
-        color:#eee;
+        color: #eee;
     }
 
     .index-title .line {
@@ -140,19 +140,17 @@
         opacity: 0;
     }
 
-    .index-title  .selectedLine {
+    .index-title .selectedLine {
         opacity: 1;
     }
-
-
 
     .index-title .isSelectedWord {
         font-size: 0.29rem;
         font-weight: 600;
-        color:#fff
+        color: #fff
     }
 
-    .index-title  .right {
+    .index-title .right {
         width: 1.45rem;
         height: 0.45rem;
         display: -webkit-flex;
@@ -166,17 +164,16 @@
         height: 0.65rem;
     }
 
-
     .floatBox {
         width: 3.04rem;
         height: 0;
-        float:right;
+        float: right;
         margin-right: 0.15rem;
-        overflow:hidden;
-        -webkit-transition: height  0.3s ease-out;
-        -moz-transition:height 0.3s ease-out;
-        -o-transition: height  0.3s ease-out;
-        transition: height  0.3s ease-out;
+        overflow: hidden;
+        -webkit-transition: height 0.3s ease-out;
+        -moz-transition: height 0.3s ease-out;
+        -o-transition: height 0.3s ease-out;
+        transition: height 0.3s ease-out;
     }
 
     .floatBox .top {
@@ -186,7 +183,7 @@
         border-color: transparent transparent #4a4a4a;
         border-style: solid;
         margin-left: 2.6rem;
-        position:relative;
+        position: relative;
     }
 
     .floatBox .mid {
@@ -194,7 +191,7 @@
         width: 100%;
         height: 2.4rem;
         margin-top: -0.02rem;
-        border-radius:0.05rem;
+        border-radius: 0.05rem;
     }
 
     .tabList {
@@ -207,11 +204,11 @@
     }
 
     .borderBottom {
-        border-bottom:0.01rem solid #5a5a5a
+        border-bottom: 0.01rem solid #5a5a5a
     }
 
     .tab-list-word {
-        color:#fff;
+        color: #fff;
         font-size: 0.29rem;
         padding-left: 0.2rem;
     }
