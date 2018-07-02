@@ -3,7 +3,6 @@ import {bookSmallType} from '../../api/data'
 
 
 export function BookCase() {
-
 	/**
 	 * 是否访问过api
 	 * @type {number}

@@ -40,7 +40,7 @@
     }
 
     .shaixuan .head-body {
-        height: 44px;
+        height: 0.80rem;
         padding: 0 15px 0 15px;
 
         display: -webkit-flex;
@@ -50,12 +50,12 @@
     }
 
     .shaixuan .head-left-img {
-        width: 20px;
-        height: 20px;
+        width: 0.40rem;
+        height: 0.40rem;
     }
 
     .shaixuan .head-left {
-        width: 44px;
+        width: 0.80rem;
         flex-grow: 0;
         font-size: 0;
     }

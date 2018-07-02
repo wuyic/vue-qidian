@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <div style="overflow: scroll; height:calc(100vh - 50px)">
-            <router-view/>
+        <div :class="{router:getTitle.isShowFoot,routerFoot:!getTitle.isShowFoot}">
+            <router-view />
         </div>
         <footCommon></footCommon>
     </div>
@@ -48,6 +48,8 @@
         z-index: 1000;
     }
 
+
+
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -55,5 +57,16 @@
         text-align: center;
         color: #2c3e50;
         height: 100vh;
+        font-size: 0.26rem;
+    }
+
+    .routerFoot {
+        overflow: scroll;
+        height:100vh;
+    }
+
+    .router {
+        overflow: scroll;
+        height:calc(100vh - 50px)
     }
 </style>

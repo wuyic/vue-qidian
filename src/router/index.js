@@ -92,7 +92,7 @@ export default new Router({
 				introduce:'搜索',
 				title: '',
 				isCommTitle: false,
-				isShowFoot: true,
+				isShowFoot: false,
 				bottom: 4,
 			},
 		},

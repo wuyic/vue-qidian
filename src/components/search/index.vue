@@ -26,8 +26,14 @@
 			Title, List,
 		},
 		computed: {
-			...mapState({})
-		}
+			...mapState({
+
+            })
+		},
+        created() {
+			this.$store.dispatch('ad/getAdGol');
+			this.$store.dispatch('search/setSearchTop');
+        }
 
 	}
 </script>
@@ -43,13 +49,9 @@
     }
 
     .index-reco {
-        margin-top: 44px;
-        height: 87px;
-    }
-
-    .index-reco {
         background-color: #eee;
         width: 100vw;
-        height: calc(100vh - 44px - 50px);
+        height: calc(100vh - 0.8rem);
+        margin-top: 0.8rem;
     }
 </style>
