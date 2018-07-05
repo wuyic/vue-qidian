@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="index-title">
-            <Title></Title>
+            <searchTitle></searchTitle>
         </div>
         <div class="index-reco">
-            <List></List>
+            <searchList></searchList>
         </div>
     </div>
 </template>
@@ -12,8 +12,8 @@
 <script>
 
 	import {mapState} from 'vuex'
-	import Title from './title.vue';
-	import List from './list.vue';
+	import searchTitle from './title.vue';
+	import searchList from './list.vue';
 
 	export default {
 		name: 'searchIndex',
@@ -23,7 +23,7 @@
 			}
 		},
 		components: {
-			Title, List,
+			searchTitle, searchList,
 		},
 		computed: {
 			...mapState({

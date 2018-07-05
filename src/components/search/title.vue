@@ -3,10 +3,11 @@
         <div class="flexbox">
             <div class="left">
                 <img class="searchImage" src="../../assets/image/bookcase_search_icon_22x22.png" alt="">
-                <input v-module="keyWord" class="searchText" type="text"  placeholder="输入关键字">
-                <img class="searchImage" src="../../assets/image/icon_close_search_20x20.png" alt="">
+                <input :value="keyWord" class="searchText" type="text" placeholder="输入关键字"
+                       @keypress="onKeyPressEnter" @input="updateKeyWord" @focus="changePageState('searchHistory')" />
+                <img class="searchImage" src="../../assets/image/icon_close_search_20x20.png" alt="" @click="setKeyWord('')">
             </div>
-            <div class="right">
+            <div class="right" @click="">
                 <p class="cancle">取消</p>
             </div>
         </div>
@@ -14,26 +15,43 @@
 </template>
 
 <script>
+	import { mapGetters,mapActions,mapMutations } from 'vuex'
+
 	export default {
-		name: 'title',
+		name: 'searchTitle',
 		data() {
 			return {
 				isSelected: 'shujia',
 				showTab: false,
 			}
 		},
-        computed:{
-	        keyWord () {
-		        return this.$store.state.search.keyWord
-	        }
-        },
+
+		watch: {},
+		computed: {
+            ...mapGetters({
+	            keyWord: 'search/getKeyWord',
+            }),
+		},
+
 		mounted() {
 
 		},
+
 		methods: {
-			goTo: function (name) {
+			goTo() {
 				this.$router.push({name: name})
 			},
+
+			updateKeyWord(e) {
+				this.$store.dispatch('search/setKeyWord', e.target.value);
+//				this.changePageState('searchTip');
+//				this.$store.dispatch('search/searchByKeyWord', {pageIndex:1, type: 'all'});
+            },
+            ...mapActions('search', [
+	            'changePageState',
+                'onKeyPressEnter',
+                'setKeyWord',
+            ]),
 		},
 	}
 </script>
@@ -60,7 +78,7 @@
         width: 6.4rem;
         height: 0.6rem;
         background-color: #fff;
-        border-radius:0.1rem;
+        border-radius: 0.1rem;
         display: -webkit-flex;
         display: flex;
         justify-content: space-between;
@@ -70,7 +88,6 @@
     .flexbox .right {
         width: 0.85rem;
         height: 0.6rem;
-
     }
 
     .flexbox .searchImage {
@@ -79,27 +96,28 @@
         padding: 0 0.1rem;
     }
 
-    .flexbox .searchText{
+    .flexbox .searchText {
         width: 100%;
         height: 100%;
-        border:0;
+        border: 0;
         font-size: 0.28rem;
 
     }
-    .flexbox .searchText:focus{
+
+    .flexbox .searchText:focus {
         width: 100%;
         height: 100%;
-        border:0;
+        border: 0;
         outline: none;
 
     }
-    .flexbox .cancle{
+
+    .flexbox .cancle {
         font-size: 0.28rem;
-        color:#fff;
+        color: #fff;
         line-height: 0.6rem;
         text-align: center;
 
     }
-
 
 </style>

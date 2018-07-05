@@ -111,11 +111,11 @@ export default {
 	 * 搜索 自动补全
 	 * @returns {AxiosPromise<any>}
 	 */
-	getSearchAutoComputed() {
+	getSearchAutoComputed(keyword) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/AutoCompleteWithBookList?key=',
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/AutoCompleteWithBookList?key='+keyword,
 					method:'get'
 				}
 			}
@@ -125,11 +125,11 @@ export default {
 	 * 搜索 书籍
 	 * @returns {AxiosPromise<any>}
 	 */
-	getSearchBook() {
+	getSearchBook(key, pageIndex) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/GetBookStoreWithCategory',
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/GetBookStoreWithCategory?key='+key+'&pageIndex='+pageIndex,
 					method:'get'
 					// action	-1
 					// channel	-1
@@ -151,11 +151,11 @@ export default {
 	 * 搜索 书单
 	 * @returns {AxiosPromise<any>}
 	 */
-	getSearchBook() {
+	getSearchBookList(key, pageIndex) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Search?key=%E6%83%B3&pageNumber=1&pageSize=20',
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Search?key='+key+'&pageNumber='+pageIndex+'&pageSize=20',
 					method:'get',
 				}
 			}

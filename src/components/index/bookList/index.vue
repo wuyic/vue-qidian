@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="index-title">
-            <Title></Title>
+            <indexTitle></indexTitle>
         </div>
         <div class="index-reco">
-            <List></List>
+            <indexList></indexList>
         </div>
     </div>
 </template>
@@ -12,8 +12,8 @@
 <script>
 
 	import {mapState} from 'vuex'
-	import Title from './title.vue';
-	import List from './list.vue';
+	import indexTitle from './title.vue';
+	import indexList from './list.vue';
 
 	export default {
 		name: 'index',
@@ -23,7 +23,7 @@
 			}
 		},
 		components: {
-			Title, List,
+			indexTitle, indexList,
 		},
 		computed: {
 			...mapState({

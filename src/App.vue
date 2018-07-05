@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" >
         <div :class="{router:getTitle.isShowFoot,routerFoot:!getTitle.isShowFoot}">
             <router-view />
         </div>
@@ -8,13 +8,13 @@
 </template>
 
 <script>
-	import titleCommon from './components/common/title.vue'
+//	import titleCommon from './components/common/title.vue'
 	import footCommon from './components/common/foot.vue';
 
 	export default {
 		name: 'App',
 		components: {
-			titleCommon: titleCommon,
+//			titleCommon: titleCommon,
 			footCommon: footCommon
 		}
 	}
@@ -58,15 +58,21 @@
         color: #2c3e50;
         height: 100vh;
         font-size: 0.26rem;
+        /*width: 7.5rem;*/
+        /*overflow: hidden;*/
     }
 
     .routerFoot {
-        overflow: scroll;
+        /*width: 7.7rem;*/
         height:100vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
 
     .router {
-        overflow: scroll;
+        /*width: 7.7rem;*/
+        overflow-y: scroll;
+        overflow-x: hidden;
         height:calc(100vh - 50px)
     }
 </style>
