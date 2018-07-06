@@ -15,3 +15,5 @@ npm run dev
 
 # 首页运行效果
 ![image](https://github.com/wuyic/image/blob/master/vue-qidian/index.png)
+
+

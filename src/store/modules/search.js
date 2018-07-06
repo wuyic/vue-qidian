@@ -32,7 +32,6 @@ const state = {
 	 *  搜索历史记录
 	 */
 	searchHistory:[
-		'张三'
 	],
 
 	/**
@@ -42,9 +41,11 @@ const state = {
 
 	/**
 	 * 搜索结果
+	 * bookCardList 搜索出书名后的推荐
 	 */
 	searchResult:{
 		book:[],
+		bookCardList:[],
 		bookList:[],
 		bookPageIndex:1,
 		bookListPageIndex:1,
@@ -106,15 +107,15 @@ const mutations = {
 	},
 
 	/**
-	 * 设置搜索历史
+	 * 设置搜索历史 去重复
 	 * @param state
 	 * @param word
 	 */
 	setSearchHistory(state, word) {
+		let indexOld = state.searchHistory.indexOf(word);
+		indexOld > -1 && state.searchHistory.splice(indexOld, 1);
 		state.searchHistory.unshift(word);
-		if (state.searchHistory.length > 50) {
-			state.searchHistory.pop();
-		}
+		state.searchHistory.length > 50 && state.searchHistory.pop();
 	},
 
 	/**
@@ -135,9 +136,13 @@ const mutations = {
 	/**
 	 * 设置搜索结果
 	 */
-	setSearchResult(state, {list, type}) {
+	setSearchResult(state, {list, type, isNew}) {
 		console.log(list, type);
-		state.searchResult[type] = [... state.searchResult[type] || [], ...list];
+
+		isNew && (state.searchResult[type] =[...list]);
+
+		!isNew && (state.searchResult[type] = [... state.searchResult[type] || [], ...list]);
+
 	}
 
 
@@ -193,8 +198,19 @@ const getters = {
 		return state.searchTips;
 	},
 
-	getSearchResult:(state) => type => {
-		return state.searchResult[type];
+	//获取搜索结果
+	getSearchResult:(state) => {
+		return state.searchResult;
+	},
+
+	dealAnsWord:(state) => (word) => {
+		if (state.keyWord.length > 0) {
+			let re = new RegExp(state.keyWord, 'g');
+			let ans = "<span style='color:#c4483c'>"+ state.keyWord +"</span>";
+			return word.replace(re, ans);
+		} else {
+			return word;
+		}
 	}
 };
 
@@ -224,10 +240,12 @@ const actions = {
 	 * 设置关键词
 	 */
 	setKeyWord({state, commit, RootState}, keyWord) {
-		commit('setKeyWord', keyWord);
-		if (keyWord != state.keyWord && keyWord.length) {
-			actions.getSearchAutoComputed({state, commit});
+
+		if (keyWord != state.keyWord) {
+			commit('setKeyWord', keyWord);
+			keyWord.length && actions.getSearchAutoComputed({state, commit});
 		}
+
 		if (!state.keyWord.length && state.pageState != 'searchAns') {
 			actions.changePageState({state, commit, RootState}, 'searchHistory');
 		} else if (state.pageState != 'searchAns'){
@@ -326,7 +344,8 @@ const actions = {
 			api.getSearchBook(keyWord, state.searchResult.bookPageIndex).then(
 				data=>{
 					console.log('查询书籍成功',data);
-					commit('setSearchResult', {list:data.data.Data || [], type:'book'})
+					commit('setSearchResult', {list:data.data.Data || [], type:'book', isNew:type=='all'})
+					commit('setSearchResult', {list:data.data.CardList || [], type:'bookCardList', isNew:type=='all'})
 				}
 		);
 
@@ -334,10 +353,10 @@ const actions = {
 			api.getSearchBookList(keyWord, state.searchResult.bookListPageIndex).then(
 				data=>{
 					console.log('查询书单成功',data);
-					commit('setSearchResult', {list:data.data.Data.BookList || [], type:'bookList'})
+					commit('setSearchResult', {list:data.data.Data.BookList || [], type:'bookList', isNew:type=='all'})
 				}
 		);
-	}
+	},
 };
 
 export default {

@@ -3,6 +3,23 @@ import {bookBigType,bookSmallType} from './data'
 
 const nodeServiceUrl = 'http://127.0.0.1:5678/get';
 
+function paramsToUrlParam(obj) {
+
+	if (typeof obj != 'object') {
+		return '';
+	}
+
+	let param = '';
+	Object.keys(obj).forEach((key)=>{
+		param += key;
+		param += '=';
+		param += obj[key];
+		param += '&';
+	});
+
+	return param.slice(0,-1);
+}
+
 export default {
 	//获取书架列表
 	test() {
@@ -23,8 +40,8 @@ export default {
             nodeServiceUrl,
             {
                 params:{
-                'url': "https://mage.if.qidian.com/Atom.axd/Api/BookCase/Refresh",
-                'method': 'post'
+                    'url': "https://mage.if.qidian.com/Atom.axd/Api/BookCase/Refresh",
+                    'method': 'post',
                 }
             })
     },
@@ -116,7 +133,10 @@ export default {
 			nodeServiceUrl, {
 				params:{
 					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/AutoCompleteWithBookList?key='+keyword,
-					method:'get'
+					method:'get',
+					// param:{
+					// 	key:keyword
+					// }
 				}
 			}
 		)
@@ -129,19 +149,21 @@ export default {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/GetBookStoreWithCategory?key='+key+'&pageIndex='+pageIndex,
-					method:'get'
-					// action	-1
-					// channel	-1
-					// key	想
-					// needDirect	1
-					// order	-1
-					// p	all
-					// pageIndex	1
-					// size	-1
-					// type	-1
-					// update	-1
-					// vipBoutiqueSignstatus	-1a-1a-1
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/GetBookStoreWithCategory',
+					method:'post',
+					param: paramsToUrlParam ({
+						action:    -1,
+						channel:   -1,
+						key:       key,
+						needDirect: 1,
+						order:     -1,
+						p:	       'all',
+						pageIndex: pageIndex,
+						size:      -1,
+						type:      -1,
+						update:    -1,
+						vipBoutiqueSignstatus:	'-1a-1a-1',
+					})
 				}
 			}
 		)
@@ -155,8 +177,13 @@ export default {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Search?key='+key+'&pageNumber='+pageIndex+'&pageSize=20',
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Search',
 					method:'get',
+					param:paramsToUrlParam({
+						key:key,
+						pageNumber:pageIndex,
+						pageSize:20,
+					}),
 				}
 			}
 		)

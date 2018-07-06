@@ -59,7 +59,14 @@
                 <div><p>书单</p></div>
             </div>
             <div class="ansList">
-                <bookInList :bookInfo="data"></bookInList>
+                <div v-for="item in searchResult.bookCardList" class="ansBookCardList">
+                    <bookSearchAuthor  v-if="item.CardType==3" :authorInfo="item.Info"></bookSearchAuthor>
+                    <bookInList v-if="item.CardType==0" :bookInfo="item.Info"></bookInList>
+                    <bookRecomond v-if="item.CardType==2" :bookInfo="item.Info"></bookRecomond>
+                </div>
+                <div v-for="(item, index) in searchResult.book"  class="ansBookInfo">
+                    <bookInList :bookInfo="item" :isBottom="true"></bookInList>
+                </div>
                 <!--<div class="ansBookList">-->
                     <!--<img src="" alt="">-->
                     <!--<div>-->
@@ -71,7 +78,10 @@
     </div>
 </template>
 <script>
+
 	import bookInList from '../common/bookInList.vue'
+	import bookRecomond from './bookRecomond.vue'
+	import bookSearchAuthor from './bookSearchAuthor.vue'
 	import {mapGetters, mapActions, mapMutations} from 'vuex'
 
 	export default {
@@ -79,51 +89,14 @@
 		data() {
 			return {
 				jiying: '都市',
-				data: {
-					Adid: 0,
-					AlgInfo: "",
-					Author: "江南",
-					AuthorId: 0,
-					AuthorTagId: "3",
-					BookId: 1011945842,
-					BookInternalId: 6748888,
-					BookName: "龙族（1-4合集）",
-					BookStatus: "完本",
-					BssReadTotal: 3718848,
-					BssRecomTotal: 9140,
-					CategoryId: 14306,
-					CategoryName: "青春文学",
-					CmId: 0,
-					Description: "累计销售量达千万册的青春幻想小说，被誉为“东方的《哈利·波特》”，作者江南本人获得2013年中国作家富豪榜榜首的荣誉。主角路明非原本只是一个普通的高中生，在申请留学的时候收到了来自屠龙学院——卡塞尔学院的来信，从此开启了他不平凡的人生，在伙伴陈墨瞳、楚子航、恺撒等人的帮助下，属于龙族的神秘世界逐渐在他们面前展开，路明非神秘莫测的身世也慢慢浮出水面。",
-					EnableBookUnitBuy: 0,
-					EnableBookUnitLease: 0,
-                    ImageStatus: 1,
-                    IsVip: 1,
-					Label: "3",
-					LastChapterUpdateTime: 1526283050000,
-					LastUpdateChapterID: 406594640,
-					LastUpdateChapterName: "第419章 尾声",
-					LastVipChapterUpdateTime: 1526283050000,
-					LastVipUpdateChapterId: 406595049,
-					LastVipUpdateChapterName: "第419章 尾声",
-					ReadingType: 5,
-					SourceDesc: null,
-					SourceType: 0,
-					WordsCount: 2090264,
-					overrating: null,
-					prob: 0,
-					recommendRate: null,
-					staticscore1: 500000,
-					subCategoryName: "玄幻/新武侠/魔幻/科幻"
-				}
 			}
 		},
 		components: {
-			bookInList
+			bookInList,bookRecomond,bookSearchAuthor
 		},
 
 		created() {
-			console.log()
+//			this.searchByKeyWord({type:'all'});
 		},
 
 		watch: {
@@ -132,11 +105,13 @@
 		computed: {
 			...mapGetters({
                 pageState:'search/pageState',           //页面切换状态
-				keyWord: 'search/getKeyWord',           //搜索关键词
-				topList: 'search/searchTopsGetByIndex', //顶部热词
-				adList: 'ad/getAdByRegx',              //广告 key = search_home
+				keyWord:  'search/getKeyWord',           //搜索关键词
+				topList:  'search/searchTopsGetByIndex', //顶部热词
+				adList:   'ad/getAdByRegx',               //广告 key = search_home
 				searchHistory: 'search/getSearchHistory', //搜索历史
-				searchTips: 'search/getSearchTips', //搜索历史
+				searchTips:    'search/getSearchTips',     //搜索提示
+				searchResult:  'search/getSearchResult',      //搜索结果
+				dealAnsWord :'search/dealAnsWord',
 			}),
 		},
 
@@ -151,7 +126,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
     .recommond {
         background-color: #eee;
     }
@@ -362,7 +337,10 @@
     }
 
     .searchAns {
-        background-color: #fff;
+        height: calc(100vh - 40px);
+        display: flex;
+        flex-direction: column;
+        background-color: #eee;
     }
 
     .searchAns .ansTab {
@@ -373,6 +351,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: #fff;
     }
 
     .searchAns .ansTab div {
@@ -394,9 +373,22 @@
     }
 
     .searchAns .ansList {
-        width: 7.2rem;
-        margin-left: 0.3rem;
+        width: 7.5rem;
+        flex:1;
+        overflow: auto;
     }
+
+    .searchAns .ansBookInfo {
+        background-color: #FFF;
+    }
+
+    .searchAns .ansBookCardList {
+        background-color: #FFF;
+        margin-bottom: 0.2rem;
+    }
+
+
+
 
 
 </style>

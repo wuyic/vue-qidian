@@ -3,18 +3,6 @@ var request = require('request');
 var app = express();
 
 
-function paramsToUrlParam(obj) {
-	let param = '';
-	Object.keys(obj).forEach((key)=>{
-		param += key;
-		param += '=';
-		param += obj[key];
-		param += '&';
-	});
-
-	return param.slice(0,-1);
-}
-
 
 app.get('/get', function(req, res){
 
@@ -22,9 +10,10 @@ app.get('/get', function(req, res){
   res.header("Access-Control-Allow-Origin", '*');
 
 
-  console.log(req.params);//输出index
-  console.log(req.query);//输出表单get提交的login_name
-  console.log(req.query.url);
+  // console.log('req', req.query);
+  // console.log(req.params);//输出index
+  // console.log(req.query);//输出表单get提交的login_name
+  // console.log(req.query.url);
 
 
 	// req.query.method ='post';
@@ -33,6 +22,8 @@ app.get('/get', function(req, res){
   if (!req.query.method) {
     req.query.method = 'get';
   }
+
+
   // _csrfToken
   // ywBP6mPHUlzl
   // ywj0ff7NJNgE

@@ -1,13 +1,15 @@
 <template>
-    <div class="ansBook">
-        <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
+    <div :class="{ansBook:true, isBottom:isBottom}">
+        <div>
+            <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
+        </div>
         <div class="right">
-            <p class="bookTitle">{{bookInfo.BookName}}</p>
-            <p class="description">{{bookInfo.Description}}</p>
+            <p class="bookTitle"  v-html="dealAnsWord(bookInfo.BookName)"></p>
+            <p class="description"  v-html="dealAnsWord(bookInfo.Description)"></p>
             <div class="descBottom">
                 <div class="userBox" >
                     <img class="userImg" src="../../assets/image/icon_loginaccount_24x24.png" alt="">
-                    <p class="author">{{bookInfo.Author}}</p>
+                    <p class="author" v-html="dealAnsWord(bookInfo.Author)"></p>
                 </div>
                 <div class="biaoqianBox">
                     <p class="biaoqian">玄幻</p>
@@ -20,12 +22,23 @@
 </template>
 
 <script>
+	import {mapGetters} from 'vuex';
+
 	export default {
-		props:["bookInfo"],
+		props:["bookInfo", 'isBottom'],
 		name: 'bookInList',
 		data() {
-			return {}
+			return {
+//				data:console.log("isBottom = "+this.isBottom)
+            }
 		},
+
+        computed:{
+	        ...mapGetters({
+		        dealAnsWord:'search/dealAnsWord'
+	        })
+        },
+
 		mounted() {
 
 		},
@@ -36,11 +49,15 @@
 <style scoped>
     .ansBook{
         height: 2.1rem;
-        border-bottom: 1px solid #e7e7e7;
         display: -webkit-flex;
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        margin-left: 0.3rem
+    }
+
+    .isBottom {
+        border-bottom: 1px solid #e7e7e7;
     }
 
     .ansBook .bookImage{
@@ -71,7 +88,7 @@
         -webkit-box-orient:vertical;
         -webkit-line-clamp:2;
         color: #9a9a9a;
-        font-size:0.22rem;
+        font-size:0.24rem;
         text-align: left;
     }
 
