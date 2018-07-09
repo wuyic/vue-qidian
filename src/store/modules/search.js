@@ -1,5 +1,7 @@
 import api from '../../api/api'
-
+let sleep = (ms) => {
+	return new Promise((resolve)=>{setTimeout(resolve, ms)})
+};
 const state = {
 
 	/**
@@ -49,6 +51,8 @@ const state = {
 		bookList:[],
 		bookPageIndex:1,
 		bookListPageIndex:1,
+		bookLoading:false,
+		bookListLoading:false,
 	}
 };
 
@@ -154,7 +158,7 @@ const mutations = {
 const getters = {
 
 	/**
-	 *
+	 * 改变页面状态
 	 */
 	pageState: (state) => {
 		return state.pageState;
@@ -189,6 +193,7 @@ const getters = {
 	getSearchHistory: (state) => {
 		return state.searchHistory;
 	},
+
 	/**
 	 * 获取搜索自动补全
 	 * @param state
@@ -203,6 +208,10 @@ const getters = {
 		return state.searchResult;
 	},
 
+	/**
+	 * 处理查询出的结果（飙红）
+	 * @param state
+	 */
 	dealAnsWord:(state) => (word) => {
 		if (state.keyWord.length > 0) {
 			let re = new RegExp(state.keyWord, 'g');
@@ -324,10 +333,10 @@ const actions = {
 	/**
 	 * 确认搜索
 	 */
-	searchByKeyWord({state, commit}, {type, item}) {
+	searchByKeyWord({state, commit, rootState}, {type, item}) {
+
 		//更改页面状态
 		actions.changePageState({state, commit}, 'searchAns');
-
 
 		//如果传入了关键词
 		if (item && item.length) {
@@ -340,23 +349,53 @@ const actions = {
 
 		let keyWord = encodeURIComponent(state.keyWord);
 
-		(type == 'all' || type == 'book') &&
-			api.getSearchBook(keyWord, state.searchResult.bookPageIndex).then(
-				data=>{
-					console.log('查询书籍成功',data);
-					commit('setSearchResult', {list:data.data.Data || [], type:'book', isNew:type=='all'})
-					commit('setSearchResult', {list:data.data.CardList || [], type:'bookCardList', isNew:type=='all'})
-				}
-		);
+		if (rootState.loading.isShowBottom) {
+			return ;
+		}
 
-		(type == 'all' || type == 'bookList') &&
-			api.getSearchBookList(keyWord, state.searchResult.bookListPageIndex).then(
-				data=>{
-					console.log('查询书单成功',data);
-					commit('setSearchResult', {list:data.data.Data.BookList || [], type:'bookList', isNew:type=='all'})
+
+		if (type == 'all' || type == 'book') {
+
+			state.searchResult.bookPageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
+			api.getSearchBook(keyWord, state.searchResult.bookPageIndex).then(
+				data => {
+					state.searchResult.bookPageIndex += 1;
+					commit('loading/setShowBottom', false, {root: true});
+					console.log('查询书籍成功', data);
+					commit('setSearchResult', {list: data.data.Data || [], type: 'book', isNew: type == 'all'})
+					commit('setSearchResult', {
+						list: data.data.CardList || [],
+						type: 'bookCardList',
+						isNew: type == 'all'
+					})
 				}
-		);
-	},
+			)
+		}
+
+
+		if (type == 'all' || type == 'bookList') {
+			state.searchResult.bookListPageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
+			console.log('bookList start', rootState.loading.isShowBottom,'page' + state.searchResult.bookListPageIndex);
+
+			api.getSearchBookList(keyWord, state.searchResult.bookListPageIndex).then(
+				data => {
+					if (state.searchResult.bookListPageIndex > 1) {
+						commit('loading/setShowBottom', false, {root: true});
+					}
+					state.searchResult.bookListPageIndex += 1;
+					console.log('bookList end', rootState.loading.isShowBottom,'page' + state.searchResult.bookListPageIndex);
+
+					console.log('查询书单成功', data);
+					commit('setSearchResult', {
+						list: data.data.Data.BookList || [],
+						type: 'bookList',
+						isNew: type == 'all'
+					})
+				}
+			);
+		}
+	}
+
 };
 
 export default {

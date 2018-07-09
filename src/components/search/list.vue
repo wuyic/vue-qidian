@@ -23,13 +23,13 @@
 
             <div class="advertising">
                 <div v-for="(value, index) in adList('search_home')"
-                     :class="{adCell:true, bottomW:index!=adList('search_home').length-1}">
-                    <img :src="value.ADImage" alt="" class="adImg"/>
-                    <p class="adWord">{{value.ADText}}</p>
+                     :class="{advertCell:true, bottomW:index!=adList('search_home').length-1}">
+                    <img :src="value.ADImage" alt="" class="advertImg"/>
+                    <p class="advertWord">{{value.ADText}}</p>
                 </div>
             </div>
         </div>
-
+        <!--搜索历史-->
         <div class="searchHistory" v-if="pageState=='searchHistory'">
             <div class="historyCell" v-for="item in searchHistory" @click="searchByKeyWord({type:'all', item:item})">
                 <img class="img" src="../../assets/image/search_history_24x24.png" alt="">
@@ -39,7 +39,7 @@
                 <p class="cleanHistoryWord">清除搜索历史</p>
             </div>
         </div>
-
+        <!--搜索提示-->
         <div class="searchTip" v-if="pageState=='searchTip'">
             <div class="body">
                 <div class="tipCell" v-for="(item, index) in searchTips" @click="searchByKeyWord({type:'all', item:item.Name || item.AuthorName || item.BookName})">
@@ -53,13 +53,14 @@
                 <p>更多结果</p>
             </div>
         </div>
+        <!--搜索结果-->
         <div class="searchAns" v-if="pageState=='searchAns'">
             <div class="ansTab">
-                <div><p>作品</p></div>
-                <div><p>书单</p></div>
+                <div @click="change('book')"><p :class="{isSelected:bookOrBookList == 'book'}">作品</p></div>
+                <div @click="change('booklist')"><p :class="{isSelected:bookOrBookList == 'booklist'}">书单</p></div>
             </div>
-            <div class="ansList">
-                <div v-for="item in searchResult.bookCardList" class="ansBookCardList">
+            <div class="ansBook" v-if="bookOrBookList == 'book'" @scroll="getMore('book',$event)">
+                <div v-for="item in searchResult.bookCardList" class="ansBookCardList" >
                     <bookSearchAuthor  v-if="item.CardType==3" :authorInfo="item.Info"></bookSearchAuthor>
                     <bookInList v-if="item.CardType==0" :bookInfo="item.Info"></bookInList>
                     <bookRecomond v-if="item.CardType==2" :bookInfo="item.Info"></bookRecomond>
@@ -67,12 +68,14 @@
                 <div v-for="(item, index) in searchResult.book"  class="ansBookInfo">
                     <bookInList :bookInfo="item" :isBottom="true"></bookInList>
                 </div>
-                <!--<div class="ansBookList">-->
-                    <!--<img src="" alt="">-->
-                    <!--<div>-->
-                        <!--p-->
-                    <!--</div>-->
-                <!--</div>-->
+                <loading></loading>
+            </div>
+
+            <div class="ansBookList"  v-if="bookOrBookList == 'booklist'" @scroll="getMore('bookList',$event)">
+                <div v-for="item in searchResult.bookList">
+                    <bookListInfo :bookListInfo="item" :isBottom="true" ></bookListInfo>
+                </div>
+                <loading></loading>
             </div>
         </div>
     </div>
@@ -80,6 +83,8 @@
 <script>
 
 	import bookInList from '../common/bookInList.vue'
+	import bookListInfo from '../common/bookListInfo.vue'
+	import loading from '../common/loading.vue'
 	import bookRecomond from './bookRecomond.vue'
 	import bookSearchAuthor from './bookSearchAuthor.vue'
 	import {mapGetters, mapActions, mapMutations} from 'vuex'
@@ -89,17 +94,23 @@
 		data() {
 			return {
 				jiying: '都市',
+                bookOrBookList:'book',
 			}
 		},
 		components: {
-			bookInList,bookRecomond,bookSearchAuthor
+			bookInList,   //搜索出的书籍
+			bookListInfo, //搜索的书单
+            bookRecomond, //搜索出得推荐
+            bookSearchAuthor, //搜索出得作者
+            loading,      //加载中
 		},
 
 		created() {
-//			this.searchByKeyWord({type:'all'});
+
 		},
 
 		watch: {
+
 		},
 
 		computed: {
@@ -122,6 +133,26 @@
 				'cleanSearchHistory',  //清空搜索历史
                 'searchByKeyWord',
 			]),
+
+			change(type) {
+				if (['booklist', 'book'].indexOf(type) != -1) {
+					this.bookOrBookList = type;
+                }
+            },
+
+			getMore(type, obj) {
+				obj = obj.currentTarget;
+				let offset = obj.scrollTop;
+                let viewHeight = obj.clientHeight;
+                let allHeight = obj.scrollHeight;
+                if (offset + viewHeight >= allHeight) {
+                	this.$store.dispatch('search/searchByKeyWord', {type:type});
+                }
+            },
+
+            test() {
+				this.$store.commit('loading/setShowBottom', !this.$store.state.loading.isShowBottom);
+            }
 		}
 	}
 </script>
@@ -218,9 +249,10 @@
         padding: 0 0 0 0.3rem;
     }
 
-    .advertising .adCell {
+    .advertising .advertCell {
         display: -webkit-flex;
         display: flex;
+        flex-direction: row;
         justify-content: flex-start;
         align-items: center;
         height: 1.35rem;
@@ -230,12 +262,12 @@
         border-bottom: 0.02rem solid #e7e7e7;
     }
 
-    .advertising .adImg {
+    .advertising .advertImg {
         width: 0.7rem;
         height: 0.7rem;
     }
 
-    .advertising .adWord {
+    .advertising .advertWord {
         text-align: left;
         padding-left: 0.25rem;
         flex: 1;
@@ -372,8 +404,8 @@
         border-bottom: 0.04rem solid #d43c33;
     }
 
-    .searchAns .ansList {
-        width: 7.5rem;
+    .searchAns .ansBook {
+        /*width: 7.5rem;*/
         flex:1;
         overflow: auto;
     }
@@ -387,6 +419,11 @@
         margin-bottom: 0.2rem;
     }
 
+    .searchAns .ansBookList {
+        flex:1;
+        overflow: auto;
+        background-color: #fff;
+    }
 
 
 

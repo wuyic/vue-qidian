@@ -3,56 +3,56 @@ var request = require('request');
 var app = express();
 
 
+app.get('/get', function (req, res) {
 
-app.get('/get', function(req, res){
-
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", '*');
+	res.header("Access-Control-Allow-Credentials", true);
+	res.header("Access-Control-Allow-Origin", '*');
 
 
-  // console.log('req', req.query);
-  // console.log(req.params);//输出index
-  // console.log(req.query);//输出表单get提交的login_name
-  // console.log(req.query.url);
+	// console.log('req', req.query);
+	// console.log(req.params);//输出index
+	// console.log(req.query);//输出表单get提交的login_name
+	// console.log(req.query.url);
 
 
 	// req.query.method ='post';
 	// req.query.url ='https://ptlogin.qidian.com/sdk/qqwtcallback';
 
-  if (!req.query.method) {
-    req.query.method = 'get';
-  }
+	if (!req.query.method) {
+		req.query.method = 'get';
+	}
 
 
-  // _csrfToken
-  // ywBP6mPHUlzl
-  // ywj0ff7NJNgE
-  let options = {
-    method: req.query.method,
-    url:req.query.url,
-    headers: {
-    'Accept': 'application/json',
-	 'content-type' : 'application/x-www-form-urlencoded',
-    'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MzE3MzMzMjkxfDE1Mjg3MTI3OTIwNzh8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=; appId=12; areaId=40; cmfuToken=N((q6gaUD8EM3wahQI3eulYBAbh7Yc0a-A1n1jG5yzezXP-OUMSf-5rfTxuBt_lBVMLeQsHxVjPXWkxpUIl6cR5x_1amVLXutjPX7z6l9QbbWrsHcOmkP55Gnm8D17_1QOUGSzQ3Zf-cN7qwlDqu5EXHhYLciVJYgW_E1hFF9uxqdHlUwAowt2wnxZWgodHB27EO4-2YfD9SepOmqyxbVA5dWF_XDEAclmj1z2ZFKU6y5Xl8bP3Muz4MLCd_cuQ0n4g2z3MfNCNzvN_brNvfKl8QGQsT9eQfBM_JQdKWtWLD7I1; ywguid=120007091846; ywkey=ywmu7NRkhB91; wal=1',
-    'User-Agent': 'QDReaderAppStore/4.77 (iPhone; iOS 11.3.1; Scale/3.00)',
-    'Accept-Language': 'zh-Hans-CN;q=1',
-    'Accept-Encoding': 'gzip, deflate',
-	 'Referer':	'http://ios.qidian.com',
-    'QDHeader': 'OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NS4wLjF8MTI0MnwyMjA4fEFwcFN0b3JlfDEwLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjE2fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MjY1MzYyNTg0NzZ8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=',
-    },
-	body:req.query.param
-  };
-  console.log(options);
 
-  if (req.query.url) {
-    request(options, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        res.send(body);
-      } else {
-        res.send(response);
-      }
-    })
-  }
+	// _csrfToken
+	// ywBP6mPHUlzl
+	// ywj0ff7NJNgE
+	let options = {
+		method: req.query.method,
+		url: req.query.url + '?' + (req.query.method=='get' ? req.query.param : ''),
+		headers: {
+			'Accept': 'application/json',
+			'content-type': 'application/x-www-form-urlencoded',
+			'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MzE3MzMzMjkxfDE1Mjg3MTI3OTIwNzh8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=; appId=12; areaId=40; cmfuToken=N((q6gaUD8EM3wahQI3eulYBAbh7Yc0a-A1n1jG5yzezXP-OUMSf-5rfTxuBt_lBVMLeQsHxVjPXWkxpUIl6cR5x_1amVLXutjPX7z6l9QbbWrsHcOmkP55Gnm8D17_1QOUGSzQ3Zf-cN7qwlDqu5EXHhYLciVJYgW_E1hFF9uxqdHlUwAowt2wnxZWgodHB27EO4-2YfD9SepOmqyxbVA5dWF_XDEAclmj1z2ZFKU6y5Xl8bP3Muz4MLCd_cuQ0n4g2z3MfNCNzvN_brNvfKl8QGQsT9eQfBM_JQdKWtWLD7I1; ywguid=120007091846; ywkey=ywmu7NRkhB91; wal=1',
+			'User-Agent': 'QDReaderAppStore/4.77 (iPhone; iOS 11.3.1; Scale/3.00)',
+			'Accept-Language': 'zh-Hans-CN;q=1',
+			'Accept-Encoding': 'gzip, deflate',
+			'Referer': 'http://ios.qidian.com',
+			'QDHeader': 'OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NS4wLjF8MTI0MnwyMjA4fEFwcFN0b3JlfDEwLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjE2fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MjY1MzYyNTg0NzZ8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=',
+		},
+		body: req.query.method=='post' ? req.query.param : ''
+	};
+	console.log(options);
+
+	if (req.query.url) {
+		request(options, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				res.send(body);
+			} else {
+				res.send(response);
+			}
+		})
+	}
 
 });
 

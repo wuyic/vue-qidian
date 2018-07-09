@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import bookcase from './modules/bookcase'
 import search from './modules/search'
 import ad from './modules/ad'
+import loading from './modules/loading'
 
 Vue.use(Vuex);
 
@@ -26,5 +27,6 @@ export default new Vuex.Store({
 		book:   bookcase,
 		search: search,
 		ad:     ad,
+		loading:loading,
 	},
 })
