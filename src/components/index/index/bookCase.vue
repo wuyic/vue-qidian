@@ -6,6 +6,7 @@
             <div style="font-size: 0; flex-grow: 0;">
                 <img class="book-img"
                      :src='"https://qidian.qpic.cn/qdbimg/" + item.bookInfo.AuthorId + "/" + item.bookInfo.BookId + "/180"'
+                     onError="this.src='../../assets/bookNoImg.png'"
                      alt="">
             </div>
             <div class="info" style="flex-grow: 1;">
@@ -45,7 +46,7 @@
 
 		computed: {
 			list() {
-				let bookCase = this.$store.state.book.bookCase.getMyBookCase();
+				let bookCase = this.$store.state.bookcase.bookCase.getMyBookCase();
 				console.log(bookCase);
 				return bookCase;
 			},

@@ -12,9 +12,9 @@
                     <p class="author" v-html="dealAnsWord(bookInfo.Author)"></p>
                 </div>
                 <div class="biaoqianBox">
-                    <p class="biaoqian">玄幻</p>
+                    <p class="biaoqian">{{bookInfo.CategoryName}}</p>
                     <p class="biaoqian">{{bookInfo.BookStatus}}</p>
-                    <p class="biaoqian">97.1万字</p>
+                    <p class="biaoqian">{{Math.round(bookInfo.WordsCount/1000)/10}}万字</p>
                 </div>
             </div>
         </div>
@@ -114,6 +114,7 @@
         padding-left: 0.05rem;
         color: #9a9a9a;
         font-size: 0.22rem;
+        white-space: nowrap;
     }
 
 
@@ -128,6 +129,7 @@
         -ms-transform: scale(0.8);
         -o-transform: scale(0.8);
         transform-origin:right;
+
     }
 
     .ansBook .biaoqian {
@@ -139,5 +141,6 @@
         font-size: 0.06rem;
         padding: 0 0.04rem;
         border-radius: 3px;
+        white-space: nowrap;
     }
 </style>

@@ -1,6 +1,9 @@
 import api from '../../api/api'
+
 let sleep = (ms) => {
-	return new Promise((resolve)=>{setTimeout(resolve, ms)})
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms)
+	})
 };
 const state = {
 
@@ -8,51 +11,57 @@ const state = {
 	 * 页面切换状态
 	 * recommond  searchHistory searchTip  searchAns
 	 */
-	pageState:'recommond',
+	pageState: 'recommond',
 
 	/**
 	 * 搜索关键词
 	 */
-	keyWord:'',
+	keyWord: '',
 
 	/**
 	 *  搜索结果
 	 */
-	ansList:'',
+	ansList: '',
 
 	/**
 	 *  搜索顶部热词列表
 	 */
-	searchTops:[],
+	searchTops: [],
 
 	/**
 	 *  搜索顶部热词索引
 	 */
-	searchTopsChangeIndex:0,
+	searchTopsChangeIndex: 0,
 
 	/**
 	 *  搜索历史记录
 	 */
-	searchHistory:[
-	],
+	searchHistory: [],
 
 	/**
 	 * 搜索自动补全
+	 *   myBookcast: 书架列表中的
+		 booklist:   搜索的书单
+		 otherData:  搜索的其他数据
 	 */
-	searchTips:[],
+	searchTips: {
+		myBookcase: [],
+		booklist: [],
+		otherData: []
+	},
 
 	/**
 	 * 搜索结果
 	 * bookCardList 搜索出书名后的推荐
 	 */
-	searchResult:{
-		book:[],
-		bookCardList:[],
-		bookList:[],
-		bookPageIndex:1,
-		bookListPageIndex:1,
-		bookLoading:false,
-		bookListLoading:false,
+	searchResult: {
+		book: [],
+		bookCardList: [],
+		bookList: [],
+		bookPageIndex: 1,
+		bookListPageIndex: 1,
+		bookLoading: false,
+		bookListLoading: false,
 	}
 };
 
@@ -98,7 +107,7 @@ const mutations = {
 	 * @param list
 	 */
 	changeSearchTopsChangeIndex(state) {
-		state.searchTopsChangeIndex = (state.searchTopsChangeIndex + 1) % Math.ceil(state.searchTops.length/10);
+		state.searchTopsChangeIndex = (state.searchTopsChangeIndex + 1) % Math.ceil(state.searchTops.length / 10);
 	},
 
 	/**
@@ -133,8 +142,9 @@ const mutations = {
 	/**
 	 * 获取搜索自动补全列表
 	 */
-	setSearchAutoComputed(state, list) {
-		state.searchTips = [...list];
+	setSearchAutoComputed(state, {type, data}) {
+		data = data || [];
+		state.searchTips[type] = [...data];
 	},
 
 	/**
@@ -143,7 +153,7 @@ const mutations = {
 	setSearchResult(state, {list, type, isNew}) {
 		console.log(list, type);
 
-		isNew && (state.searchResult[type] =[...list]);
+		isNew && (state.searchResult[type] = [...list]);
 
 		!isNew && (state.searchResult[type] = [... state.searchResult[type] || [], ...list]);
 
@@ -180,9 +190,9 @@ const getters = {
 	 * @returns {Array.<*>}
 	 */
 	searchTopsGetByIndex: (state, getters, rootState) => {
-		let min = state.searchTopsChangeIndex*10;
-		let max = state.searchTopsChangeIndex*10 + 10;
-		return state.searchTops.filter((ad, i) =>  min<=i && i< max)
+		let min = state.searchTopsChangeIndex * 10;
+		let max = state.searchTopsChangeIndex * 10 + 10;
+		return state.searchTops.filter((ad, i) => min <= i && i < max)
 	},
 
 	/**
@@ -204,7 +214,7 @@ const getters = {
 	},
 
 	//获取搜索结果
-	getSearchResult:(state) => {
+	getSearchResult: (state) => {
 		return state.searchResult;
 	},
 
@@ -212,10 +222,10 @@ const getters = {
 	 * 处理查询出的结果（飙红）
 	 * @param state
 	 */
-	dealAnsWord:(state) => (word) => {
+	dealAnsWord: (state) => (word) => {
 		if (state.keyWord.length > 0) {
 			let re = new RegExp(state.keyWord, 'g');
-			let ans = "<span style='color:#c4483c'>"+ state.keyWord +"</span>";
+			let ans = "<span style='color:#c4483c'>" + state.keyWord + "</span>";
 			return word.replace(re, ans);
 		} else {
 			return word;
@@ -239,7 +249,7 @@ const actions = {
 				break;
 			default :
 				if (['searchAns', 'searchTip', 'recommond'].indexOf(pageState) != -1)
-				commit('changePageState', pageState);
+					commit('changePageState', pageState);
 				break;
 		}
 	},
@@ -248,17 +258,17 @@ const actions = {
 	/**
 	 * 设置关键词
 	 */
-	setKeyWord({state, commit, RootState}, keyWord) {
+	setKeyWord({state, commit, rootState}, keyWord) {
 
 		if (keyWord != state.keyWord) {
 			commit('setKeyWord', keyWord);
-			keyWord.length && actions.getSearchAutoComputed({state, commit});
+			keyWord.length && actions.getSearchAutoComputed({state, commit, rootState});
 		}
 
-		if (!state.keyWord.length && state.pageState != 'searchAns') {
-			actions.changePageState({state, commit, RootState}, 'searchHistory');
-		} else if (state.pageState != 'searchAns'){
-			actions.changePageState({state, commit, RootState}, 'searchTip');
+		if (!state.keyWord.length) {
+			actions.changePageState({state, commit, rootState}, 'searchHistory');
+		} else {
+			actions.changePageState({state, commit, rootState}, 'searchTip');
 		}
 	},
 
@@ -268,7 +278,7 @@ const actions = {
 	 * @param commit
 	 * @param RootState
 	 */
-	setSearchTop({state,commit, RootState}) {
+	setSearchTop({state, commit, RootState}) {
 		api.getSearchTop().then(
 			data => {
 				console.log('获取搜索顶部提示成功', data);
@@ -281,16 +291,25 @@ const actions = {
 	 *  获取自动补全
 	 *  补全由两部分组成 一个是 BookListInfo（书单） 一个是Data（书籍或作者）
 	 */
-	getSearchAutoComputed({state, commit}) {
-		state.keyWord.length > 0 && state.keyWord.replace(/[' ']/g,"").length > 0
-		&& api.getSearchAutoComputed(encodeURIComponent(state.keyWord)).then(
-			data => {
-				console.log('获取搜索提示成功', data);
-				let temList = (data.data.BookListInfo && data.data.BookListInfo.BookList) || [] ;
-				data.data && data.data.Data.length && (temList = [...temList, ...data.data.Data]);
-				commit('setSearchAutoComputed', temList);
-			}
-		)
+	getSearchAutoComputed({state, commit, rootState}) {
+		console.log(rootState)
+		if (state.keyWord.length > 0 && state.keyWord.replace(/[' ']/g, "").length > 0) {
+			console.log(rootState.bookcase.bookCase.getBookGrepName(state.keyWord));
+			commit('setSearchAutoComputed', {type:'myBookcase', data:rootState.bookcase.bookCase.getBookGrepName(state.keyWord)})
+
+			api.getSearchAutoComputed(encodeURIComponent(state.keyWord)).then(
+				data => {
+					console.log('获取搜索提示成功', data);
+					//设置书单
+					if (data.data.BookListInfo && data.data.BookListInfo.BookList) {
+						commit('setSearchAutoComputed', {type: 'booklist', data: data.data.BookListInfo.BookList})
+					}
+					if (data.data.Data && data.data.Data.length) {
+						commit('setSearchAutoComputed', {type: 'otherData', data: data.data.Data});
+					}
+				}
+			)
+		}
 	},
 
 	/**
@@ -325,8 +344,8 @@ const actions = {
 	 */
 	onKeyPressEnter({state, commit}, e) {
 		console.log(e);
-		if(e.keyCode == 13 && state.keyWord.length > 0 && state.keyWord.replace(/[' ']/g,"").length > 0){
-			actions.searchByKeyWord({state, commit}, {type:'all'});
+		if (e.keyCode == 13 && state.keyWord.length > 0 && state.keyWord.replace(/[' ']/g, "").length > 0) {
+			actions.searchByKeyWord({state, commit}, {type: 'all'});
 		}
 	},
 
@@ -338,7 +357,7 @@ const actions = {
 		//更改页面状态
 		actions.changePageState({state, commit}, 'searchAns');
 
-		//如果传入了关键词
+		// //如果传入了关键词
 		if (item && item.length) {
 			commit('setKeyWord', item);
 		}
@@ -346,11 +365,9 @@ const actions = {
 		//添加搜索历史
 		commit('setSearchHistory', state.keyWord);
 
-
 		let keyWord = encodeURIComponent(state.keyWord);
-
-		if (rootState.loading.isShowBottom) {
-			return ;
+		if (rootState != undefined && rootState.loading.isShowBottom) {
+			return;
 		}
 
 
@@ -363,10 +380,11 @@ const actions = {
 					commit('loading/setShowBottom', false, {root: true});
 					console.log('查询书籍成功', data);
 					commit('setSearchResult', {list: data.data.Data || [], type: 'book', isNew: type == 'all'})
+
 					commit('setSearchResult', {
 						list: data.data.CardList || [],
 						type: 'bookCardList',
-						isNew: type == 'all'
+						isNew: true
 					})
 				}
 			)
@@ -375,7 +393,6 @@ const actions = {
 
 		if (type == 'all' || type == 'bookList') {
 			state.searchResult.bookListPageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
-			console.log('bookList start', rootState.loading.isShowBottom,'page' + state.searchResult.bookListPageIndex);
 
 			api.getSearchBookList(keyWord, state.searchResult.bookListPageIndex).then(
 				data => {
@@ -383,11 +400,10 @@ const actions = {
 						commit('loading/setShowBottom', false, {root: true});
 					}
 					state.searchResult.bookListPageIndex += 1;
-					console.log('bookList end', rootState.loading.isShowBottom,'page' + state.searchResult.bookListPageIndex);
 
 					console.log('查询书单成功', data);
 					commit('setSearchResult', {
-						list: data.data.Data.BookList || [],
+						list: data.data.Data && data.data.Data.BookList || [],
 						type: 'bookList',
 						isNew: type == 'all'
 					})

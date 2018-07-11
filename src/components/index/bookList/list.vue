@@ -2,82 +2,69 @@
     <!--主页下拉刷新的导读页面， 上滑后取消-->
     <div class="bookCase">
         <!--font-size:0 消除img的尾巴-->
-        <div class="list" v-for="(item, index) in list" v-if="">
-            <div style="font-size: 0; flex-grow: 0;">
-                <img class="book-img"
-                     :src='"https://qidian.qpic.cn/qdbimg/" + item.bookInfo.AuthorId + "/" + item.bookInfo.BookId + "/180"'
-                     alt="">
+        <div class="myBookList">
+            <div v-for="(item, index) in getMyBookList.myCreate">
+                <bookListInfo :bookListInfo="item"  :isBottom="false" :type="'myBookList'"></bookListInfo>
             </div>
-            <div class="info" style="flex-grow: 1;">
-                <p class="title">
-                    {{item.bookInfo.BookName}}
-                </p>
-                <p class="author">
-                    {{item.bookInfo.Author}} · {{getUserStatus(index)}}
-                </p>
-                <p class="status">
-                    {{getTime(index)}}前 · {{getNewChapter(index)}}
-                </p>
+        </div>
+
+        <div class="myCollectBookList">
+            <div v-for="(item, index) in getMyCollectBookList.list">
+                <bookListInfo :bookListInfo="item"  :isBottom="true" :type="'myCollected'"></bookListInfo>
             </div>
-            <div class="more" style="flex-grow: 0;">
-                <img src="../../../assets/image/more969ba3.png" alt="">
+        </div>
+
+
+        <div class="buttomBottom">
+
+            <div class="createBookListButton" :style="{borderColor: color,marginRight: '0.6rem', paddingRight: '0.1rem'}">
+                <img v-if="color=='#d43c33'" src="../../../assets/image/icon_mybooklist_add_16x16.png" alt="">
+                <img v-if="color!='#d43c33'" src="../../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
+                <p :style="{color:color}">创建书单</p>
+            </div>
+
+            <div class="createBookListButton" style="padding-left: 0.1rem;">
+                <p>关注书单</p>
+                <img src="../../../assets/image/icon_mybooklist_seemore_17x16.png" alt="">
             </div>
         </div>
     </div>
 </template>
 <script>
 
+	import bookListInfo from '../../common/bookListInfo.vue'
+	import {mapGetters, mapActions, mapMutations} from 'vuex'
+
 	export default {
 		name: 'bookCase',
 		data() {
 			return {
 				jiying: '都市',
+				disableClick:false,
+//                color:'#d43c33',
+                color:'#9b9b9b',
+
 			}
 		},
+        components: {
+	        bookListInfo
+        },
 
 		created() {
-			//获取书架列表数据
-			this.$store.dispatch('getBookBigType');
-			this.$store.dispatch('getBookSmallTypeAll');
-			this.$store.dispatch('getBookCase');
+			console.log(this.$store)
+			//获取书单列表数据
+			this.$store.dispatch('booklist/getMyBookList');
+			this.$store.dispatch('booklist/getBookList');
 		},
 
 		computed: {
-			list() {
-				let bookCase = this.$store.state.book.bookCase.getMyBookCase();
-				console.log(bookCase);
-				return bookCase;
-			},
-			serverTime() {
-				return this.$store.state.serverTime
-			}
+            ...mapGetters('booklist', [
+            	'getMyBookList', 'getMyCollectBookList'
+            ])
 		},
 
 		methods: {
-			//处理时间
-			getTime: function (index) {
-				let item = this.list[index].bookInfo;
-				if (item.IsVip == 1) {
-					return this.judgeTime(item.LastVipChapterUpdateTime, this.serverTime);
-				} else {
-					return this.judgeTime(item.LastChapterUpdateTime, this.serverTime);
-				}
-			},
 
-			//判断当前最新章节
-			getNewChapter: function (index) {
-				let item = this.list[index].bookInfo;
-				if (item.IsVip == 1 || item.IsVip == '1') {
-					return item.LastVipUpdateChapterName;
-				} else {
-					return item.LastUpdateChapterName;
-				}
-			},
-
-			//判断用户多少章未读
-			getUserStatus: function (index) {
-				return "未读";
-			}
 		}
 
 
@@ -85,72 +72,48 @@
 </script>
 
 <style>
-    .bookCase .list {
-        height: 93px;
+    .bookCase {
+        background-color: #eee;
+    }
+
+    .myCollectBookList {
+        background-color: #fff;
+    }
+
+    .myBookList{
+        background-color: #fff;
+        margin-bottom: 0.2rem;
+    }
+
+    .buttomBottom {
+        background-color: #fff;
+        height: 1.2rem;
         display: -webkit-flex;
         display: flex;
-        flex-direction: row;
+        justify-content: center;
         align-items: center;
     }
 
-    .bookCase .list .book-img {
-        width: 55px;
-        height: 73px;
-        padding: 15px 10px 5px 15px;
-    }
-
-    .bookCase .info {
-        padding: 15px 10px 5px 0px;
-        height: 73px;
-        text-align: left;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: #969ba3;
-        font-size: 12px;
+    .createBookListButton {
+        width: 1.7rem;
+        height: 0.5rem;
         display: -webkit-flex;
         display: flex;
-        flex-direction: column;
         justify-content: center;
-        border-bottom: 1px solid #eee;
+        align-items: center;
+        border: 1px solid #d43c33;
+        border-radius: 0.25rem;
     }
 
-    .bookCase .info .title {
-        font-weight: 600;
-        color: #33373d;
-        font-size: 16px;
-        padding-bottom: 5px;
+    .createBookListButton p{
+        font-size: 0.26rem;
+        color:#d43c33;
 
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    }
+    .createBookListButton img{
+        width: 0.32rem;
+        height: 0.32rem;
     }
 
-    .bookCase .author {
-        padding-bottom: 5px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .bookCase .status {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .bookCase .more {
-        margin-right: 15px;
-        padding: 15px 0px 5px 0px;;
-        height: 73px;
-        font-size: 0;
-        align-self: flex-start;
-        border-bottom: 1px solid #eee;
-    }
-
-    .bookCase .more img {
-        width: 30px;
-        height: 30px;
-    }
 
 </style>

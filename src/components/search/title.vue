@@ -7,7 +7,7 @@
                        @keypress="onKeyPressEnter" @input="updateKeyWord" @focus="changePageState('searchHistory')" />
                 <img class="searchImage" src="../../assets/image/icon_close_search_20x20.png" alt="" @click="setKeyWord('')">
             </div>
-            <div class="right" @click="">
+            <div class="right" @click="router.go(-1)">
                 <p class="cancle">取消</p>
             </div>
         </div>
@@ -31,6 +31,9 @@
             ...mapGetters({
 	            keyWord: 'search/getKeyWord',
             }),
+            router() {
+            	return this.$router
+            }
 		},
 
 		mounted() {

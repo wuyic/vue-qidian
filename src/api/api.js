@@ -27,8 +27,13 @@ export default {
 			nodeServiceUrl,
 			{
 				params:{
-					'url': "https://mage.if.qidian.com/argus/api/v1/feeds/getuserfeeds?lastTime=0&pg=1&pz=20",
-					'method': 'get'
+					'url': "https://mage.if.qidian.com/argus/api/v1/feeds/getuserfeeds",
+					'method': 'get',
+					param:paramsToUrlParam({
+						lastTime:0,
+						pg:1,
+						pz:20,
+					}),
 		}})
 	},
 	/**
@@ -70,12 +75,16 @@ export default {
 	 * shudan
 	 * @returns {AxiosPromise<any>}
 	 */
-	getBookList() {
+	getBookList({pageIndex}) {
 		return axios.get(
 			nodeServiceUrl,{
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetMyCollectBookList?page=1&size=20',
-					method: 'get'
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetMyCollectBookList',
+					method: 'get',
+					param:paramsToUrlParam({
+						page:pageIndex,
+						size:20,
+					}),
 				}
 			}
 		)
@@ -91,6 +100,99 @@ export default {
 					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetMyCreateBookList',
 					method:'get'
 				}
+			}
+		)
+	},
+	/**
+	 * 获取创建书单的配置
+	 * @returns {AxiosPromise<any>}
+	 */
+	bookListGetConfig() {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetConfig',
+					method:'get'
+				}
+			}
+		)
+	},
+	/**
+	 * 获取创建书单的配置
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListAdd({desc, name}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Add',
+					method:'post',
+					param:paramsToUrlParam({
+						des:desc,
+						name:name,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 获取书单提示
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListGetTipList({bookListId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetTipList',
+					method:'post',
+					param:paramsToUrlParam({
+						id:bookListId
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 获取书单详情
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListGetTipList({bookListId, page}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Detail',
+					method:'post',
+					param:paramsToUrlParam({
+						id:bookListId,
+						page:page,
+						size:20
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 校验用户手机号
+	 * @returns {AxiosPromise<any>}
+	 */
+	checkSafePhone() {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/User/CheckSafePhone',
+					method:'post',
+				}
+		// {
+		// 	"Result": 0,
+		// 	"Message": "",
+		// 	"Data": {
+		// 	"HasSafePhone": 0 不可以, 1代表可以
+		// 		"Message": "根据《网络安全法》\n该操作需绑定安全手机",
+		// 		"ActionText": "绑定手机",
+		// 		"ActionUrl": "QDReader://aq.yuewen.com/mobile/bindphone",
+		// 		"CancelText": "暂时不"
+		// }
+		// }
 			}
 		)
 	},
@@ -132,11 +234,11 @@ export default {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
-					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/AutoCompleteWithBookList?key='+keyword,
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Search/AutoCompleteWithBookList',
 					method:'get',
-					// param:{
-					// 	key:keyword
-					// }
+					param:paramsToUrlParam({
+						key:keyword,
+					}),
 				}
 			}
 		)
