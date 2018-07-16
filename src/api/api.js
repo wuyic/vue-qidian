@@ -20,6 +20,26 @@ function paramsToUrlParam(obj) {
 	return param.slice(0,-1);
 }
 
+
+let apiList = {
+	getBookCase        :false, //获取书架列表
+	getBookBigType     :false, //获取书籍大分类
+	getBookType        :false, //获取书籍小分类
+	getBookList        :false, //获取我搜藏的书单
+	getMyBookList      :false, //我的书单
+	bookListGetConfig  :false, //获取创建书单的配置
+	BookListAdd        :false, //添加书单
+	BookListGetTipList :false, //获取书单提示
+	BookListGetDetali  :false, //获取书单详情
+	checkSafePhone     :false, //校验用户手机号
+	getSearchTop       :false, //搜索顶部提示
+	getAdGol           :false, //获取全局广告
+	getSearchAutoComputed     :false, //搜索 自动补全
+	getSearchBook      :false, //搜索 书籍
+	getSearchBookList  :false, //搜索 书单
+};
+
+
 export default {
 	//获取书架列表
 	test() {
@@ -118,7 +138,7 @@ export default {
 		)
 	},
 	/**
-	 * 获取创建书单的配置
+	 * 添加书单
 	 * @returns {AxiosPromise<any>}
 	 */
 	BookListAdd({desc, name}) {
@@ -156,7 +176,7 @@ export default {
 	 * 获取书单详情
 	 * @returns {AxiosPromise<any>}
 	 */
-	BookListGetTipList({bookListId, page}) {
+	BookListGetDetali({bookListId, page}) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{

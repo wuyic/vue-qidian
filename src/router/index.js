@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
+import test from '@/components/test'
 import shaixuan from '@/components/index/other/shaixuan'
 import booklist from '@/components/index/bookList/index'
 import search from '@/components/search/index'
@@ -13,6 +14,18 @@ Vue.use(Router);
 
 export default new Router({
 	routes: [
+		{
+			path: '/test',
+			name: 'test',
+			component: test,
+			meta: {
+				introduce:'书架中的筛选 ',
+				title: '',
+				isCommTitle: false,
+				isShowFoot: false,
+				bottom: 1,
+			},
+		},
 		{
 			path: '/',
 			name: 'index',

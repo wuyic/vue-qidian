@@ -75,7 +75,7 @@
 		},
 
 		mounted() {
-			console.log(this.bookListInfo);
+
 		},
 		methods: {
 			getColor(type) {
@@ -243,6 +243,18 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .searchResult .bookTips {
+        width: 1.375rem;
+        height: 0.46rem;
+        line-height: 0.46rem;
+        color:#fff;
+        font-size: 0.12rem;
+        transform: scale(0.8);
+        transform-origin: right;
+        white-space: nowrap;
+        text-align: center;
     }
 
     .myCollected .bookTips {

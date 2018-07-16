@@ -88,36 +88,36 @@
         <div class="searchAns" v-if="pageState=='searchAns'">
             <div class="ansTab">
                 <div @click="change('book')"><p :class="{isSelected:bookOrBookList == 'book'}">作品</p></div>
-                <div @click="change('booklist')"><p :class="{isSelected:bookOrBookList == 'booklist'}">书单</p></div>
+                <div @click="change('bookList')"><p :class="{isSelected:bookOrBookList == 'bookList'}">书单</p></div>
             </div>
-            <div class="ansBook" v-if="bookOrBookList == 'book'" @scroll="getMore('book',$event)">
+            <div class="ansBook" v-if="bookOrBookList == 'book'">
                 <div class="noneAns" v-if="calcIsEmpty('book')">
                     <img src="../../assets/image/slice_empty_170x170.png" alt="">
                     <p>暂无搜索结果</p>
                 </div>
-                <div v-for="item in searchResult.bookCardList" class="ansBookCardList">
-                    <bookSearchAuthor v-if="item.CardType==3" :authorInfo="item.Info"></bookSearchAuthor>
-                    <bookInList v-if="item.CardType==0" :bookInfo="item.Info"></bookInList>
-                    <bookRecomond v-if="item.CardType==2" :bookInfo="item.Info"></bookRecomond>
-                </div>
-                <div v-for="(item, index) in searchResult.book" class="ansBookInfo">
-                    <bookInList :bookInfo="item" :isBottom="true"></bookInList>
-                </div>
-                <loading></loading>
+                <loading :isLoadMore="true" :onLoadMore="getMore">
+                    <div v-for="item in searchResult.bookCardList" class="ansBookCardList">
+                        <bookSearchAuthor v-if="item.CardType==3" :authorInfo="item.Info"></bookSearchAuthor>
+                        <bookInList v-if="item.CardType==0" :bookInfo="item.Info"></bookInList>
+                        <bookRecomond v-if="item.CardType==2" :bookInfo="item.Info"></bookRecomond>
+                    </div>
+                    <div v-for="(item, index) in searchResult.book" class="ansBookInfo">
+                        <bookInList :bookInfo="item" :isBottom="true"></bookInList>
+                    </div>
+                </loading>
             </div>
 
-            <div class="ansBookList" v-if="bookOrBookList == 'booklist'" @scroll="getMore('bookList',$event)">
+            <div class="ansBookList" v-if="bookOrBookList == 'bookList'">
                 <div class="noneAns" v-if="calcIsEmpty('bookList')">
                     <img src="../../assets/image/slice_empty_170x170.png" alt="">
                     <p>暂无搜索结果</p>
                 </div>
-                <div v-for="item in searchResult.bookList">
-                    <bookListInfo :bookListInfo="item" :isBottom="true" :type="'searchResult'"></bookListInfo>
-                </div>
-                <loading></loading>
+                <loading :isLoadMore="true" :onLoadMore="getMore">
+                    <div v-for="item in searchResult.bookList">
+                        <bookListInfo :bookListInfo="item" :isBottom="true" :type="'searchResult'"></bookListInfo>
+                    </div>
+                </loading>
             </div>
-
-
         </div>
     </div>
 </template>
@@ -125,7 +125,7 @@
 
 	import bookInList from '../common/bookInList.vue'
 	import bookListInfo from '../common/bookListInfo.vue'
-	import loading from '../common/loading.vue'
+	import loading from '../common/plug/loading.vue'
 	import bookRecomond from './bookRecomond.vue'
 	import bookSearchAuthor from './bookSearchAuthor.vue'
 	import {mapGetters, mapActions, mapMutations} from 'vuex'
@@ -166,7 +166,6 @@
 			getSearchTipsAll() {
 				this.getSearchTips({});
 			}
-
 		},
 
 		methods: {
@@ -178,7 +177,7 @@
 			]),
 
 			change(type) {
-				if (['booklist', 'book'].indexOf(type) != -1) {
+				if (['bookList', 'book'].indexOf(type) != -1) {
 					this.bookOrBookList = type;
 				}
 			},
@@ -186,15 +185,11 @@
 			/**
 			 *  加载更多
 			 */
-			getMore(type, obj) {
-				obj = obj.currentTarget;
-				let offset = obj.scrollTop;
-				let viewHeight = obj.clientHeight;
-				let allHeight = obj.scrollHeight;
-				if (offset + viewHeight >= allHeight) {
-					this.$store.dispatch('search/searchByKeyWord', {type: type});
-				}
+			getMore() {
+                this.$store.dispatch('search/searchByKeyWord', {type: this.bookOrBookList});
 			},
+
+
 
 			/**
 			 * 计算 搜素结果是否为空

@@ -4,7 +4,9 @@ import api from '../../api/api'
  *  加载中
  */
 const state = {
-	isShowBottom:false
+	isShowBottom:false,
+
+	marginTopDis: -50,
 };
 /**
  *
@@ -17,6 +19,16 @@ const mutations = {
 	setShowBottom(state, status) {
 		state.isShowBottom = status;
 	},
+
+	/**
+	 * 设置距离
+	 * @param state
+	 * @param val
+	 */
+	setMarginTopDis(state, {value}) {
+		value = value || -50;
+		state.marginTopDis = value;
+	}
 };
 
 /**
@@ -26,6 +38,10 @@ const getters = {
 	getShowBottomStatus: (state)  => {
 		return state.isShowBottom;
 	},
+
+	getMarginTopDis: (state) => {
+		return state.marginTopDis;
+	},
 };
 
 /**
@@ -34,6 +50,10 @@ const getters = {
 const actions = {
 	setShowBottom({state, commit}, status) {
 		commit('getShowBottomStatus', status);
+	},
+
+	setMarginTopDis({state, commit}, {value}) {
+		commit('setMarginTopDis', {value:value});
 	}
 };
 

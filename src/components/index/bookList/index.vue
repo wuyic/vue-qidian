@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mybooklist">
         <div class="index-title">
             <indexTitle></indexTitle>
         </div>
@@ -38,7 +38,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
+    .mybooklist {
+        height: 100%;
+        overflow: hidden;
+    }
     .index-title {
         top: 0;
         left: 0;
@@ -49,11 +52,6 @@
 
     .index-reco {
         margin-top: 44px;
-        height: 87px;
-    }
-
-    .index-bookcase {
-        width: 100vw;
-        height: calc(100vh - 44px - 50px);
+        height: 100%;
     }
 </style>

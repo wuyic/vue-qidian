@@ -3,7 +3,7 @@
         <div class="index-title">
             <indexTitle></indexTitle>
         </div>
-        <div class="index-reco">
+        <div class="index-recommond">
             <recommendRead></recommendRead>
         </div>
         <div class="index-bookcase">
@@ -53,13 +53,13 @@
         z-index: 1000;
     }
 
-    .index-reco {
-        margin-top: 44px;
+    .index-recommond {
+        margin-top: 40px;
         height: 87px;
     }
 
     .index-bookcase {
         width: 100vw;
-        height: calc(100vh - 44px - 50px);
+        height: calc(100vh - 40px - 50px);
     }
 </style>
