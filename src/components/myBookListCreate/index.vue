@@ -1,9 +1,13 @@
 <template>
     <div class="mybooklist">
         <div class="index-title">
-            <indexTitle></indexTitle>
+            <indexTitle
+                    :headLeft="{text:'返回', type:'word'}"
+                    :headCenter="{text:'创建书单', type:'word'}"
+                    :headRight="{text:'创建', type:'word',func:createBookList, opt:opt}">
+            </indexTitle>
         </div>
-        <div class="index-reco">
+        <div class="index-reco" @click="">
             <indexList></indexList>
         </div>
     </div>
@@ -12,7 +16,7 @@
 <script>
 
 	import {mapState} from 'vuex'
-	import indexTitle from './title.vue';
+	import indexTitle from '../common/title.vue';
 	import indexList from './list.vue';
 
 	export default {
@@ -20,6 +24,7 @@
 		data() {
 			return {
 				msg: 'Welcome to Your Vue.js App',
+                opt:0.5,
 			}
 		},
 		components: {
@@ -27,11 +32,14 @@
 		},
 		computed: {
 			...mapState({
-				count: state => state.bookcase.count,
-				bookCase: state => state.bookcase.bookCase
-			})
-		}
 
+			})
+		},
+        methods: {
+			createBookList () {
+                console.log('create in')
+			}
+        }
 	}
 </script>
 
@@ -53,5 +61,6 @@
     .index-reco {
         margin-top: 44px;
         height: 100%;
+        background-color: #fff;
     }
 </style>

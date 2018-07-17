@@ -1,12 +1,12 @@
 <template>
     <!--主页下拉刷新的导读页面， 上滑后取消-->
     <div class="bookCase">
-        <div  v-if="!calcIsEmpty" style="height: 100%;">
+        <div  v-if="!calcIsEmpty" style="height: calc(100vh - 44px);">
             <Loading :isLoadMore="true" :onLoadMore="getMyCollectBookListA"
                      :isRefresh="true" :onRefresh="refreshData"
             >
                 <div style="background-color: #eee">
-                    <div class="myBookList">
+                    <div class="myBookList" v-if="getMyBookList.myCreate.length > 0">
                         <div v-for="(item, index) in getMyBookList.myCreate">
                             <bookListInfo :bookListInfo="item"  :isBottom="false" :type="'myBookList'"></bookListInfo>
                         </div>
@@ -19,14 +19,16 @@
                     </div>
                 </div>
                 <div class="buttomBottom">
-                    <div class="createBookListButton" :style="{borderColor: getColor,marginRight: '0.6rem', paddingRight: '0.1rem'}">
-                        <img v-if="getColor=='#d43c33'" src="../../../assets/image/icon_mybooklist_add_16x16.png" alt="">
-                        <img v-if="getColor!='#d43c33'" src="../../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
+                    <div class="createBookListButton"
+                         :style="{borderColor: getColor,marginRight: '0.6rem', paddingRight: '0.1rem'}"
+                         @click="myBookListAddClick({router:GetRouter})">
+                        <img v-if="getColor=='#d43c33'" src="../../assets/image/icon_mybooklist_add_16x16.png" alt="">
+                        <img v-if="getColor!='#d43c33'" src="../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
                         <p :style="{color:getColor}">创建书单</p>
                     </div>
                     <div class="createBookListButton" style="padding-left: 0.1rem;">
                         <p>关注书单</p>
-                        <img src="../../../assets/image/icon_mybooklist_seemore_17x16.png" alt="">
+                        <img src="../../assets/image/icon_mybooklist_seemore_17x16.png" alt="">
                     </div>
                 </div>
             </Loading>
@@ -34,30 +36,46 @@
 
         <!--为空-->
         <div class="bookListNone" v-if="calcIsEmpty">
-            <img class="noneImg" src="../../../assets/image/pic_collection_170x150.png" alt="" >
+            <img class="noneImg" src="../../assets/image/pic_collection_170x150.png" alt="" >
             <p class="tipWord">可在"发现／书单"中关注书单</p>
             <div class="buttomBottom">
                 <div class="createBookListButton"
-                     :style="{borderColor: getColor,marginRight: '0.6rem', paddingRight: '0.1rem'}">
-                    <img v-if="getColor=='#d43c33'" src="../../../assets/image/icon_mybooklist_add_16x16.png" alt="">
-                    <img v-if="getColor!='#d43c33'" src="../../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
+                     :style="{borderColor: getColor,marginRight: '0.6rem', paddingRight: '0.1rem'}"
+                     @click="myBookListAddClick({router:GetRouter})">
+                    <img v-if="getColor=='#d43c33'" src="../../assets/image/icon_mybooklist_add_16x16.png" alt="">
+                    <img v-if="getColor!='#d43c33'" src="../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
                     <p :style="{color:getColor}">创建书单</p>
                 </div>
                 <div class="createBookListButton" style="padding-left: 0.1rem;">
                     <p>关注书单</p>
-                    <img src="../../../assets/image/icon_mybooklist_seemore_17x16.png" alt="">
+                    <img src="../../assets/image/icon_mybooklist_seemore_17x16.png" alt="">
                 </div>
             </div>
         </div>
-
+        <Toast :type="'toastBox'" :position="'center'" v-if="getOpenPhoneTips">
+            <div class="bindMobileTipBox">
+                <div class="title">
+                    <img class="close" src="../../assets/image/icon_close_16x16.png" alt="">
+                </div>
+                <div class="body">
+                    <p>根据《网络安全法》</p>
+                    <p>该操作需绑定安全手机</p>
+                </div>
+                <div class="bottom">
+                    <p class="temNo">暂时不</p>
+                    <p class="bindMobile">绑定手机</p>
+                </div>
+            </div>
+        </Toast>
     </div>
 </template>
 <script>
 	/**
      * 我的书单
 	 */
-	import bookListInfo from '../../common/bookListInfo.vue'
-    import Loading from '../../common/plug/loading.vue';
+	import bookListInfo from '../common/bookListInfo.vue'
+    import Loading from '../common/plug/loading.vue';
+    import Toast from '../common/plug/Toast.vue';
 	import {mapGetters, mapActions, mapMutations} from 'vuex'
 
 	export default {
@@ -68,7 +86,7 @@
 			}
 		},
         components: {
-	        bookListInfo,Loading
+	        bookListInfo,Loading,Toast
         },
 
 		created() {
@@ -80,7 +98,10 @@
 
 		computed: {
             ...mapGetters('booklist', [
-            	'getMyBookList', 'getMyCollectBookList', 'getColor'
+            	'getMyBookList',
+                'getMyCollectBookList',
+                'getColor',
+                'getOpenPhoneTips',
             ]),
             calcIsEmpty() {
             	console.log(this.getMyBookList.myCreate.length, this.getMyCollectBookList.list.length);
@@ -88,24 +109,28 @@
 	            	return true;
                 }
                 return false;
+            },
+
+            GetRouter() {
+            	return this.$router
             }
 		},
 
 		methods: {
             ...mapActions('booklist', [
-	            'getMyCollectBookListA', 'refreshData'
+	            'getMyCollectBookListA', 'refreshData', 'myBookListAddClick'
             ]),
+
 		}
 
 
 	}
 </script>
 
-<style>
+<style scoped>
     .bookCase {
         background-color: #eee;
         height: 100%;
-
     }
 
     .myCollectBookList {
@@ -170,5 +195,63 @@
         color: #e7e7e7;
     }
 
+    .bindMobileTipBox {
+        height: 2.85rem;
+        width: 4.9rem;
+        background-color: #fff;
+        border-radius: 0.2rem;
+    }
+    .bindMobileTipBox .title {
+        height: 0.55rem;
+    }
+    .bindMobileTipBox .title :after{
+        clear:both;
+        content:'.';
+        display:block;
+        width: 0;height: 0;visibility:hidden;
+    }
+    .bindMobileTipBox .title .close{
+        width: 0.35rem;
+        height: 0.35rem;
+        float: right;
+        padding: 0.2rem 0.2rem 0 0;
+    }
+    .bindMobileTipBox .body{
+
+    }
+    .bindMobileTipBox .body p{
+        line-height: 0.4rem;
+        text-align: center;
+        color:#4c4c4c;
+        padding-bottom: 0.05rem;
+    }
+    .bindMobileTipBox .bottom{
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.3rem 0;
+    }
+
+    .bindMobileTipBox .bottom .temNo{
+        border:2px solid #d43c33;
+        height: 0.6rem;
+        line-height: 0.6rem;
+        width: 1.9rem;
+        border-radius: 0.3rem;
+        background-color: #fff;
+        color:#d43c33;
+
+    }
+    .bindMobileTipBox .bottom .bindMobile{
+        margin-left: 0.2rem;
+        border:2px solid #d43c33;
+        height: 0.6rem;
+        line-height: 0.6rem;
+        width: 1.9rem;
+        border-radius: 0.3rem;
+        background-color: #d43c33;
+        color:#fff;
+    }
 
 </style>

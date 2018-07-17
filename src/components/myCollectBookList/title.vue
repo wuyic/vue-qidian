@@ -2,7 +2,7 @@
     <div class="index-title">
         <div class="flexbox">
             <div class="left" style="opacity:0">
-                <img src="../../../assets/image/saixuan.png" alt="" class="left-img">
+                <img src="../../assets/image/saixuan.png" alt="" class="left-img">
                 <p class="left-word">筛选</p>
             </div>
 
@@ -21,8 +21,8 @@
                 </div>
             </div>
             <div class="right">
-                <img class="right-img" src="../../../assets/image/search.png" alt=""  @click="goTo('search')">
-                <img style="margin-left: 0.15rem" class="right-img" src="../../../assets/image/more.png" alt="" @click="changeState()">
+                <img class="right-img" src="../../assets/image/search.png" alt=""  @click="goTo('search')">
+                <img style="margin-left: 0.15rem" class="right-img" src="../../assets/image/more.png" alt="" @click="changeState()">
             </div>
         </div>
 
@@ -47,9 +47,9 @@
 				isSelected: 'guanzhu',
 				showTab: false,
 				list: [
-					{name: '创建书单', iconUrl: require('../../../assets/image/icon_picture_25x25.png')},
-					{name: '花束明细', iconUrl: require('../../../assets/image/icon_nightMode_24x24.png')},
-					{name: '关于书单', iconUrl: require('../../../assets/image/QDScanner_bookCase_icon.png')},
+					{name: '创建书单', iconUrl: require('../../assets/image/icon_picture_25x25.png')},
+					{name: '花束明细', iconUrl: require('../../assets/image/icon_nightMode_24x24.png')},
+					{name: '关于书单', iconUrl: require('../../assets/image/QDScanner_bookCase_icon.png')},
 				],
 			}
 		},
@@ -68,7 +68,7 @@
 	}
 </script>
 
-<style scoped="">
+<style scoped>
     .index-title {
 
     }
@@ -78,7 +78,6 @@
         /*background: -o-linear-gradient(right, #db5051, #ee7160); !* Opera 11.1 - 12.0 *!*/
         /*background: -moz-linear-gradient(right, #db5051, #ee7160); !* Firefox 3.6 - 15 *!*/
         /*background: linear-gradient(to right, #db5051, #ee7160); !* 标准的语法（必须放在最后） *!*/
-
         background-color: #d43c33;
         width: 6.96rem;
         height: 0.8rem;

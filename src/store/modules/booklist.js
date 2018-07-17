@@ -16,17 +16,27 @@ const state = {
 	 * 我的书单
 	 */
 	myBookList: {
-		des: "已经达到创建书单上限了哦~",
-		enable: 2,
-		myCreate: [],
-		url: "https://acts.qidian.com/2017/5799909/index.html",
-		urlText: "了解详情",
+		"enable": 1,
+		"url": "https://acts.qidian.com/2017/5799909/index.html",
+		"des": "你可以创建书单哦~",
+		"urlText": "了解详情",
+		"myCreate": []
 	},
+
+	/**
+	 * openPhoneTips
+	 */
+	openPhoneTips:false,
 
 	/**
 	 * 创建书单基础信息
 	 */
-	createBookList: {},
+	createBookList: {
+		nameMaxWord:25,
+		infoMaxWord:500,
+		backgroundColor:['', '#f1f4f3']
+
+	},
 
 	/**
 	 * 创建书单的颜色
@@ -35,6 +45,11 @@ const state = {
 		'#9b9b9b',
 		'#d43c33'
 	],
+
+	/**
+	 * 校验安全手机号
+	 */
+	HasSafePhone:0,  //0不行 1行
 };
 
 
@@ -68,12 +83,15 @@ const mutations = {
 	 */
 	setMyBookList(state, data) {
 		if (data) {
-			state.myBookList = data
+			state.myBookList = data;
+			if (!state.myBookList.myCreate) {
+				state.myBookList.myCreate = [...[]];
+			}
 		}
 	},
 
 	/**
-	 *
+	 * 刷新
 	 */
 	refreshInit(state) {
 		// state.bookList.list = [...[]];
@@ -99,6 +117,9 @@ const getters = {
 			return state.color[0];
 		}
 		return state.color[1];
+	},
+	getOpenPhoneTips(state) {
+		return state.openPhoneTips;
 	}
 
 };
@@ -111,7 +132,7 @@ const actions = {
 	 * 获取我收藏的书单列表
 	 */
 	getMyCollectBookListA({state, commit, RootState}) {
-		state.bookList.pageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
+		!state.bookList.isOver && state.bookList.pageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
 		!state.bookList.isOver && api.getBookList({pageIndex:state.bookList.pageIndex}).then(data => {
 			console.log('获取我关注的书单', data);
 			data.data.Data && state.bookList.pageIndex++;
@@ -137,12 +158,45 @@ const actions = {
 		})
 	},
 
+	/**
+	 * 下拉刷新
+	 * @param state
+	 * @param commit
+	 * @param RootState
+	 */
 	refreshData({state, commit, RootState}) {
 		commit('refreshInit');
 		console.log('state', state);
 		actions.getMyCollectBookListA({state, commit, RootState});
 		actions.getMyBookList({state, commit, RootState});
 		commit('loading/setMarginTopDis',{}, {root: true});
+	},
+
+
+	/**
+	 * 点击创建书单后
+	 * @param state
+	 * @param commit
+	 * @param RootState
+	 */
+	myBookListAddClick({state, commit, RootState}, {router}) {
+		if (state.myBookList.enable == 2) {
+			return ;
+		}
+		api.checkSafePhone().then(
+			data=>{
+				console.log('校验手机号返回', data);
+				if (data.data.Data.HasSafePhone == 1) {
+					state.openPhoneTips = false;
+					router.push({name:'myBookListCreate'})
+				} else {
+					state.openPhoneTips = true;
+				}
+			}
+		).catch(
+
+		)
+
 	}
 };
 

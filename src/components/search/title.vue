@@ -104,7 +104,6 @@
         height: 100%;
         border: 0;
         font-size: 0.28rem;
-
     }
 
     .flexbox .searchText:focus {
@@ -112,7 +111,6 @@
         height: 100%;
         border: 0;
         outline: none;
-
     }
 
     .flexbox .cancle {

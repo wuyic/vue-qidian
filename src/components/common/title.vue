@@ -1,33 +1,35 @@
 <template>
     <div class="common">
-        <div class="head-title">
-            <div class="head-body">
+        <div class="headTitle">
+            <div class="headLeft">
+                <!--<img class="headLeftImg" src="../../assets/image/close.png" alt="">-->
+                <p>{{headLeft.text}}</p>
+            </div>
 
-                <div class="head-left">
-                    <img class="head-left-img" src="../../assets/image/close.png" alt="">
-                </div>
+            <div class="headCenter">
+                <p style="font-size: 0.30rem">{{headCenter.text}}</p>
+            </div>
 
-                <div class="head-center">
-                    <p>{{getTitle.title}}</p>
-                </div>
-
-                <div class="head-right">
-
-                </div>
+            <div class="headRight">
+                <p :style="{opacity: headRight.opt || 1}">{{headRight.text}}</p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-
 	export default {
+		props:{
+			headLeft   :{type:Object, default:()=>({text:'返回', type:'word', func:null,})},
+			headCenter :{type:Object, default:()=>({text:'标题', type:'word', func:null})},
+			headRight  :{type:Object, default:()=>({text:'确定', type:'word', func:null, opt:1})},
+        },
 		name: 'commonTitle',
 		data() {
 			return {}
 		},
 		mounted() {
-
+			console.log(this)
 		},
 		methods: {},
 
@@ -35,37 +37,40 @@
 </script>
 
 <style scoped>
-    .shaixuan .head-title {
-        border-bottom: 1px solid #f00;
+    p {
+        font-size: 0.28rem;
+        color:#fff;
     }
 
-    .shaixuan .head-body {
-        height: 0.80rem;
-        padding: 0 15px 0 15px;
-
+    .common .headTitle {
+        background-color: #d43c33;
+        width: 6.96rem;
+        height: 0.8rem;
+        padding-left: 0.27rem;
+        padding-right: 0.27rem;
         display: -webkit-flex;
         display: flex;
         flex-direction: row;
+        justify-content: space-around;
         align-items: center;
     }
 
-    .shaixuan .head-left-img {
+
+    .common .headLeftImg {
         width: 0.40rem;
         height: 0.40rem;
     }
 
-    .shaixuan .head-left {
-        width: 0.80rem;
-        flex-grow: 0;
-        font-size: 0;
+    .common .headLeft {
+        width: 44px;
     }
 
-    .shaixuan .head-center {
+    .common .headCenter {
         width: 50vw;
         flex-grow: 1;
     }
 
-    .shaixuan .head-right {
+    .common .headRight {
         width: 44px;
         flex-grow: 0;
     }
