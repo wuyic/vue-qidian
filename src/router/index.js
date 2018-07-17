@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import index from '@/components/index'
 import test from '@/components/test'
 import shaixuan from '@/components/index/other/shaixuan'
-import booklist from '@/components/index/bookList/index'
+import booklist from '@/components/myCollectBookList/index'
+import myBookListCreate from '@/components/myBookListCreate/index'
 import search from '@/components/search/index'
 
 import good from '@/components/good'
@@ -55,6 +56,15 @@ export default new Router({
 				introduce:'首页-书单列表',
 
 				title: '书单'
+			}
+		},
+		{
+			path: '/booklist/create',
+			name: 'myBookListCreate',
+			component: myBookListCreate,
+			meta: {
+				introduce:'创建书单',
+				title: '创建书单',
 			}
 		},
 		{
