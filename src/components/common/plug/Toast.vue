@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}">
+        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}" v-if="isShowToast || isShowBox">
             <transition name="toast">
                 <div class="toastTipWord" v-if="type=='toast' && isShowToast">
                     <p>{{textVal}}</p>
@@ -15,53 +15,57 @@
 
 <script>
 	import {mapGetters, mapActions} from 'vuex';
+
 	export default {
 		props: {
-			'type':{default:'toast', all:['toast', 'toastBox']},
-            'position':{default:'center'},
-            'timeout':{default:500},
-            'zIndex':{default:100000}
+			'type': {default: 'toast', all: ['toast', 'toastBox']},
+			'position': {default: 'center'},
+			'timeout': {default: 500},
+			'zIndex': {default: 100000}
 		},
 		name: 'loading',
 		data() {
 			return {
-				isShowToast:false,
-				textVal:'',
-            }
+				isShowToast: false,
+				textVal: '',
+				isShowBox: false,
+			}
 		},
 
-        computed:{
+		computed: {
 			calcBGC() {
 				if (this.type == 'toast') {
 					return 'rgba(ff,ff,ff,1)';
-                } else if (this.type == 'toastBox') {
-					return 'rgba(33,33,33,0.15)';
-                }
-            },
+				} else if (this.type == 'toastBox') {
+					return 'rgba(33,33,33,0.5)';
+				}
+			},
 
-	        calcJC() {
-		        if (this.position == 'bottom') {
-			        return 'flex-end'
-		        } else if (this.position == 'top') {
-			        return 'flex-start'
-		        } else {
-                    return 'center'
-                }
-            }
-        },
+			calcJC() {
+				if (this.position == 'bottom') {
+					return 'flex-end'
+				} else if (this.position == 'top') {
+					return 'flex-start'
+				} else {
+					return 'center'
+				}
+			}
+		},
 
 		mounted() {
 
 		},
 
 		methods: {
-            toastText({text, timeout}) {
-	            this.isShowToast = true;
-            	this.textVal = text;
-	            timeout && (this.timeout = timeout);
-	            setTimeout(()=>{this.isShowToast = false}, this.timeout)
-            }
-        },
+			toastText({text, timeout}) {
+				this.isShowToast = true;
+				this.textVal = text;
+				timeout && (this.timeout = timeout);
+				setTimeout(() => {
+					this.isShowToast = false
+				}, this.timeout)
+			}
+		},
 	}
 </script>
 
@@ -70,7 +74,7 @@
         width: 100vw;
         height: 100vh;
         position: absolute;
-        left:0;
+        left: 0;
         top: 0;
         display: -webkit-flex;
         display: flex;
@@ -81,17 +85,22 @@
 
     .toastTipWord {
         background-color: #3c3c3c;
-        min-width: 3.2rem;
-        height: 1rem;
+        width: 3.2rem;
         line-height: 1rem;
         border-radius: 0.1rem;
-        color:#fff;
+        color: #fff;
         font-size: 0.26rem;
-
         -webkit-transition: height 0.3s ease-out;
         -moz-transition: height 0.3s ease-out;
         -o-transition: height 0.3s ease-out;
         transition: height 0.3s ease-out;
+    }
+
+    .toastTipWord p {
+        padding: 0.25rem;
+        line-height: 0.4rem;
+        margin: 0 auto;
+        white-space: pre-wrap;
     }
 
     .toast-enter-active, .toast-leave-active {

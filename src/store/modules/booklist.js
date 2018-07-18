@@ -34,8 +34,11 @@ const state = {
 	createBookList: {
 		nameMaxWord:25,
 		infoMaxWord:500,
-		backgroundColor:['', '#f1f4f3']
-
+		backgroundColor:['#fef4f3', '#f6f7f9'],
+		color:['#d43c33', '#333'],
+		name:'',
+		info:'',
+		myBookListId:0,
 	},
 
 	/**
@@ -98,6 +101,13 @@ const mutations = {
 		state.bookList.pageIndex = 1;
 		state.bookList.isOver = false;
 		// state.myBookList.myCreate = [...[]];
+	},
+
+	/**
+	 * 创建书单时， 属性
+	 */
+	setCreateValue: (state, {type, value}) => {
+		state.createBookList[type] = value;
 	}
 };
 
@@ -120,8 +130,60 @@ const getters = {
 	},
 	getOpenPhoneTips(state) {
 		return state.openPhoneTips;
-	}
+	},
+	/**
+	 * 获取创建书单时的信息
+	 * @param state
+	 * @returns {state.createBookList|{nameMaxWord, infoMaxWord, backgroundColor, color, name, info}}
+	 */
+	getCreateBookInfo(state) {
+		return state.createBookList;
+	},
+	getCreateBookListColor: (state) => (type) => {
+		let obj = state.createBookList;
+		switch(type){
+			case 'nameTextColor':
+				if (obj.name.length > obj.nameMaxWord) {
+					return obj.color[0];
+				}
+				return obj.color[1];
+				break;
 
+			case 'nameBackGroundColor':
+				if (obj.name.length > obj.nameMaxWord) {
+					return obj.backgroundColor[0];
+				}
+				return obj.backgroundColor[1];
+				break;
+			case 'infoTextColor':
+				if (obj.info.length > obj.infoMaxWord) {
+					return obj.color[0];
+				}
+				return obj.color[1];
+				break;
+			case 'infoBackGroundColor':
+				if (obj.name.length > obj.infoMaxWord) {
+					return obj.backgroundColor[0];
+				}
+				return obj.backgroundColor[1];
+				break;
+		}
+	},
+
+	/**
+	 * title右上角创建的透明度
+	 * @param state
+	 * @returns {number}
+	 */
+	getCreateOpt(state) {
+		let obj = state.createBookList;
+		console.log(obj.name.length, obj.info.length);
+		if (obj.name.length > 0 && obj.name.length <= obj.nameMaxWord &&
+			obj.info.length > 0 && obj.info.length <= obj.infoMaxWord) {
+			return 1;
+		}
+		return 0.5;
+	}
 };
 
 /**
@@ -174,7 +236,7 @@ const actions = {
 
 
 	/**
-	 * 点击创建书单后
+	 * 点击创建书单后 校验成功则跳转到创建页面， 否则弹出提示
 	 * @param state
 	 * @param commit
 	 * @param RootState
@@ -197,6 +259,31 @@ const actions = {
 
 		)
 
+	},
+
+
+	/**
+	 * 创建书单
+	 */
+	createBookList({state, commit, RootState}, {router, toast}) {
+		console.log('111');
+		let obj = state.createBookList;
+		if (obj.name.length > 0 && obj.name.length <= obj.nameMaxWord &&
+			obj.info.length > 0 && obj.info.length <= obj.infoMaxWord) {
+			console.log('in');
+			api.BookListAdd({desc:obj.info, name:obj.name}).then(
+				data => {
+					console.log('创建书单返回', data);
+					if (data.data.Result != 0) {
+						toast({text:data.data.Message, timeout:1500})
+						// router.push({name:'bookListmyCollect'});
+					} else {
+						state.createBookList.myBookListId = data.data.Data.id;
+						// router.push({name:'booklistDetail'});
+					}
+				}
+			)
+		}
 	}
 };
 

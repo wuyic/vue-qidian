@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <div style="margin-left: 20px" @click="goTo('booklist')">
+                <div style="margin-left: 20px" @click="goTo('bookListmyCollect')">
                     <p :class="{centerWord:true, isSelectedWord:isSelected=='guanzhu'}">书单</p>
                     <div :class="{line:true, selectedLine:isSelected=='guanzhu'}">
                     </div>

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import index from '@/components/index'
 import test from '@/components/test'
 import shaixuan from '@/components/index/other/shaixuan'
-import booklist from '@/components/myCollectBookList/index'
+import bookListmyCollect from '@/components/myCollectBookList/index'
 import myBookListCreate from '@/components/myBookListCreate/index'
 import search from '@/components/search/index'
 
@@ -49,9 +49,9 @@ export default new Router({
 			}
 		},
 		{
-			path: '/index/booklist',
-			name: 'booklist',
-			component: booklist,
+			path: '/booklist/myCollect',
+			name: 'bookListmyCollect',
+			component: bookListmyCollect,
 			meta: {
 				introduce:'首页-书单列表',
 

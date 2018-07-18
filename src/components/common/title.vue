@@ -10,14 +10,16 @@
                 <p style="font-size: 0.30rem">{{headCenter.text}}</p>
             </div>
 
-            <div class="headRight">
+            <div class="headRight" @click="headRight.func({router:getRouter, toast:getToast})">
                 <p :style="{opacity: headRight.opt || 1}">{{headRight.text}}</p>
             </div>
         </div>
+        <Toast ref="toast" :type="'toast'"></Toast>
     </div>
 </template>
 
 <script>
+    import Toast from './plug/Toast.vue'
 	export default {
 		props:{
 			headLeft   :{type:Object, default:()=>({text:'返回', type:'word', func:null,})},
@@ -26,10 +28,23 @@
         },
 		name: 'commonTitle',
 		data() {
-			return {}
+			return {
+
+            }
 		},
+        components: {
+	        Toast
+        },
+        computed: {
+	        getRouter() {
+		        return this.$router
+	        },
+	        getToast() {
+	        	return this.$refs.toast.toastText
+            }
+        },
 		mounted() {
-			console.log(this)
+//			this.getToast({text:'张三李岁似懂非懂发送到发送地方撒风到发送地方', timeout:500000})
 		},
 		methods: {},
 

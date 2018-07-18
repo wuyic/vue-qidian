@@ -15,7 +15,7 @@
 
 <script>
 	import {mapGetters, mapActions} from 'vuex'
-	import indexTitle from '../common/title.vue';
+	import indexTitle from './title.vue';
 	import indexList from './list.vue';
 
 	export default {
