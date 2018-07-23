@@ -37,10 +37,136 @@ let apiList = {
 	getSearchAutoComputed     :false, //搜索 自动补全
 	getSearchBook      :false, //搜索 书籍
 	getSearchBookList  :false, //搜索 书单
+	BookListFilterBooks:false, //获取书单中的过滤
+	BookListDislikeBook:false, //书单 拍砖
+	BookListLikeBook   :false, //书单 喜欢
+	BookCaseAdd        :false, //加入书架
+	BookListCollect    :false, //搜藏书单
 };
 
 
 export default {
+
+	/**
+	 * 书单  加入书架
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookCaseAdd({bookListId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookCase/Refresh',
+					method:'post',
+					param:paramsToUrlParam({
+						CaseInfo:{
+							"DelCate" : [],
+							"NewBook" : [{
+								     "BookType" : 1,
+									"BId" : 1003581222,
+									"CId" : 0,
+									"OpTime" : 1531983545971.541,
+									"IsTop" : 0
+								}
+							],
+							"EditBook" : [],
+							"DelBook" : [],
+							"NewCate" : [],
+							"EditCate" : []
+						},
+						LastSyncTime:1531983299466,
+						bookUpdateMaxTime:1531982071000,
+						pageIndex:1,
+						pageSize:999999,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书单  喜欢
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListLikeBook({bookid, id, type}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/LikeBook',
+					method:'post',
+					param:paramsToUrlParam({
+						bookid:bookid,
+						id:id,
+						type:type,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书单  拍砖
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListDislikeBook({bookid, id, type}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/DislikeBook',
+					method:'post',
+					param:paramsToUrlParam({
+						bookid:bookid,
+						id:id,
+						type:type,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取书单中的过滤
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListFilterBooks({bookListId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/FilterBooks',
+					method:'post',
+					param:paramsToUrlParam({
+						bookListId:562910,
+						categoryId:	2,
+						keyword:'男频',
+						page:1,
+						size:20,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取书单中的过滤
+	 * type 0 搜藏   type=1 取消搜藏
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListCollect({bookListId, type}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Collect',
+					method:'post',
+					param:({
+						id:bookListId,
+						type:type,
+					}),
+				}
+			}
+		)
+	},
+
+
+
 	//获取书架列表
 	test() {
 		return axios.get(
@@ -164,7 +290,7 @@ export default {
 			nodeServiceUrl, {
 				params:{
 					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetTipList',
-					method:'post',
+					method:'get',
 					param:paramsToUrlParam({
 						id:bookListId
 					}),
@@ -181,7 +307,7 @@ export default {
 			nodeServiceUrl, {
 				params:{
 					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Detail',
-					method:'post',
+					method:'get',
 					param:paramsToUrlParam({
 						id:bookListId,
 						page:page,

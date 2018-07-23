@@ -2,6 +2,9 @@ import api from '../../api/api'
 
 const state = {
 	count: 0,
+	/**
+	 * 我的书单 书单列表
+	 */
 	bookList: {
 		list:[],
 		pageIndex:1,
@@ -24,9 +27,15 @@ const state = {
 	},
 
 	/**
+	 * 创建书单时判断手机号
 	 * openPhoneTips
 	 */
 	openPhoneTips:false,
+
+	/**
+	 * 校验安全手机号
+	 */
+	HasSafePhone:0,  //0不行 1行
 
 	/**
 	 * 创建书单基础信息
@@ -50,9 +59,60 @@ const state = {
 	],
 
 	/**
-	 * 校验安全手机号
+	 * 书单详情
 	 */
-	HasSafePhone:0,  //0不行 1行
+	bookListDetail:{
+		id:455220,
+		tips:{"authorHeadImg": "https://qidian.qpic.cn/qd_face/349573/5783386/100",
+			"authorId": 2380038,
+			"authorName": "感动中国",
+			"ownerDes": "史上最强老书虫",
+			"isSelfCreate": 0,
+			"tipTimes": 1595,
+			"userBalance": 501,
+			"readingCoupons": 0,
+			"helpUrl": "http://ih5.if.qidian.com/statics/help/ios/help_booklist.htm",
+			"qdText": "优质书单需要鼓励，献花支持一下吧",
+			"gearList": [{
+				"price": 10,
+				"selected": 1,
+				"unit": "点",
+				"text": "1"
+			}, {
+				"price": 50,
+				"selected": 0,
+				"unit": "点",
+				"text": "6"
+			}, {
+				"price": 100,
+				"selected": 0,
+				"unit": "点",
+				"text": "15"
+			}],
+			"voteHistoryList": [{
+				"userImg": "https://qidian.qpic.cn/qd_face/349573/5567283/100"
+			}, {
+				"userImg": "https://qidian.qpic.cn/qd_face/349573/1079692/100"
+			}, {
+				"userImg": "https://qidian.qpic.cn/qd_face/349573/1970579/100"
+			}, {
+				"userImg": "https://qidian.qpic.cn/qd_face/349573/5424917/100"
+			}, {
+				"userImg": "https://qidian.qpic.cn/qd_face/349573/3081101/100"
+			}, {
+				"userImg": "https://qidian.qpic.cn/qd_face/349573/775022/100"
+			}]},
+		info:{},
+		books:[],
+		pageIndex:1,
+		isOver:false,
+		filter:{
+			categoryId:-1,
+			pageIndex:1,
+			isOver:false,
+		}
+
+	}
 };
 
 
@@ -108,6 +168,17 @@ const mutations = {
 	 */
 	setCreateValue: (state, {type, value}) => {
 		state.createBookList[type] = value;
+	},
+
+	/**
+	 * 书单详情内的书籍列表
+	 */
+	setBookInBookListDetail:(state, list) => {
+		if (state.bookListDetail.pageIndex == 1) {
+			state.bookListDetail.books = [...list];
+		} else {
+			state.bookListDetail.books = [...state.bookListDetail.books,...list];
+		}
 	}
 };
 
@@ -183,7 +254,9 @@ const getters = {
 			return 1;
 		}
 		return 0.5;
-	}
+	},
+
+
 };
 
 /**
@@ -221,7 +294,7 @@ const actions = {
 	},
 
 	/**
-	 * 下拉刷新
+	 * 下拉刷新 我的书单
 	 * @param state
 	 * @param commit
 	 * @param RootState
@@ -284,6 +357,133 @@ const actions = {
 				}
 			)
 		}
+	},
+
+
+	/**
+	 * 书单详情
+	 */
+	getBookListDetail:({state, commit, RootState}) => {
+		let detail = state.bookListDetail;
+
+		if (detail.id == 0) {
+			return ;
+		}
+
+		detail.pageIndex == 1 && api.BookListGetTipList({bookListId:detail.id}).then(
+			data=>{
+				console.log('书单Tip获取成功', data);
+				if (data.data.Result == 0) {
+					state.bookListDetail.tips = data.data.Data;
+				}
+			}
+		);
+		!detail.isOver && detail.pageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
+		!detail.isOver && api.BookListGetDetali({bookListId:detail.id,page:detail.pageIndex}).then(
+			data => {
+				console.log('书单详情获取成功', data);
+				if (data.data.Result == 0) {
+					commit('setBookInBookListDetail', data.data.Data.books);
+					state.bookListDetail.info = data.data.Data;
+					data.data.Data && data.data.Data.books.length < 20 && (state.bookListDetail.isOver = true);
+					state.bookListDetail.pageIndex++;
+					if (state.bookList.pageIndex > 1) {
+						commit('loading/setShowBottom', false, {root: true});
+					}
+				}
+
+			}
+		)
+	},
+
+	/**
+	 * 下拉刷新 书单详情
+	 * @param state
+	 * @param commit
+	 * @param RootState
+	 */
+	refreshDataBookListDetail({state, commit, RootState}) {
+		state.bookListDetail.pageIndex = 1;
+		state.bookListDetail.isOver = false;
+		actions.getBookListDetail({state, commit, RootState});
+		commit('loading/setMarginTopDis',{}, {root: true});
+	},
+
+	/**
+	 * 书单详情 过滤
+	 */
+	getBookListFilter:({state, commit, RootState}) => {
+		let detail = state.bookListDetail;
+		!detail.filter.isOver && api.BookListGetDetali({bookListId:detail.id,page:detail.pageIndex}).then(
+			data => {
+				console.log('书单过滤', data);
+				state.bookListDetail.filter.pageIndex++;
+			}
+		)
+	},
+
+
+
+	/**
+	 * 喜欢与拍砖
+	 * 喜欢成功， 则改变喜欢状态 并且在数组中改变拍砖状态
+	 */
+	BookListLikeOrNot: ({state, commit, RootState}, {type, index}) => {
+
+		let detail = state.bookListDetail;
+		console.log(index, detail.books[index]);
+		let params = {bookid:detail.books[index].bookId, id:detail.id, type:0};
+		console.log('compare', detail.books[index]);
+		if (type=='like') {
+			params.type = detail.books[index].isSelftFavored;
+			let addOrDes = params.type == 1 ? -1 : 1;
+			api.BookListLikeBook(params).then(
+				data=>{
+					console.log('喜欢成功',data);
+					if (data.data.Result == 0) {
+						detail.books[index].beFavoredCount += addOrDes;
+						detail.books[index].isSelftFavored = (detail.books[index].isSelftFavored+1) % 2;
+						console.log('compare', detail.books[index]);
+						if (detail.books[index] && detail.books[index].hasDisliked == 1 && detail.books[index].isSelftFavored) {
+							detail.books[index].hasDisliked = 0;
+							detail.books[index].dislikedCount -= 1;
+						}
+					}
+				}
+			)
+		}
+
+		if (type=='dislike') {
+			params.type = detail.books[index].hasDisliked;
+			let addOrDes = params.type == 1 ? -1 : 1;
+			api.BookListDislikeBook(params).then(
+				data=>{
+					console.log('拍砖成功',data);
+					if (data.data.Result == 0) {
+						detail.books[index].dislikedCount += addOrDes;
+						detail.books[index].hasDisliked = (detail.books[index].hasDisliked+1) % 2;
+						if (detail.books[index] && detail.books[index].isSelftFavored == 1  && detail.books[index].hasDisliked) {
+							detail.books[index].isSelftFavored = 0;
+							detail.books[index].beFavoredCount -= 1;
+						}
+					}
+				}
+			)
+		}
+	},
+
+	/**
+	 * 收藏书单 取消收藏  0收藏  1取消收藏
+	 */
+	BookListCollect: ({state, commit, RootState}) => {
+		let detail = state.bookListDetail;
+		api.BookListCollect({bookListId:detail.info.id, type:detail.info.isCollect}).then(
+			data => {
+				console.log('添加/取消收藏书单成功', data);
+				state.bookListDetail.info.isCollect = (detail.info.isCollect + 1) % 2;
+				state.bookListDetail.info.collectCount += (detail.isCollect==1?-1:1);
+			}
+		)
 	}
 };
 

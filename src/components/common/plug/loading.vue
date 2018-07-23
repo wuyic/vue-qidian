@@ -6,7 +6,7 @@
             <div class="refreshData" v-if="isRefresh" :style="{marginTop: marginTopDis + 'px'}">
                 <img class="img" src="../../../assets/image/loading.gif" alt="">
             </div>
-            <div style="background-color: #fff">
+            <div style="background-color: #f5f5f5;margin-bottom: 50px;">
                 <slot></slot>
             </div>
             <div class="loadingMore"  v-if="isLoadMore && getStatus" >
@@ -147,7 +147,6 @@
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
-        /*margin-top: -50px;*/
         background-color: #eee;
     }
 

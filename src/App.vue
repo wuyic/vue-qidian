@@ -21,10 +21,15 @@
 </script>
 
 <style>
+    @font-face {
+        font-family: 'PingFangSC-Regular';   /*字体名称*/
+        src: url('./assets/font/PingFang-SC-Regular.otf') ;       /*字体源文件*/
+    }
+
     * {
         margin: 0;
         padding: 0;
-        font-family: sans-serif;
+        font-family: "PingFangSC-Regular";
     }
 
     ::-webkit-input-placeholder { /* WebKit browsers */

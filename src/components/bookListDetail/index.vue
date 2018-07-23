@@ -3,39 +3,56 @@
         <div class="index-title">
             <indexTitle
                     :headLeft="{text:'返回', type:'word'}"
-                    :headCenter="{text:'创建书单', type:'word'}"
-                    :headRight="{text:'创建', type:'word',func:createBookList, opt:opt}">
+                    :headCenter="{text:'书单详情', type:'word'}"
+                    :headRight="{text:'创建', type:'list', list, opt:opt}">
             </indexTitle>
         </div>
-        <div class="index-reco">
-            <indexList></indexList>
+        <div class="indexReco">
+            <loading :isLoadMore="true" :isRefresh="true" :onLoadMore="getBookListDetail" :onRefresh="refreshDataBookListDetail">
+                <bookListInfo></bookListInfo>
+            </loading>
+            <authorInfo></authorInfo>
         </div>
     </div>
 </template>
 
 <script>
 	import {mapGetters, mapActions} from 'vuex'
-	import indexTitle from './title.vue';
-	import indexList from './list.vue';
+	import indexTitle from '../common/title.vue';
+	import bookListInfo from './bookListInfo.vue';
+	import authorInfo from './authorInfo.vue';
+	import loading from '../common/plug/loading.vue';
 
 	export default {
 		name: 'index',
 		data() {
 			return {
-				msg: 'Welcome to Your Vue.js App',
+				listMy:[
+					{name: '花束明细', iconUrl: require('../../assets/image/icon_flowerlist_24x24.png')},
+					{name: '编辑书单', iconUrl: require('../../assets/image/icon_edit_1_24x24.png')},
+					{name: '删除书单', iconUrl: require('../../assets/image/icon_delete_1_24x24.png')},
+					{name: '关于书单', iconUrl: require('../../assets/image/columnist_about_24x24.png')},
+                ],
+                list:[
+	                {name: '举报', iconUrl: require('../../assets/image/icon_report_24x24.png')},
+	                {name: '关于书单', iconUrl: require('../../assets/image/columnist_about_24x24.png')},
+                ]
 			}
 		},
+        created() {
+			this.$store.dispatch('booklist/getBookListDetail'); //获取书单详情
+        },
 		components: {
-			indexTitle, indexList,
+			indexTitle, bookListInfo, authorInfo,loading
 		},
 		computed: {
 			...mapGetters('booklist',{
-                opt:'getCreateOpt'
+                opt:'getCreateOpt',
 			}),
 		},
         methods: {
             ...mapActions('booklist', [
-            	'createBookList'
+            	'createBookList','refreshDataBookListDetail', 'getBookListDetail'
             ]),
         }
 	}
@@ -56,9 +73,11 @@
         z-index: 1000;
     }
 
-    .index-reco {
+    .indexReco {
         margin-top: 44px;
         height: 100%;
-        background-color: #fff;
+        background-color: #f5f5f5;
     }
+
+
 </style>

@@ -139,9 +139,17 @@ export function BookCase() {
 			if (this.bookcase[key].bookInfo.BookName.indexOf(name) != -1) {
 				array.push(this.bookcase[key].bookInfo);
 			}
-		})
+		});
 		return array;
-	}
+	};
+
+	this.getBookById = (id) => {
+		let type = 'book' + id;
+		if (this.bookcase[type]) {
+			return this.bookcase[type];
+		}
+		return undefined;
+	};
 }
 
 /**

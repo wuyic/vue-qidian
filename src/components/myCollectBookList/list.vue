@@ -104,7 +104,6 @@
                 'getOpenPhoneTips',
             ]),
             calcIsEmpty() {
-            	console.log(this.getMyBookList.myCreate.length, this.getMyCollectBookList.list.length);
 	            if (this.getMyBookList.myCreate.length == 0 && this.getMyCollectBookList.list.length == 0) {
 	            	return true;
                 }

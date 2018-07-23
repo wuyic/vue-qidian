@@ -1,20 +1,44 @@
 <template>
-    <div :class="{ansBook:true, isBottom:isBottom}">
-        <div>
-            <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
-        </div>
-        <div class="right">
-            <p class="bookTitle"  v-html="dealAnsWord(bookInfo.BookName)"></p>
-            <p class="description"  v-html="dealAnsWord(bookInfo.Description)"></p>
-            <div class="descBottom">
-                <div class="userBox" >
-                    <img class="userImg" src="../../assets/image/icon_loginaccount_24x24.png" alt="">
-                    <p class="author" v-html="dealAnsWord(bookInfo.Author)"></p>
+    <div>
+        <!--书籍列表信息-->
+        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position != 'bookListDetail'">
+            <div style="font-size: 0">
+                <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
+            </div>
+            <div class="right">
+                <p class="bookTitle"  v-html="dealAnsWord(bookInfo.BookName)"></p>
+                <p class="description"  v-html="dealAnsWord(bookInfo.Description)"></p>
+                <div class="descBottom">
+                    <div class="userBox" >
+                        <img class="userImg" src="../../assets/image/icon_loginaccount_24x24.png" alt="">
+                        <p class="author" v-html="dealAnsWord(bookInfo.Author)"></p>
+                    </div>
+                    <div class="biaoqianBox">
+                        <p class="biaoqian">{{bookInfo.CategoryName}}</p>
+                        <p class="biaoqian">{{bookInfo.BookStatus}}</p>
+                        <p class="biaoqian">{{Math.round(bookInfo.WordsCount/1000)/10}}万字</p>
+                    </div>
                 </div>
-                <div class="biaoqianBox">
-                    <p class="biaoqian">{{bookInfo.CategoryName}}</p>
-                    <p class="biaoqian">{{bookInfo.BookStatus}}</p>
-                    <p class="biaoqian">{{Math.round(bookInfo.WordsCount/1000)/10}}万字</p>
+            </div>
+        </div>
+
+        <!--书单详情中的书籍缩略信息-->
+        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position == 'bookListDetail'">
+            <div style="font-size: 0">
+                <img class="bookImage" style="width: 1.1rem; height: 1.5rem" :src='"https://qidian.qpic.cn/qdbimg/349573/" + bookInfo.bookId + "/180"' alt="">
+            </div>
+            <div class="right" style="height: 1.5rem">
+                <div class="bookTitleInfo">
+                    <p class="bookTitle"  v-html="bookInfo.bookName"></p>
+                    <p v-if="bookInfo.bookEditTimeDesc">{{bookInfo.bookEditTimeDesc}}</p>
+                </div>
+                <p class="description"  v-html="bookInfo.bookBriefWords"></p>
+                <div class="descBottom">
+                    <div class="userBox" >
+                        <p class="author">{{bookInfo.bookAuthor}} · </p>
+                        <p class="author">{{bookInfo.categoryName}} · </p>
+                        <p class="author" v-html="dealNum(bookInfo.bssReadTotal)"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,7 +49,7 @@
 	import {mapGetters} from 'vuex';
 
 	export default {
-		props:["bookInfo", 'isBottom'],
+		props:["bookInfo", 'isBottom', 'position'],
 		name: 'bookInList',
 		data() {
 			return {
@@ -36,13 +60,22 @@
         computed:{
 	        ...mapGetters({
 		        dealAnsWord:'search/dealAnsWord'
-	        })
+	        }),
+
         },
 
 		mounted() {
-
 		},
-		methods: {},
+		methods: {
+			dealNum(num) {
+				if (num >= 10000) {
+					return Math.floor(num/10000) + '万人读过';
+				} else {
+					return Math.floor(num) + '人读过';
+
+				}
+			}
+        },
 	}
 </script>
 
@@ -142,5 +175,14 @@
         padding: 0 0.04rem;
         border-radius: 3px;
         white-space: nowrap;
+    }
+
+    .bookTitleInfo {
+        display: -webkit-flex;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        font-size: 0.22rem;
+        color:#9a9a9a;
     }
 </style>

@@ -31,6 +31,37 @@
             </div>
         </div>
 
+        <!--书单详情里的推荐列表-->
+        <div :class="{searchResult:true,isBottom:isBottom}" v-if="type=='bookListRecomond'">
+            <div class="allImg">
+                <img class="bookImage1"
+                     :src='calcImage(bookListInfo.imgUrls, 0, "imgUrl")'
+                     onError="this.src=require('../../assets/image/QDDefaultNoBookImage_white_48x64.png')" alt="">
+                <img class="bookImage2"
+                     :src='calcImage(bookListInfo.imgUrls, 1, "imgUrl")'
+                     onError="this.src=require('../../assets/image/QDDefaultNoBookImage_white_48x64.png')" alt="">
+                <img class="bookImage3"
+                     :src='calcImage(bookListInfo.imgUrls, 2, "imgUrl")'
+                     onError="this.src=require('../../assets/image/QDDefaultNoBookImage_white_48x64.png')" alt="">
+            </div>
+            <div class="right">
+                <div class="bookTitleBox">
+                    <p class="bookTitle" v-html="dealAnsWord(bookListInfo.name)"></p>
+                    <div class="bookTips" :style="{backgroundColor:getColor(bookListInfo.bookListTypeId)}">
+                        {{bookListInfo.bookListType}}
+                    </div>
+                </div>
+                <p class="description" v-html="dealAnsWord(bookListInfo.des)"></p>
+                <div class="descBottom">
+                    <div class="userBox">
+                        <img class="userImg" :src="bookListInfo.authorHeadImg" alt="">
+                        <p class="author" v-html="dealAnsWord(bookListInfo.authorName)"></p>
+                        <p class="author">{{bookListInfo.bookCount}}本 · {{bookListInfo.collectCount}}关注</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--我的收藏里的书单数据-->
         <div :class="{myCollected:true,isBottom:isBottom}" v-if="type=='myCollected' || type=='myBookList'">
             <div class="allImg">
@@ -251,7 +282,7 @@
         line-height: 0.46rem;
         color:#fff;
         font-size: 0.12rem;
-        transform: scale(0.8);
+        transform: scale(0.9);
         transform-origin: right;
         white-space: nowrap;
         text-align: center;
@@ -265,7 +296,7 @@
         padding: 0 0.1rem;
         border: 1px solid #d43c33;
         border-radius: 0.17rem;
-        transform: scale(0.8);
+        transform: scale(0.9);
         transform-origin: right;
         white-space: nowrap;
         margin-right: 0.3rem;

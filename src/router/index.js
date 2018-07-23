@@ -5,6 +5,7 @@ import test from '@/components/test'
 import shaixuan from '@/components/index/other/shaixuan'
 import bookListmyCollect from '@/components/myCollectBookList/index'
 import myBookListCreate from '@/components/myBookListCreate/index'
+import booklistDetail from '@/components/bookListDetail/index'
 import search from '@/components/search/index'
 
 import good from '@/components/good'
@@ -65,6 +66,15 @@ export default new Router({
 			meta: {
 				introduce:'创建书单',
 				title: '创建书单',
+			}
+		},
+		{
+			path: '/booklist/detail',
+			name: 'booklistDetail',
+			component: booklistDetail,
+			meta: {
+				introduce:'书单详情',
+				title: '书单详情',
 			}
 		},
 		{
