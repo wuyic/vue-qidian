@@ -8,10 +8,14 @@
             </indexTitle>
         </div>
         <div class="indexReco">
-            <loading :isLoadMore="true" :isRefresh="true" :onLoadMore="getBookListDetail" :onRefresh="refreshDataBookListDetail">
-                <bookListInfo></bookListInfo>
-            </loading>
-            <authorInfo></authorInfo>
+            <div style="height: calc(100vh - 1.20rem - 44px);">
+                <loading :isLoadMore="true" :isRefresh="true" :onLoadMore="getBookListDetail" :onRefresh="refreshDataBookListDetail">
+                    <bookListInfo></bookListInfo>
+                </loading>
+            </div>
+           <div>
+               <authorInfo :isShowSmall="false"></authorInfo>
+           </div>
         </div>
     </div>
 </template>
@@ -65,6 +69,7 @@
         height: 100%;
         overflow: hidden;
     }
+
     .index-title {
         top: 0;
         left: 0;
@@ -77,6 +82,9 @@
         margin-top: 44px;
         height: 100%;
         background-color: #f5f5f5;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
     }
 
 

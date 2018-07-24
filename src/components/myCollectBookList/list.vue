@@ -21,7 +21,8 @@
                 <div class="buttomBottom">
                     <div class="createBookListButton"
                          :style="{borderColor: getColor,marginRight: '0.6rem', paddingRight: '0.1rem'}"
-                         @click="myBookListAddClick({router:GetRouter})">
+                         @click="myBookListAddClick({router:GetRouter, refs:getRefs, type:'createBookListBindMobile'})"
+                    >
                         <img v-if="getColor=='#d43c33'" src="../../assets/image/icon_mybooklist_add_16x16.png" alt="">
                         <img v-if="getColor!='#d43c33'" src="../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
                         <p :style="{color:getColor}">创建书单</p>
@@ -41,7 +42,7 @@
             <div class="buttomBottom">
                 <div class="createBookListButton"
                      :style="{borderColor: getColor,marginRight: '0.6rem', paddingRight: '0.1rem'}"
-                     @click="myBookListAddClick({router:GetRouter})">
+                     @click="myBookListAddClick({router:GetRouter, refs:getRefs, type:'createBookListBindMobile'})">
                     <img v-if="getColor=='#d43c33'" src="../../assets/image/icon_mybooklist_add_16x16.png" alt="">
                     <img v-if="getColor!='#d43c33'" src="../../assets/image/icon_shelf_addBooklist_16x16.png" alt="">
                     <p :style="{color:getColor}">创建书单</p>
@@ -52,9 +53,10 @@
                 </div>
             </div>
         </div>
-        <Toast :type="'toastBox'" :position="'center'" v-if="getOpenPhoneTips">
+
+        <Toast :type="'toastBox'" :position="'center'" :toastName="'createBookListBindMobile'" ref="createBookListBindMobile">
             <div class="bindMobileTipBox">
-                <div class="title">
+                <div class="title"  @click="getRefs.toastBox({type:'createBookListBindMobile', status:false})">
                     <img class="close" src="../../assets/image/icon_close_16x16.png" alt="">
                 </div>
                 <div class="body">
@@ -62,7 +64,7 @@
                     <p>该操作需绑定安全手机</p>
                 </div>
                 <div class="bottom">
-                    <p class="temNo">暂时不</p>
+                    <p class="temNo" @click="getRefs.toastBox({type:'createBookListBindMobile', status:false})">暂时不</p>
                     <p class="bindMobile">绑定手机</p>
                 </div>
             </div>
@@ -112,6 +114,10 @@
 
             GetRouter() {
             	return this.$router
+            },
+
+			getRefs() {
+            	return this.$refs.createBookListBindMobile
             }
 		},
 

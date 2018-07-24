@@ -5,6 +5,8 @@ import booklist from './modules/booklist'
 import search from './modules/search'
 import ad from './modules/ad'
 import loading from './modules/loading'
+import pay from './modules/pay'
+import toast from './modules/toast'
 
 Vue.use(Vuex);
 
@@ -25,10 +27,12 @@ export default new Vuex.Store({
 	actions: {},
 
 	modules: {
-		bookcase: bookcase,
-		booklist: booklist,
-		search:   search,
-		ad:       ad,
-		loading:  loading,
+		bookcase: bookcase, // 书架
+		booklist: booklist, // 书单
+		search:   search,   // 搜索
+		ad:       ad,       // 广告
+		loading:  loading,  // 上拉加载 下拉刷新
+		toast:    toast,    // 弹出层
+		pay:      pay,      // 支付
 	},
 })

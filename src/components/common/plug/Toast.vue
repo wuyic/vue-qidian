@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}" v-if="isShowToast || isShowBox">
+    <div @click="toastBox({type:toastName, status:false})">
+        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}" v-if="isShowToast || isShowBox['type'+toastName]">
             <transition name="toast">
                 <div class="toastTipWord" v-if="type=='toast' && isShowToast">
                     <p>{{textVal}}</p>
                 </div>
             </transition>
-            <div class="toastBox" v-if="type=='toastBox'" style="">
+            <div class="toastBox" v-if="type=='toastBox'" style=""  @click.stop>
                 <slot></slot>
             </div>
         </div>
@@ -15,9 +15,11 @@
 
 <script>
 	import {mapGetters, mapActions} from 'vuex';
+	import Vue from 'vue'
 
 	export default {
 		props: {
+			'toastName':{default:'where'}, //不可重复
 			'type': {default: 'toast', all: ['toast', 'toastBox']},
 			'position': {default: 'center'},
 			'timeout': {default: 500},
@@ -26,13 +28,20 @@
 		name: 'loading',
 		data() {
 			return {
-				isShowToast: false,
-				textVal: '',
-				isShowBox: false,
+
 			}
 		},
+        created() {
+	        if (this.toastName != 'where') {
+		       Vue.set(this.$store.state.toast.isShowBox, 'type' + this.toastName, false)
+	        }
+        },
 
 		computed: {
+            ...mapGetters('toast', [
+            		'isShowToast', 'isShowBox', 'textVal'
+                ]
+            ),
 			calcBGC() {
 				if (this.type == 'toast') {
 					return 'rgba(ff,ff,ff,1)';
@@ -52,19 +61,10 @@
 			}
 		},
 
-		mounted() {
-
-		},
-
 		methods: {
-			toastText({text, timeout}) {
-				this.isShowToast = true;
-				this.textVal = text;
-				timeout && (this.timeout = timeout);
-				setTimeout(() => {
-					this.isShowToast = false
-				}, this.timeout)
-			}
+            ...mapActions('toast', [
+            	'toastText', 'toastBox', 'initToast'
+            ]),
 		},
 	}
 </script>
@@ -81,6 +81,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        z-index:10000;
     }
 
     .toastTipWord {

@@ -438,6 +438,24 @@ export default {
 	},
 
 
-
+	/**
+	 *  获取支付配置
+	 */
+	getSettingForPay({}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://pay.yuewen.com/ajax/sdk/getsetting',
+					method:'post',
+					param:paramsToUrlParam({
+						appId:	33,
+						areaId:	40,
+						userguid:461199585,
+						ver	:1,
+					}),
+				}
+			}
+		)
+	}
 
 }

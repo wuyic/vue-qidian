@@ -25,13 +25,13 @@
                         <img class="authorImg" :src="bookListDetail.info.authorHeadImg" alt="">
                         <p class="authorName">{{bookListDetail.info.authorName}}</p>
                         <p class="authorTime">{{bookListDetail.info.bookEditTimeDesc}}</p>
-                        <p class="authorTime"> · {{bookListDetail.info.commentCount}}本</p>
+                        <p class="authorTime"> · {{bookListDetail.info.bookCount}}本</p>
                     </div>
 
                     <div class="author" style="justify-content: flex-end" @click="BookListCollect()">
-                        <img class="authorFollow" v-if="bookListDetail.info.isCollect!=1" src="../../assets/image/icon_plus_follow_24x24.png" alt="">
-                        <img class="authorFollow"  v-if="bookListDetail.info.isCollect==1" src="../../assets/image/icon_plus_followed_24x24.png" alt="">
-                        <p class="authorFollowNum" :style="{color:bookListDetail.info.isCollect==1?'#ccc':'#d43c33'}">{{bookListDetail.info.collectCount}}关注</p>
+                        <img class="authorFlower" v-if="bookListDetail.info.isCollect!=1" src="../../assets/image/icon_plus_follow_24x24.png" alt="">
+                        <img class="authorFlower"  v-if="bookListDetail.info.isCollect==1" src="../../assets/image/icon_plus_followed_24x24.png" alt="">
+                        <p class="authorFlowerNum" :style="{color:bookListDetail.info.isCollect==1?'#ccc':'#d43c33'}">{{bookListDetail.info.collectCount}}关注</p>
                     </div>
                 </div>
             </div>
@@ -55,6 +55,7 @@
             </div>
         </div>
 
+        <!--相关书单-->
         <div class="booklistRecomond">
             <div class="title">
                 <p>相关书单</p>
@@ -261,14 +262,14 @@
 
     }
 
-    .bookListInfo .info .authorFollow {
+    .bookListInfo .info .authorFlower {
         width: 0.44rem;
         height: 0.44rem;
         line-height: 0.44rem;
         justify-self: flex-end;
     }
 
-    .bookListInfo .info .authorFollowNum {
+    .bookListInfo .info .authorFlowerNum {
         color: #ccc;
         font-size: 0.26rem;
         line-height: 0.44rem;

@@ -38,6 +38,7 @@ app.get('/get', function (req, res) {
 			'Accept-Encoding': 'gzip, deflate',
 			'Referer': 'http://ios.qidian.com',
 			'QDHeader': 'OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NS4wLjF8MTI0MnwyMjA4fEFwcFN0b3JlfDEwLjMwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjE2fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MjY1MzYyNTg0NzZ8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=',
+			'ywguid':'461199585',
 		},
 		body: req.query.method=='post' ? req.query.param : ''
 	};

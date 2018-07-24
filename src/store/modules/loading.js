@@ -7,6 +7,7 @@ const state = {
 	isShowBottom:false,
 
 	marginTopDis: -50,
+
 };
 /**
  *
@@ -54,7 +55,7 @@ const actions = {
 
 	setMarginTopDis({state, commit}, {value}) {
 		commit('setMarginTopDis', {value:value});
-	}
+	},
 };
 
 export default {

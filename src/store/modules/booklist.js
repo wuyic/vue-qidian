@@ -63,6 +63,7 @@ const state = {
 	 */
 	bookListDetail:{
 		id:455220,
+		// id:358648,
 		tips:{"authorHeadImg": "https://qidian.qpic.cn/qd_face/349573/5783386/100",
 			"authorId": 2380038,
 			"authorName": "感动中国",
@@ -314,23 +315,24 @@ const actions = {
 	 * @param commit
 	 * @param RootState
 	 */
-	myBookListAddClick({state, commit, RootState}, {router}) {
+	myBookListAddClick({state, commit, RootState}, {router, refs, type}) {
+		refs.toastBox({type:type, status:true})
 		if (state.myBookList.enable == 2) {
 			return ;
 		}
-		api.checkSafePhone().then(
-			data=>{
-				console.log('校验手机号返回', data);
-				if (data.data.Data.HasSafePhone == 1) {
-					state.openPhoneTips = false;
-					router.push({name:'myBookListCreate'})
-				} else {
-					state.openPhoneTips = true;
-				}
-			}
-		).catch(
-
-		)
+		// api.checkSafePhone().then(
+		// 	data=>{
+		// 		console.log('校验手机号返回', data);
+		// 		if (data.data.Data.HasSafePhone == 1) {
+		// 			state.openPhoneTips = false;
+		// 			router.push({name:'myBookListCreate'})
+		// 		} else {
+		// 			refs.toastBox({type:type, status:true})
+		// 		}
+		// 	}
+		// ).catch(
+		//
+		// )
 
 	},
 
@@ -484,7 +486,22 @@ const actions = {
 				state.bookListDetail.info.collectCount += (detail.isCollect==1?-1:1);
 			}
 		)
-	}
+	},
+
+
+	/**
+	 * 送花状态更改
+	 */
+	changeTipsGearList:({state, commit, RootState}, {index}) => {
+		let gearList = state.bookListDetail.tips.gearList;
+		gearList.forEach((item, i) => {
+			if (index == i) {
+				gearList[i].selected = 1;
+			} else {
+				gearList[i].selected = 0;
+			}
+		})
+	},
 };
 
 export default {
