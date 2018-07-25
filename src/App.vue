@@ -4,19 +4,28 @@
             <router-view />
         </div>
         <footCommon></footCommon>
+        <Toast ref="toast" :type="'toast'"></Toast>
     </div>
 </template>
 
 <script>
 //	import titleCommon from './components/common/title.vue'
 	import footCommon from './components/common/foot.vue';
+	import Toast from './components/common/plug/Toast.vue'
 
 	export default {
 		name: 'App',
 		components: {
 //			titleCommon: titleCommon,
-			footCommon: footCommon
-		}
+			footCommon: footCommon,
+			Toast:Toast
+		},
+		mounted() {
+			console.log('toast', this.$refs, this.$refs.toast);
+			this.$store.dispatch('toast/setToast', {func:this.$refs.toast})
+        },
+
+
 	}
 </script>
 

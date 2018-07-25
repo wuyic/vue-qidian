@@ -5,7 +5,7 @@ import booklist from './modules/booklist'
 import search from './modules/search'
 import ad from './modules/ad'
 import loading from './modules/loading'
-import pay from './modules/pay'
+import account from './modules/account'
 import toast from './modules/toast'
 
 Vue.use(Vuex);
@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		serverTime: new Date().getTime()
+		serverTime: new Date().getTime(),
 	},
 
 	getters: {},
@@ -21,10 +21,12 @@ export default new Vuex.Store({
 	mutations: {
 		setServiceTime(state, time) {
 			state.serverTime = time;
-		}
+		},
 	},
 
-	actions: {},
+	actions: {
+
+	},
 
 	modules: {
 		bookcase: bookcase, // 书架
@@ -33,6 +35,6 @@ export default new Vuex.Store({
 		ad:       ad,       // 广告
 		loading:  loading,  // 上拉加载 下拉刷新
 		toast:    toast,    // 弹出层
-		pay:      pay,      // 支付
+		account:  account,      // 用户
 	},
 })

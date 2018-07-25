@@ -1,9 +1,9 @@
 <template>
     <div class="common">
         <div class="headTitle">
-            <div class="headLeft">
+            <div class="headLeft"  @click="getRouter.go(-1)">
                 <img class="headLeftImg" src="../../assets/image/QDNavBackButton_36x36_fff.png" alt="">
-                <p>{{headLeft.text}}</p>
+                <p style="margin-left: -0.1rem;">{{headLeft.text}}</p>
             </div>
 
             <div class="headCenter">
@@ -13,16 +13,20 @@
             <div class="headRight">
                 <p v-if="headRight.type=='word'" :style="{opacity: headRight.opt || 1}" @click="headRight.func({router:getRouter, toast:getToast})">{{headRight.text}}</p>
                 <img v-if="headRight.type=='list'" class="rightImg" src="../../assets/image/more.png" alt="" @click="showTab=!showTab">
+                <img v-if="headRight.type=='image'" class="rightImg" style="width: 0.5rem; height: 0.5rem" src="../../assets/image/User_set_refresh_26x26.png" alt="" @click="headRight.func(headRight.funcParams)">
             </div>
         </div>
         <Toast ref="toast" :type="'toast'"></Toast>
 
         <!--更多显示列表-->
-        <div :class="{floatBox:1 , styleHeight:showTab}">
+        <div :class="{floatBox:1 , styleHeight:showTab}" v-if="headRight.type=='list'">
             <div class="top">
             </div>
             <div class="mid">
-                <div v-for="(item, index) in headRight.list" :class="{tabList:1, borderBottom: (index < headRight.list-1) }">
+                <div v-for="(item, index) in headRight.list"
+                     :class="{tabList:1, borderBottom: (index < headRight.list-1) }"
+                     @click="item.func(item.funcParams)"
+                >
                     <img class="tab-list-img" :src="item.iconUrl" alt="">
                     <p class="tab-list-word">{{item.name}}</p>
                 </div>
@@ -38,13 +42,12 @@
 		props:{
 			headLeft   :{type:Object, default:()=>({text:'返回', type:'word', func:null,})},
 			headCenter :{type:Object, default:()=>({text:'标题', type:'word', func:null})},
-			headRight  :{type:Object, default:()=>({text:'确定', type:'word', list:[], func:null, opt:1})},
+			headRight  :{type:Object, default:()=>({text:'确定', type:'word', list:[], func:null, funcParams:{}, opt:1})},
         },
 		name: 'commonTitle',
 		data() {
 			return {
 				showTab:false, //是否显示下拉列表
-
             }
 		},
         components: {
@@ -90,6 +93,7 @@
     .common .headLeftImg {
         width: 0.6rem;
         height: 0.60rem;
+        margin-left: -0.2rem;
     }
 
     .common .headLeft {

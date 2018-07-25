@@ -7,13 +7,17 @@
             >
                 <div style="background-color: #eee">
                     <div class="myBookList" v-if="getMyBookList.myCreate.length > 0">
-                        <div v-for="(item, index) in getMyBookList.myCreate">
+                        <div v-for="(item, index) in getMyBookList.myCreate"
+                             @click="gotoBookListDetail({router:GetRouter, id:item.id})"
+                        >
                             <bookListInfo :bookListInfo="item"  :isBottom="false" :type="'myBookList'"></bookListInfo>
                         </div>
                     </div>
 
                     <div class="myCollectBookList">
-                        <div v-for="(item, index) in getMyCollectBookList.list">
+                        <div v-for="(item, index) in getMyCollectBookList.list"
+                             @click="gotoBookListDetail({router:GetRouter, id:item.id})"
+                        >
                             <bookListInfo :bookListInfo="item"  :isBottom="true" :type="'myCollected'"></bookListInfo>
                         </div>
                     </div>
@@ -123,7 +127,7 @@
 
 		methods: {
             ...mapActions('booklist', [
-	            'getMyCollectBookListA', 'refreshData', 'myBookListAddClick'
+	            'getMyCollectBookListA', 'refreshData', 'myBookListAddClick', 'gotoBookListDetail'
             ]),
 
 		}

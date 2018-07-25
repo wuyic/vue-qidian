@@ -276,9 +276,9 @@ const actions = {
 	 * 获取顶部热词
 	 * @param state
 	 * @param commit
-	 * @param RootState
+	 * @param rootState
 	 */
-	setSearchTop({state, commit, RootState}) {
+	setSearchTop({state, commit, rootState}) {
 		api.getSearchTop().then(
 			data => {
 				console.log('获取搜索顶部提示成功', data);

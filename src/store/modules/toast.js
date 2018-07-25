@@ -6,6 +6,7 @@ import Vue from 'vue'
  */
 const state = {
 
+	toast:null, // 使用方法 toast.toastText({text, timeout})
 	/**
 	 *  是否显示 弹出层
 	 */
@@ -29,7 +30,12 @@ const state = {
 const mutations = {
 	changeState: (state, {type, status}) => {
 		Vue.set(state.isShowBox, 'type'+type, status);
+	},
+
+	setToast(state, func) {
+		state.toast = func;
 	}
+
 };
 
 /**
@@ -48,6 +54,7 @@ const getters = {
 	isShowBox: (state) => {
 		return state.isShowBox;
 	},
+
 };
 
 /**
@@ -58,6 +65,7 @@ const actions = {
 		state.isShowToast = true;
 		state.textVal = text;
 		timeout && (state.timeout = timeout);
+		console.log(state.timeout, timeout);
 		setTimeout(() => {
 			state.isShowToast = false
 		}, state.timeout)
@@ -66,7 +74,17 @@ const actions = {
 	toastBox({state, commit}, {type, status}) {
 		commit('changeState', {type, status});
 		console.log('changeState Over', state)
-	}
+	},
+	/**
+	 * 简单提示框， 在APP.vue中注册
+	 * @param state
+	 * @param commit
+	 * @param rootState
+	 * @param func
+	 */
+	setToast({state, commit, rootState}, {func}) {
+		commit('setToast', func)
+	},
 };
 
 export default {

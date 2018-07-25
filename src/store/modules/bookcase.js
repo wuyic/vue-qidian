@@ -3,8 +3,11 @@ import {BookCase} from '../class/bookCase'
 import {bookSmallType} from '../../api/data'
 
 const state = {
+	/**
+	 * 书架
+	 */
+	isAddInMyBookList:false,
 	bookCase: new BookCase(),
-
 	count: 0,
 	bookBigType: [],
 	bookSmallType: {
@@ -15,7 +18,6 @@ const state = {
 		type4: [], //出版
 	},
 	bookCaseState: [],
-
 };
 
 

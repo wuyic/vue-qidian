@@ -27,11 +27,20 @@
                         <p class="authorTime">{{bookListDetail.info.bookEditTimeDesc}}</p>
                         <p class="authorTime"> · {{bookListDetail.info.bookCount}}本</p>
                     </div>
-
-                    <div class="author" style="justify-content: flex-end" @click="BookListCollect()">
+                    <!--他人的书单-->
+                    <div class="author" style="justify-content: flex-end" @click="BookListCollect()" v-if="!bookListDetail.info.isSelfCreate">
                         <img class="authorFlower" v-if="bookListDetail.info.isCollect!=1" src="../../assets/image/icon_plus_follow_24x24.png" alt="">
                         <img class="authorFlower"  v-if="bookListDetail.info.isCollect==1" src="../../assets/image/icon_plus_followed_24x24.png" alt="">
                         <p class="authorFlowerNum" :style="{color:bookListDetail.info.isCollect==1?'#ccc':'#d43c33'}">{{bookListDetail.info.collectCount}}关注</p>
+                    </div>
+
+                    <!--我的书单 显示添加书籍按钮-->
+                    <div class="author" style="justify-content: flex-end"
+                         v-if="bookListDetail.info.isSelfCreate"
+                         @click="myBookListAddBook()"
+                    >
+                        <img class="authorFlower" style="width: 0.4rem; height:0.4rem;" src="../../assets/image/icon_add_red_17x17.png" alt="">
+                        <p class="authorFlowerNum" style="color:#d43c33">作品</p>
                     </div>
                 </div>
             </div>
@@ -56,7 +65,7 @@
         </div>
 
         <!--相关书单-->
-        <div class="booklistRecomond">
+        <div class="booklistRecomond" v-if="!bookListDetail.info.isSelfCreate">
             <div class="title">
                 <p>相关书单</p>
             </div>
@@ -66,6 +75,8 @@
                 </bookListInfo>
             </div>
         </div>
+
+
     </div>
 </template>
 
@@ -151,7 +162,8 @@
 				} else {
 					return '';
 				}
-			}
+			},
+
 		},
 
 	}

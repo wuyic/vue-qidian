@@ -15,6 +15,7 @@
                 </div>
             </div>
         </div>
+
         <div>
             <Toast :type="'toastBox'" :position="'bottom'" :toastName="'toastBookListUser'" ref="toastBookListUser">
                 <div class="bigBox">
@@ -24,7 +25,7 @@
                             <p>{{bookListDetail.tips.authorName}}</p>
                         </div>
                         <div class="desc">
-                            <p>{{bookListDetail.tips.ownerDes}}</p>
+                            <p style="margin-top: 0.1rem" v-html="whiteSpace(bookListDetail.tips.ownerDes)"></p>
                         </div>
                         <div class="giveFlower"
                              v-if="!bookListDetail.info.isSelfCreate"
@@ -45,6 +46,7 @@
             </Toast>
         </div>
 
+        <!--送花-->
         <div>
             <Toast :type="'toastBox'" :toastName="'toastSendFlower'" :position="'bottom'" ref="toastSendFlower">
                 <div class="giveFlower">
@@ -73,7 +75,8 @@
                         </div>
                     </div>
 
-                    <div class="footer">
+                    <!--余额不足-提示充值-->
+                    <div class="footer" v-if="0">
                         <div class="remain">
                             <p>余额: <span style="color: #444">0</span></p>
                         </div>
@@ -93,6 +96,21 @@
                                     <p style="font-size:0.22rem; color:#9b9b9b">{{item.ywAmount}}点</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!--余额充值-->
+                    <div class="flexBox footerMoneyEnough" v-if="1">
+                        <div class="remainEnough">
+                            <p>余额: <span style="color: #444">0点</span></p>
+                        </div>
+                        <div class="flexBox remainSend">
+                            <img
+                                    @click="jumpToHtml()"
+                                    class="remainSendImg"
+                                    src="../../assets/image/columnist_about_24x24.png" alt=""
+                            />
+                            <p class="remainSendbutton" @click="accountGiveFlower()">献花</p>
                         </div>
                     </div>
                 </div>
@@ -122,23 +140,39 @@
 	        bookListDetail() {
 		        return this.$store.state.booklist.bookListDetail;
 	        },
-            ...mapGetters('pay', [
+            ...mapGetters('account', [
             	'payConfig'
             ])
         },
 
 		mounted() {
-
-			this.$store.dispatch('pay/getSettingForPay');
+			this.$store.dispatch('account/getSettingForPay');
 		},
 		methods: {
             ...mapActions('booklist', [
             	'changeTipsGearList'
             ]),
 
+            ...mapActions('account', [
+            	'accountGiveFlower'
+            ]),
+
 			showBox(type) {
 				this.$refs[type].toastBox({type:type, status:true});
             },
+			/**
+			 * 换行符 转化
+			 * @param desc
+			 */
+			whiteSpace(desc) {
+				let regx = /\n/g;
+				if (desc && desc.length > 0) {
+					return desc.replace(regx, '<br/>')
+				} else {
+					return ''
+				}
+
+			},
 
             getColor(index, bg) {
 				return bg ? (
@@ -146,7 +180,17 @@
                 ) : (
 					index ? '#d43c33' : '#444'
 				)
-            }
+            },
+
+			jumpToHtml() {
+				this.$router.push({
+                    name: 'html',
+                    params: {
+	                    url: this.bookListDetail.tips.helpUrl,
+                        title: '关于献花'
+                    }
+				})
+			},
         },
 	}
 </script>
@@ -228,8 +272,8 @@
     }
     .bigBox .desc {
         font-size: 0.24rem;
-        height: 0.5rem;
-        line-height: 0.5rem;
+        min-height: 0.5rem;
+        line-height: 0.3rem;
         color:#9b9b9b;
     }
     .bigBox .giveFlower {
@@ -313,13 +357,14 @@
         width: 6.94rem;
         padding: 0 0.28rem;
     }
+
     .giveFlower .footer .remain{
-        height: 0.6rem;
-        line-height: 0.6rem;
+        height: 0.8rem;
+        line-height: 0.8rem;
         text-align: left;
         color:#9b9b9b;
-
     }
+
     .giveFlower .footer .tip{
 
     }
@@ -337,6 +382,38 @@
         height: 0.85rem;
         width: 1.85rem;
         flex-direction: column;
+    }
+
+    .footerMoneyEnough {
+        flex-direction: row;
+        justify-content: space-between;
+        height: 1.1rem;
+        margin-left: 0.3rem;
+        width: 7.2rem;
+    }
+
+    .remainEnough {
+        font-size: 0.28rem;
+        color:#9b9b9b;
+    }
+
+    .remainSend {
+
+    }
+
+    .remainSendImg {
+        width: 0.45rem;
+        height: 0.45rem;
+        padding-right: 0.2rem;
+    }
+
+    .remainSendbutton {
+        width: 2.35rem;
+        height: 1.1rem;
+        line-height: 1.1rem;
+        background-color: #d43c33;
+        color: #fff;
+
     }
 
     .lineMid {

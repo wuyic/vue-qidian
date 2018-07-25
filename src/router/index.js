@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-import test from '@/components/test'
+import http from '@/components/common/http'
 import shaixuan from '@/components/index/other/shaixuan'
 import bookListmyCollect from '@/components/myCollectBookList/index'
 import myBookListCreate from '@/components/myBookListCreate/index'
@@ -17,11 +17,11 @@ Vue.use(Router);
 export default new Router({
 	routes: [
 		{
-			path: '/test',
-			name: 'test',
-			component: test,
+			path: '/html',
+			name: 'html',
+			component: http,
 			meta: {
-				introduce:'书架中的筛选 ',
+				introduce:'网页 ',
 				title: '',
 				isCommTitle: false,
 				isShowFoot: false,
@@ -101,7 +101,6 @@ export default new Router({
 				bottom: 3,
 			},
 		},
-
 		{
 			path: '/mine',
 			name: 'mine',
@@ -112,11 +111,8 @@ export default new Router({
 				isCommTitle: false,
 				isShowFoot: true,
 				bottom: 4,
-
-
 			},
 		},
-
 		{
 			path: '/search',
 			name: 'search',

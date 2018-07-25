@@ -42,6 +42,7 @@ let apiList = {
 	BookListLikeBook   :false, //书单 喜欢
 	BookCaseAdd        :false, //加入书架
 	BookListCollect    :false, //搜藏书单
+	BookListGoTip      :false, //书单送花
 };
 
 
@@ -117,6 +118,25 @@ export default {
 						bookid:bookid,
 						id:id,
 						type:type,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书单  献花
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListGoTip({booklistId, num}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GoTip',
+					method:'post',
+					param:paramsToUrlParam({
+						id:booklistId,
+						tipgear:num,
 					}),
 				}
 			}

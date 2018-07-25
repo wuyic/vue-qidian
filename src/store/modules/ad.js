@@ -55,7 +55,7 @@ const actions = {
 	 * 获取全局广告
 	 * 调用方法：this.$store.dispatch('ad/getAdGol');
 	 */
-	getAdGol({state, commit, RootState}) {
+	getAdGol({state, commit, rootState}) {
 		api.getAdGol().then(
 			(data) => {
 				let adList = data.data.Data.AD;

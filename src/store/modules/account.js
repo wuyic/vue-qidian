@@ -109,7 +109,13 @@ const getters = {
  * @type {{}}
  */
 const actions = {
-	getSettingForPay({state, commit, RootState}) {
+	/**
+	 * 获取充值配置
+	 * @param state
+	 * @param commit
+	 * @param rootState
+	 */
+	getSettingForPay({state, commit, rootState}) {
 		api.getSettingForPay({}).then(
 			data=>{
 				console.log('获取支付配置成功', data);
@@ -118,6 +124,32 @@ const actions = {
 				}
 			}
 		)
+	},
+
+	/**
+	 *  送花
+	 */
+	accountGiveFlower({state, commit, rootState}) {
+		let detail = rootState.booklist.bookListDetail;
+		let bookListId = detail.id;
+		let num = 0;
+		detail.tips.gearList.forEach((item, index) => {
+			if (item.selected) {
+				num = item.price;
+			}
+		});
+		if (num > 0) {
+			api.BookListGoTip({booklistId:bookListId, num:num}).then(
+				(data) => {
+					console.log('送花完毕', data);
+					if (!data.data.Result) {
+						rootState.toast.toast.toastText({text:'献花成功', timeout:1500})
+					} else {
+						rootState.toast.toast.toastText({text:data.data.Message, timeout:1500})
+					}
+				}
+			)
+		}
 	}
 };
 
