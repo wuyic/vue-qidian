@@ -7,7 +7,7 @@
                     <p class="userName">{{bookListDetail.tips.authorName}}</p>
                 </div>
                 <div class="flexBox share">
-                    <div class="discuss">
+                    <div class="discuss" @click="$router.push({name:'booklistDiscuss'})">
                         <img class="discussImg" src="../../assets/image/icon_comment_red_42x42.png" alt="">
                         <p class="discussNum">{{bookListDetail.info.commentCount}}</p>
                     </div>

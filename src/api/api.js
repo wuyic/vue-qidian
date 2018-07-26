@@ -43,6 +43,16 @@ let apiList = {
 	BookCaseAdd        :false, //加入书架
 	BookListCollect    :false, //搜藏书单
 	BookListGoTip      :false, //书单送花
+	BookListGetReceiveList :false, //书单 收到的花束明细
+	BookListGetInfo    :false, //书单 修改时 获取 粗略信息
+	BookListUpdate     :false, //更新书单
+	BookListBeforeAddBook  :false, //我的书单 添加书籍之前
+	BookListAddBook    :false, //我的书单 添加书籍
+	BookListDel        :false,  //删除书单
+	BookListCommentAdd :false,  //书单评论-添加
+	BookListCommentGetList :false,  //获取 书单 评论
+	BookStoreGetList   :false,  //精选中 的书籍
+	BookStoreGetIntellRecommend   :false,  //精选中推荐
 };
 
 
@@ -78,6 +88,89 @@ export default {
 						bookUpdateMaxTime:1531982071000,
 						pageIndex:1,
 						pageSize:999999,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 添加 书单 评论
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListCommentAdd({bookListId, content}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookListComment/Add',
+					method:'post',
+					param:paramsToUrlParam({
+						bookListId:bookListId,
+						content:content
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 精选中 的书籍
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookStoreGetList({rCount, sId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookStore/GetBookStoreList',
+					method:'get',
+					param:paramsToUrlParam({
+						rCount:rCount,
+						rdm:1532591067,
+						sId:sId
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 精选中 推荐
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookStoreGetIntellRecommend({rCount, sId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Recommend/GetIntellRecommend',
+					method:'get',
+					param:paramsToUrlParam({
+						ndreson:1,
+						pageIndex:1,
+						pageSize:20,
+						rCount:4,
+						rectype:201
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取 书单 评论
+	 * lookType 0 全部  1只看作者
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListCommentGetList({bookListId, lookType, page}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookListComment/GetList',
+					method:'get',
+					param:paramsToUrlParam({
+						bookListId:bookListId,
+						lookType:lookType,
+						page: page,
+						size:20,
+						timestamp:12345
 					}),
 				}
 			}
@@ -144,6 +237,83 @@ export default {
 	},
 
 	/**
+	 * 书单 收到的花束明细
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListGetReceiveList({page}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetReceiveList',
+					method:'get',
+					param:paramsToUrlParam({
+						page:1,
+						size:20,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书单 修改时 获取 粗略信息
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListGetInfo({bookListId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetBookListInfo',
+					method:'get',
+					param:paramsToUrlParam({
+						id:bookListId
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 我的书单 添加书籍之前
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListBeforeAddBook({bookListId, bookid, labelId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/BeforeAddBook',
+					method:'get',
+					param:paramsToUrlParam({
+						bookid:bookid,
+						id:bookListId,
+						labelId:labelId,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 我的书单 添加书籍
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListAddBook({bookListId, bookid, recom}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/AddBook',
+					method:'post',
+					param:paramsToUrlParam({
+						bookid:bookid,
+						id:bookListId,
+						recom:recom,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
 	 * 获取书单中的过滤
 	 * @returns {AxiosPromise<any>}
 	 */
@@ -184,7 +354,6 @@ export default {
 			}
 		)
 	},
-
 
 
 	//获取书架列表
@@ -296,6 +465,46 @@ export default {
 					param:paramsToUrlParam({
 						des:desc,
 						name:name,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 更新书单
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListUpdate({desc, name, id, label, labelId}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Update',
+					method:'post',
+					param:paramsToUrlParam({
+						des: desc,
+						name: name,
+						id: id,
+						label: label,
+		                labelId: labelId,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 删除书单
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListDel({id}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/Del',
+					method:'post',
+					param:paramsToUrlParam({
+						id: id,
 					}),
 				}
 			}

@@ -1,10 +1,14 @@
 <template>
     <div class="mybooklist">
         <div class="indexTitle">
-
+            <indexTitle
+                :headLeft="{text:'返回', type:'word'}"
+                :headCenter="{text:'书单评论('+1+')', type:'word'}"
+                :headRight="{text:'只看单主', type:'word', func:null, opt:1}">
+            </indexTitle>
         </div>
         <div class="indexReco">
-
+            <List></List>
         </div>
     </div>
 </template>
@@ -16,6 +20,8 @@
 	import {mapGetters, mapActions} from 'vuex'
 	import indexTitle from '../common/title.vue';
 	import loading from '../common/plug/loading.vue';
+	import List from './list.vue';
+	import Chat from './chat.vue';
 
 	export default {
 		name: 'index',
@@ -30,7 +36,7 @@
         },
 
 		components: {
-
+			indexTitle,List,Chat
 		},
 		computed: {
 

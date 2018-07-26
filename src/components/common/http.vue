@@ -19,7 +19,8 @@
 	/**
 	 * h5 web
 	 */
-	import Title from './title.vue'
+	import Title from './title.vue';
+	import Vue from 'vue';
 
 	export default {
 		name: 'H5Http',
@@ -51,8 +52,12 @@
 			},
 
             reload() {
+				console.log(this);
 				this.urlNow = '';
-				setTimeout(()=>{this.urlNow = this.url;}, 100);
+	            this.$nextTick( () => {
+		            this.urlNow = this.url;
+	            })
+//				setTimeout(()=>{this.urlNow = this.url;}, 0);
             }
 		},
 
