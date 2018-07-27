@@ -41,6 +41,11 @@
         font-family: "PingFangSC-Regular";
     }
 
+    img{
+        display: inline-block;
+        max-width: 100%;
+    }
+
     ::-webkit-input-placeholder { /* WebKit browsers */
         color:    #ccc;
     }

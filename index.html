@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>y</title>
-  </head>
-  <script>
-	  (function (documents, windows) {
-		  let domElement= documents.documentElement,
-			  resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-			  setRem= function () {
-				  let clientWidth = domElement.clientWidth;
-				  if (!clientWidth) return;
-				  console.log('clientWidth = ' + clientWidth);
-				  if (clientWidth >= 750) {
-					  domElement.style.fontSize = '100px';
-				  } else {
-					  domElement.style.fontSize = 100 * (clientWidth / 750) + 'px';
-				  }
-			  };
-		  if (!documents.addEventListener) return;
-		  setRem();
-		  windows.addEventListener(resizeEvt, setRem, false);
-		  documents.addEventListener('DOMContentLoaded', setRem, false);
-	  })(document, window);
-  </script>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected1 -->
-  </body>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+
+    <title>起点小说</title>
+</head>
+<script>
+	(function (documents, windows) {
+		let domElement = documents.documentElement,
+			resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+			setRem = function () {
+				let clientWidth = domElement.clientWidth;
+				if (!clientWidth) return;
+				console.log('clientWidth = ' + clientWidth);
+				if (clientWidth >= 750) {
+					domElement.style.fontSize = '100px';
+				} else {
+					domElement.style.fontSize = 100 * (clientWidth / 750) + 'px';
+				}
+			};
+		if (!documents.addEventListener) return;
+		setRem();
+		windows.addEventListener(resizeEvt, setRem, false);
+		documents.addEventListener('DOMContentLoaded', setRem, false);
+	})(document, window);
+</script>
+<body>
+<div id="app"></div>
+<!-- built files will be auto injected1 -->
+</body>
 
 </html>

@@ -113,7 +113,16 @@ const state = {
 			categoryId: -1,
 			pageIndex: 1,
 			isOver: false,
-		}
+		},
+	},
+	/**
+	 * 书单讨论
+	 */
+	bookListDiscuss:{
+		pageIndex: 1,
+		isOver: false,
+		list:[],
+		lookType:0, //0 all  1 only author
 	}
 };
 
@@ -156,7 +165,7 @@ const mutations = {
 	},
 
 	/**
-	 * 刷新
+	 * 刷新 我的书单列表
 	 */
 	refreshInit(state) {
 		// state.bookList.list = [...[]];
@@ -166,7 +175,7 @@ const mutations = {
 	},
 
 	/**
-	 * 刷新
+	 * 刷新  书单详情
 	 */
 	refreshBookListDetail(state) {
 		state.bookListDetail = {
@@ -203,6 +212,25 @@ const mutations = {
 		} else {
 			state.bookListDetail.books = [...state.bookListDetail.books, ...list];
 		}
+	},
+
+	/**
+	 * 书单讨论
+	 */
+	setBookInBookListDiscussList: (state, list) => {
+		if (state.bookListDiscuss.pageIndex == 1) {
+			state.bookListDiscuss.list = [...list];
+		} else {
+			state.bookListDiscuss.list = [...state.bookListDiscuss.books, ...list];
+		}
+	},
+
+	/**
+	 * 刷新 书单讨论
+	 */
+	refreshBookListDiscuss: (state) => {
+		state.bookList.pageIndex = 1;
+		state.bookList.isOver = false;
 	}
 };
 
@@ -286,6 +314,14 @@ const getters = {
 	 */
 	getterBookListDetail(state) {
 		return state.bookListDetail;
+	},
+
+	/**
+	 * 书单讨论详情
+	 * @param state
+	 */
+	getBookListDiscussGetter(state) {
+		return state.bookListDiscuss;
 	}
 
 
@@ -429,7 +465,7 @@ const actions = {
 					state.bookListDetail.info = data.data.Data;
 					data.data.Data && data.data.Data.books.length < 20 && (state.bookListDetail.isOver = true);
 					state.bookListDetail.pageIndex++;
-					if (state.bookList.pageIndex > 1) {
+					if (state.bookListDetail.pageIndex > 1) {
 						commit('loading/setShowBottom', false, {root: true});
 					}
 				}
@@ -463,7 +499,6 @@ const actions = {
 			}
 		)
 	},
-
 
 	/**
 	 * 喜欢与拍砖
@@ -553,6 +588,47 @@ const actions = {
 				gearList[i].selected = 0;
 			}
 		})
+	},
+
+
+	/**
+	 * 获取书单讨论
+	 */
+	getBookListDiscuss: ({state, commit, rootState}) => {
+		let detail = state.bookListDetail;
+		let discuss = state.bookListDiscuss;
+
+		if (detail.id == 0) {
+			return;
+		}
+
+		!discuss.isOver && discuss.pageIndex > 1 && commit('loading/setShowBottom', true, {root: true});
+		!discuss.isOver && api.BookListCommentGetList({bookListId: detail.id, page: discuss.pageIndex, lookType:discuss.lookType}).then(
+			data => {
+				console.log('书单讨论详情获取成功', data);
+				if (data.data.Result == 0) {
+					commit('setBookInBookListDiscussList', data.data.Data);
+					data.data.Data && data.data.Data.length < 20 && (discuss.isOver = true);
+					discuss.pageIndex++;
+					if (discuss.pageIndex > 1) {
+						commit('loading/setShowBottom', false, {root: true});
+					}
+				}
+			}
+		)
+	},
+
+	/**
+	 * 下拉刷新 书单讨论
+	 * @param state
+	 * @param commit
+	 * @param rootState
+	 */
+	refreshDataBookListDiscuss({state, commit, rootState}) {
+		state.bookListDiscuss.pageIndex = 1;
+		state.bookListDiscuss.isOver = false;
+		actions.getBookListDiscuss({state, commit, rootState});
+		commit('loading/setMarginTopDis', {}, {root: true});
 	},
 };
 

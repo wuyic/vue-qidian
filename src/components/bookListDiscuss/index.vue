@@ -32,7 +32,7 @@
 		},
 
 		created() {
-
+			this.$store.dispatch('booklist/getBookListDiscuss');
         },
 
 		components: {
@@ -65,7 +65,7 @@
 
     .indexReco {
         margin-top: 44px;
-        height: 100%;
+        height: calc(100vh - 44px);
         background-color: #f5f5f5;
         display: -webkit-flex;
         display: flex;

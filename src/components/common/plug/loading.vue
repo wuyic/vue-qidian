@@ -108,8 +108,6 @@
             touchEnd(event) {
 	            this.touchPos.endx = event.changedTouches[0].clientX;
 	            this.touchPos.endy = event.changedTouches[0].clientY;
-	            console.log('yyyy ',this.calcDistenceY());
-	            console.log('scroll' , this.scrollTop);
 	            if (this.calcDistenceY() >= 50 && this.isRefresh && this.scrollTop==0) {
 	            	let disTmp = this.calcDistenceY()-50;
 	            	disTmp = Math.max(this.calcDistenceY(), 50);
@@ -134,7 +132,6 @@
             },
 
             calcDistenceY() {
-				console.log(this.touchPos);
 	            return (this.touchPos.endy - this.touchPos.starty)/3;
             }
         },
