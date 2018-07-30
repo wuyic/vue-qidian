@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions, mapGetters, mapMutations} from 'vuex';
     import Loading from '../common/plug/loading.vue'
 	export default {
 		name: 'bookListDiscussList',

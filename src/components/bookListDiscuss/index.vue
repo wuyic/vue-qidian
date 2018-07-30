@@ -7,8 +7,11 @@
                 :headRight="{text:'只看单主', type:'word', func:null, opt:1}">
             </indexTitle>
         </div>
-        <div class="indexReco">
+        <div class="indexReco" :style="{height:calcHeight}">
             <List></List>
+        </div>
+        <div style="height: 100%">
+            <Chat></Chat>
         </div>
     </div>
 </template>
@@ -39,7 +42,9 @@
 			indexTitle,List,Chat
 		},
 		computed: {
-
+			...mapGetters('chat', {
+				calcHeight:'calcSmallInputHeight'
+			})
 		},
 		methods: {
 
@@ -65,7 +70,6 @@
 
     .indexReco {
         margin-top: 44px;
-        height: calc(100vh - 44px);
         background-color: #f5f5f5;
         display: -webkit-flex;
         display: flex;

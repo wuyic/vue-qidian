@@ -7,6 +7,7 @@ import ad from './modules/ad'
 import loading from './modules/loading'
 import account from './modules/account'
 import toast from './modules/toast'
+import chat from './modules/chat'
 
 Vue.use(Vuex);
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
 		ad:       ad,       // 广告
 		loading:  loading,  // 上拉加载 下拉刷新
 		toast:    toast,    // 弹出层
-		account:  account,      // 用户
+		account:  account,  // 用户
+		chat:     chat,     // 聊天
 	},
 })
