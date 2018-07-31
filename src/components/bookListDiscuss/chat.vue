@@ -1,26 +1,42 @@
 <template>
     <div>
-        <div class="chatBoxSmall">
-            <div class="textInputArea">
-                <textarea
-                        placeholder="写评论" rows="1"
-                        @keyup="setAutoTextAreaHeight($event)"
-                        :value="inputWord"
-                        @input="setInputWord"
-                        :style="{height:autoTextAreaHeight}"
-                >
-                </textarea>
-            </div>
+        <!--只有输入的聊天框-->
+        <div class="onlyInputBox">
+            <chatInput></chatInput>
+        </div>
 
-            <div class="imageSmail">
-
-            </div>
+        <!--展示表情-->
+        <div class="showChatInputBox">
+            <Toast
+                :type="'toastBox'"
+                :position="'bottom'"
+                :toastName="'chatInputEmoji'"
+                ref="chatInputEmoji"
+            >
+                <chatInput></chatInput>
+                <div class="emojiBox">
+                    <Slide :pageAllNum="emoji.allPage">
+                       <template slot="slide" slot-scope="props">
+                           <div class="emojiList">
+                               <img class="emoji" v-for="(item, index) in emoji.list()"
+                                    v-if="(props.indexPos - 1) * emoji.pageCount < index && index < props.indexPos * emoji.pageCount"
+                                    :src="require('../../assets/image/expression/'+item.name)" alt=""
+                                    @click="addEmoji('['+item.word+']')"
+                               />
+                           </div>
+                       </template>
+                    </Slide>
+                </div>
+            </Toast>
         </div>
     </div>
 </template>
 
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex'
+    import chatInput from './chatInput';
+    import Toast from '../common/plug/Toast.vue';
+    import Slide from '../common/plug/slide.vue';
 	export default {
 		name: 'chat',
 		data() {
@@ -28,18 +44,25 @@
 
             }
 		},
+
+        components:{
+	        chatInput,Toast,Slide
+        },
+
 		mounted() {
 
 		},
         computed:{
             ...mapGetters('chat', {
 	            inputWord:'getInputWord',
-	            autoTextAreaHeight:'autoTextAreaHeight'
+	            autoTextAreaHeight:'autoTextAreaHeight',
+	            calcHeight:'calcSmallInputHeight',
+	            emoji:'GetEmoji',
             })
         },
 		methods: {
             ...mapActions('chat', [
-	            'setInputWord', 'setAutoTextAreaHeight'
+	            'setInputWord', 'setAutoTextAreaHeight', 'addEmoji'
                 ]
             ),
         },
@@ -47,42 +70,25 @@
 </script>
 
 <style lang="scss" scoped>
-    .chatBoxSmall {
-        height: 100%;
+    .emojiBox {
+        height: 3.94rem;
         width: 7.5rem;
-        background-color: #f4f4f6;
-        border-top:1px solid #dcdcdc;
-        display: -webkit-flex;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        .textInputArea {
-            padding-top: 0.05rem;
-            padding-bottom: 0.05rem;
-            border: 1px solid #b7b7b7;
-            border-radius: 0.07rem;
-            background-color: #fff;
-            font-size: 0.28rem;
+        background-color: #eee;
 
-            textarea {
-                background-color: #fff;
-                width: 6.4rem;
-                /*line-height: 0.4rem;*/
-                /*min-height: 0.4rem;*/
-                justify-content: center;
-                word-wrap: break-word;
-                overflow: hidden;
-                resize: none;
-            }
-
-            textarea:focus {
-                background-color: #fff;
-                outline: none;
-            }
+        .emojiList {
+            padding: 0.18rem;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
         }
 
-        .imageSmail {
-
+        .emoji {
+            width: 0.45rem;
+            height: 0.45rem;
+            padding: 0.17rem;
         }
 
     }

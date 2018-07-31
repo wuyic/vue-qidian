@@ -73,7 +73,6 @@ const actions = {
 
 	toastBox({state, commit}, {type, status}) {
 		commit('changeState', {type, status});
-		console.log('changeState Over', state)
 	},
 	/**
 	 * 简单提示框， 在APP.vue中注册

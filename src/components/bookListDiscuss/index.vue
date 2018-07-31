@@ -43,7 +43,7 @@
 		},
 		computed: {
 			...mapGetters('chat', {
-				calcHeight:'calcSmallInputHeight'
+				calcHeight:'calcFatherHeight'
 			})
 		},
 		methods: {
