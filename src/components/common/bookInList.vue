@@ -2,7 +2,7 @@
     <div>
         <!--书籍列表信息-->
         <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position != 'bookListDetail'">
-            <div style="font-size: 0">
+            <div style="font-size: 0;flex-shrink: 0;">
                 <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
             </div>
             <div class="right">
@@ -24,7 +24,7 @@
 
         <!--书单详情中的书籍缩略信息-->
         <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position == 'bookListDetail'">
-            <div style="font-size: 0">
+            <div style="font-size: 0;flex-shrink: 0;">
                 <img class="bookImage" style="width: 1.1rem; height: 1.5rem" :src='"https://qidian.qpic.cn/qdbimg/349573/" + bookInfo.bookId + "/180"' alt="">
             </div>
             <div class="right" style="height: 1.5rem">
@@ -111,21 +111,30 @@
         font-size: 0.28rem;
         color:#333;
         text-align: left;
+        height: 0.4rem;
+        line-height: 0.4rem;
+
     }
 
     .ansBook .description {
-        /*height: 0.8rem;*/
+        padding: 0.1rem 0;
         overflow:hidden;
         text-overflow:ellipsis;
+        display:-moz-box;
         display:-webkit-box;
         -webkit-box-orient:vertical;
-        -webkit-line-clamp:2;
+        -webkit-line-clamp: 2;
         color: #9a9a9a;
         font-size:0.24rem;
         text-align: left;
+
+
+        height: 0.6rem;
+        line-height: 0.35rem;
     }
 
     .ansBook .userBox {
+        height: 0.4rem;
         width:50%;
         display: -webkit-flex;
         display: flex;

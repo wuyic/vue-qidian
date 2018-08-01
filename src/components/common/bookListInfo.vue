@@ -313,6 +313,7 @@
         font-size: 0.24rem;
         text-align: left;
         margin-right: 0.2rem;
+        line-height: 0.3rem;
     }
 
     .userBox {

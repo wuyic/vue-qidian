@@ -21,8 +21,7 @@
 			Toast:Toast
 		},
 		mounted() {
-			console.log('toast', this.$refs, this.$refs.toast);
-			this.$store.dispatch('toast/setToast', {func:this.$refs.toast})
+
         },
 
 

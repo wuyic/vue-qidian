@@ -18,6 +18,10 @@ const state = {
 		type4: [], //出版
 	},
 	bookCaseState: [],
+
+	bookDetail:{
+		pageIndex:0,
+	}
 };
 
 
@@ -108,15 +112,15 @@ const actions = {
 	 * @param rootState
 	 */
 	getBookCase({state, commit, rootState}) {
-		if (state.bookCase.getBookBigType == 0) {
+		// if (state.bookCase.getBookBigType == 0) {
 			api.getBookCase().then((data) => {
-					console.log(data);
+					console.log("书架获取成功", data);
 					commit('setBookCase', data.data.ServerCase.BookInfo);
 					commit('setServiceTime', data.data.ServerTime, {root: true});
 					state.bookCase.getBookBigType = 1;
 				}
 			)
-		}
+		// }
 	},
 
 	/**
@@ -126,13 +130,13 @@ const actions = {
 	 * @param rootState
 	 */
 	getBookBigType({state, commit, rootState}) {
-		if (state.bookCase.getBookBigType == 0) {
+		// if (state.bookCase.getBookBigType == 0) {
 			api.getBookBigType().then((data) => {
 					commit('setBookBigType', data.data.data);
 					state.bookCase.getBookBigType = 1;
 				}
 			);
-		}
+		// }
 	},
 
 	/**
@@ -142,20 +146,21 @@ const actions = {
 	 * @param rootState
 	 */
 	getBookSmallTypeAll({state, commit, rootState}) {
-		if (state.bookCase.getBookBigType) {
+		// if (state.bookCase.getBookBigType) {
 			api.getBookType(-1).then(
 				(data) => {
 					commit('setBookTypeAll', data.data.data);
 					state.bookCase.getBookBigType = 1;
 				}
 			)
-		}
+		// }
 	}
 };
 
 export default {
+	namespaced:true,
 	state,
 	mutations,
 	getters,
-	actions
+	actions,
 }

@@ -18,8 +18,8 @@
         data() {
     		return {
 			    moveLeft:{
-			    	sure:'0px',
-                    temp:'0px'
+			    	sure:'0px', //left值
+                    temp:'0px'  //move事件中临时存放start时的left值
                 },
                 startPos:{x:0},
                 moveModulus:3,

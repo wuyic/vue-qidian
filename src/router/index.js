@@ -1,13 +1,14 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import index  from '@/components/index'
-import http   from '@/components/common/http'
+import Vue      from 'vue'
+import Router   from 'vue-router'
+import index    from '@/components/index'
+import http     from '@/components/common/http'
 import shaixuan from '@/components/index/other/shaixuan'
 import bookListmyCollect from '@/components/myCollectBookList/index'
-import myBookListCreate from '@/components/myBookListCreate/index'
-import booklistDetail   from '@/components/bookListDetail/index'
-import booklistDiscuss  from '@/components/booklistDiscuss/index'
-import search from '@/components/search/index'
+import myBookListCreate  from '@/components/myBookListCreate/index'
+import booklistDetail    from '@/components/bookListDetail/index'
+import bookDetail        from '@/components/bookDetail/index'
+import booklistDiscuss   from '@/components/booklistDiscuss/index'
+import search            from '@/components/search/index'
 
 import good from '@/components/good'
 import find from '@/components/find'
@@ -85,6 +86,15 @@ export default new Router({
 			meta: {
 				introduce:'书单评论',
 				title: '书单评论',
+			}
+		},
+		{
+			path: '/book/detail',
+			name: 'bookDetail',
+			component: bookDetail,
+			meta: {
+				introduce:'书籍详情',
+				title: '书籍详情',
 			}
 		},
 		{

@@ -3,16 +3,19 @@
         <div class="textInputArea">
             <div class="divTextArea"
                  id="divTextArea"
+                 type="search"
                  placeholder="写评论"
-                 @keyup="setAutoTextAreaHeight($event)"
+                 @keyup="setInputHeight($event)"
+                 @keypress="onKeyPressEnter($event)"
                  v-html="inputWord"
                  @input="setInputWord"
                  :style="{height:autoTextAreaHeight}"
                  contenteditable="true"
+
             >
             </div>
         </div>
-        <div class="imageSmail" @click="showSmail()">
+        <div class="imageSmail" @click="showOrSmail">
             <img class="imageSmailImg" src="../../assets/image/QDEmojiFace.png" alt="">
         </div>
     </div>
@@ -28,7 +31,7 @@
 			return {}
 		},
 		mounted() {
-			console.log(this.img)
+
 		},
         watch: {
 	        inputWord : () => {
@@ -63,16 +66,16 @@
 		},
 		methods: {
 			...mapActions('chat', [
-					'setInputWord', 'setAutoTextAreaHeight'
+					'setInputWord', 'setAutoTextAreaHeight', 'onKeyPressEnter', 'showOrSmail'
 				]
 			),
-            showSmail() {
-				console.log(this.$store.state.toast.isShowBox);
-	            this.$store.dispatch('toast/toastBox', {
-			            type:'chatInputEmoji',
-			            status:!this.$store.state.toast.isShowBox.typechatInputEmoji
-		            })
-            }
+            setInputHeight(obj) {
+	            this.setAutoTextAreaHeight('auto');
+	            obj = obj.currentTarget;
+                this.$nextTick(()=>{
+	                this.setAutoTextAreaHeight(obj.scrollHeight + "px");
+                })
+            },
 		},
 	}
 </script>

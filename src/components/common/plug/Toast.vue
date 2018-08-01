@@ -1,12 +1,16 @@
 <template>
     <div @click="toastBox({type:toastName, status:false})">
-        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}" v-if="isShowToast || isShowBox['type'+toastName]">
+        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}" v-if="isShowToast">
             <transition name="toast">
                 <div class="toastTipWord" v-if="type=='toast' && isShowToast" z-index="20000">
                     <p>{{textVal}}</p>
                 </div>
             </transition>
-            <div class="toastBox" v-if="type=='toastBox'" style=""  @click.stop>
+        </div>
+
+
+        <div class="toastTip" :style="{backgroundColor:calcBGC, justifyContent:calcJC}" v-if="isShowBox['type'+toastName]">
+            <div class="toastBox" v-if="type=='toastBox'"  style=""  @click.stop>
                 <slot></slot>
             </div>
         </div>

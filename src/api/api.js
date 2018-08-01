@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {bookBigType,bookSmallType} from './data'
 
-const nodeServiceUrl = 'http://127.0.0.1:5678/get';
+const nodeServiceUrl = 'http://192.168.1.194:5678/get';
 
 function paramsToUrlParam(obj) {
 
@@ -51,12 +51,297 @@ let apiList = {
 	BookListDel        :false,  //删除书单
 	BookListCommentAdd :false,  //书单评论-添加
 	BookListCommentGetList :false,  //获取 书单 评论
+	BookListGetRelation:false,  //获取 书单 推荐
+
 	BookStoreGetList   :false,  //精选中 的书籍
-	BookStoreGetIntellRecommend   :false,  //精选中推荐
+	BookStoreGetIntellRecommend   :false,  //精选中推荐、
+	BookStoreGetRelatedBooks      :false,  //获取 书友还看过、
+
+	BookGetBookDiscount:false, //书籍 获取书籍折扣
+	BookGet            :false, //书籍 获取书籍详细信息
+	BookGetBookAd      :false, //书籍 获取书籍广告
+	BookGetBookHonors  :false, //书籍 获取作品荣誉
+	BookGetNonAnony    :false, //书籍 获取书籍信息
+
+
+	InterActionGetRecomTicket  :false, //书籍 获取 推荐票
+	InterActionGetMonthTicket  :false, //书籍 获取 月票
+	InterActionGetDonate       :false, //书籍 获取 打赏
+	InterActionGetReview       :false, //书籍 获取 推荐票 月票 打赏 总揽
+
+
+	ReviewGet          :false, //书籍 获取 书评
+	ReviewGetReply     :false, //书籍 获取 回复书评
+
+
+	UserGetAuthorInfo  :false, //书籍 获取 回复书评
+
+
+
+
+
+
+
 };
 
 
 export default {
+	/**
+	 * 获取 书友还看过
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookStoreGetRelatedBooks(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookStore/GetRelatedBooks',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId || 0,
+						pageIndex:options.pageIndex || 1
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 书评
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	UserGetAuthorInfo(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/User/GetAuthorInfo',
+					method:'post',
+					param:paramsToUrlParam({
+						authorId:options.authorId || 3653702,
+						pageIndex:options.pageIndex || -1,
+						pageSize:options.pageSize || 10,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 书评
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	ReviewGet(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Review/Get',
+					method:'get',
+					param:paramsToUrlParam({
+						ReviewType:112,
+						bookId:options.bookId || 0,
+						pageIndex:bookId.pageIndex || 1,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书籍 获取 回复书评
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	ReviewGetReply(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Review/GetReply',
+					method:'get',
+					param:paramsToUrlParam({
+						LastPostId:options.LastPostId || 0,
+						PageIndex: options.PageIndex  || 1,
+						pageSize:  options.reviewId   ||10,
+						reviewId:  options.reviewId   || 1207110155
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 打赏
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	InterActionGetReview(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/InterAction/GetReview',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId||0,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 打赏
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	InterActionGetDonate(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/InterAction/GetDonate',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId||0,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 月票
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	InterActionGetMonthTicket(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/InterAction/GetMonthTicket',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId||0,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 推荐票
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	InterActionGetRecomTicket(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/InterAction/GetRecomTicket',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId||0,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取 作品荣誉
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookGetBookHonors(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Book/GetBookHonors',
+					method:'get',
+					param:paramsToUrlParam({
+						bookId:options.bookId||0,
+						pageIndex:options.pageIndex||1,
+						pageSize:options.pageSize|| 20,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书籍 获取 书籍信息
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookGetNonAnony(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Book/GetNonAnony',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId||0,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书籍 获取书籍广告
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookGetBookAd(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Book/GetBookAd',
+					method:'get',
+					param:paramsToUrlParam({
+						adpos:'bookdetail',
+						bookid:options.bookid || 0,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 书籍 获取书籍详细信息
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookGet(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/Book/Get',
+					method:'get',
+					param:paramsToUrlParam({
+						BookId:options.BookId || 0,
+						iosDeviceType:options.BookId || 0,
+						isOutBook:options.isOutBook || 0,
+						preview:options.preview || 0
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 书籍 获取书籍折扣
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookGetBookDiscount({bookid, isFreeUser}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params: {
+					url: 'https://mage.if.qidian.com/Atom.axd/Api/Book/GetBookDiscount',
+					method: 'post',
+					param: paramsToUrlParam({
+						bookid: bookid,
+						isFreeUser: isFreeUser
+					}),
+				}
+			}
+		)
+	},
+
+
+
 
 	/**
 	 * 书单  加入书架
@@ -171,6 +456,29 @@ export default {
 						page: page,
 						size:20,
 						timestamp:12345
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取 书单 推荐
+	 * lookType 0 全部  1只看作者
+	 * @returns {AxiosPromise<any>}
+	 */
+	BookListGetRelation({bookid}) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetRelation',
+					method:'post',
+					param:paramsToUrlParam({
+						bookid:bookid,
+						isRecommended:	1,
+						page:	1,
+						size:	3,
+						type:	2,
 					}),
 				}
 			}

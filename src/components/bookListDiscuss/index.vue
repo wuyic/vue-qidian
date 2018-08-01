@@ -2,9 +2,9 @@
     <div class="mybooklist">
         <div class="indexTitle">
             <indexTitle
-                :headLeft="{text:'返回', type:'word'}"
-                :headCenter="{text:'书单评论('+1+')', type:'word'}"
-                :headRight="{text:'只看单主', type:'word', func:null, opt:1}">
+                    :headLeft="{text:'返回', type:'word'}"
+                    :headCenter="{text:'书单评论('+discuss.commentCount+')', type:'word'}"
+                    :headRight="{text:discuss.textShow[discuss.lookType], type:'word', func:onlyReadBookListDiscuss, opt:1}">
             </indexTitle>
         </div>
         <div class="indexReco" :style="{height:calcHeight}">
@@ -18,7 +18,7 @@
 
 <script>
 	/**
-     * 书单讨论
+	 * 书单讨论
 	 */
 	import {mapGetters, mapActions} from 'vuex'
 	import indexTitle from '../common/title.vue';
@@ -29,26 +29,29 @@
 	export default {
 		name: 'index',
 		data() {
-			return {
-
-			}
+			return {}
 		},
 
 		created() {
 			this.$store.dispatch('booklist/getBookListDiscuss');
-        },
+		},
 
 		components: {
-			indexTitle,List,Chat
+			indexTitle, List, Chat
 		},
 		computed: {
 			...mapGetters('chat', {
-				calcHeight:'calcFatherHeight'
-			})
+				calcHeight: 'calcFatherHeight'
+			}),
+            ...mapGetters('booklist', {
+	            discuss:'getBookListDiscussGetter',
+            })
 		},
 		methods: {
-
-		}
+			...mapActions('booklist', [
+				'onlyReadBookListDiscuss'
+			]),
+        }
 	}
 </script>
 

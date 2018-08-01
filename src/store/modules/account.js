@@ -129,7 +129,7 @@ const actions = {
 	/**
 	 *  送花
 	 */
-	accountGiveFlower({state, commit, rootState}) {
+	accountGiveFlower({state, commit, dispatch,rootState}) {
 		let detail = rootState.booklist.bookListDetail;
 		let bookListId = detail.id;
 		let num = 0;
@@ -143,9 +143,9 @@ const actions = {
 				(data) => {
 					console.log('送花完毕', data);
 					if (!data.data.Result) {
-						rootState.toast.toast.toastText({text:'献花成功', timeout:1500})
+						dispatch('toast/toastText', {text:'献花成功', timeout:1500})
 					} else {
-						rootState.toast.toast.toastText({text:data.data.Message, timeout:1500})
+						dispatch('toast/toastText', {text:data.data.Message, timeout:1500})
 					}
 				}
 			)

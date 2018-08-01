@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from "vuex-persistedstate";
 import bookcase from './modules/bookcase'
 import booklist from './modules/booklist'
 import search from './modules/search'
@@ -24,19 +25,21 @@ export default new Vuex.Store({
 			state.serverTime = time;
 		},
 	},
-
-	actions: {
-
-	},
-
+	actions: {},
 	modules: {
 		bookcase: bookcase, // 书架
 		booklist: booklist, // 书单
-		search:   search,   // 搜索
-		ad:       ad,       // 广告
-		loading:  loading,  // 上拉加载 下拉刷新
-		toast:    toast,    // 弹出层
-		account:  account,  // 用户
-		chat:     chat,     // 聊天
+		search: search,   // 搜索
+		ad: ad,       // 广告
+		loading: loading,  // 上拉加载 下拉刷新
+		toast: toast,    // 弹出层
+		account: account,  // 用户
+		chat: chat,     // 聊天
 	},
+
+    //设置部分缓存
+	plugins: [createPersistedState({
+			paths: ['bookcase', 'booklist', 'search', 'ad']
+		}
+	)]
 })

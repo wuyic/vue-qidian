@@ -67,7 +67,7 @@ const actions = {
 		timeout && (state.timeout = timeout);
 		console.log(state.timeout, timeout);
 		setTimeout(() => {
-			state.isShowToast = false
+			state.isShowToast = false;
 		}, state.timeout)
 	},
 

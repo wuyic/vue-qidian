@@ -123,6 +123,11 @@ const state = {
 		isOver: false,
 		list:[],
 		lookType:0, //0 all  1 only author
+		textShow:[
+			'只看单主',
+			'查看全部'
+		],
+		commentCount:0,
 	}
 };
 
@@ -193,6 +198,17 @@ const mutations = {
 				pageIndex: 1,
 				isOver: false,
 			}
+		};
+		state.bookListDiscuss = {
+			pageIndex: 1,
+				isOver: false,
+				list:[],
+				lookType:0, //0 all  1 only author
+				textShow:[
+				'只看单主',
+				'查看全部'
+			],
+				commentCount:0,
 		}
 	},
 
@@ -217,7 +233,8 @@ const mutations = {
 	/**
 	 * 书单讨论
 	 */
-	setBookInBookListDiscussList: (state, list) => {
+	setBookInBookListDiscussList: (state, {list, count}) => {
+		state.bookListDiscuss.commentCount = count;
 		if (state.bookListDiscuss.pageIndex == 1) {
 			state.bookListDiscuss.list = [...list];
 		} else {
@@ -607,7 +624,9 @@ const actions = {
 			data => {
 				console.log('书单讨论详情获取成功', data);
 				if (data.data.Result == 0) {
-					commit('setBookInBookListDiscussList', data.data.Data);
+					commit('loading/setMarginTopDis',{}, {root: true});
+					commit('setBookInBookListDiscussList', {list:data.data.Data, count:data.data.commentCount});
+
 					data.data.Data && data.data.Data.length < 20 && (discuss.isOver = true);
 					discuss.pageIndex++;
 					if (discuss.pageIndex > 1) {
@@ -629,6 +648,21 @@ const actions = {
 		state.bookListDiscuss.isOver = false;
 		actions.getBookListDiscuss({state, commit, rootState});
 		commit('loading/setMarginTopDis', {}, {root: true});
+	},
+
+	/**
+	 * click 只看作者
+	 * @param state
+	 * @param commit
+	 * @param rootState
+	 */
+	onlyReadBookListDiscuss({state, commit, rootState}) {
+		commit('loading/setMarginTopDis', {value:1}, {root: true});
+
+		state.bookListDiscuss.pageIndex = 1;
+		state.bookListDiscuss.isOver = false;
+		state.bookListDiscuss.lookType = (state.bookListDiscuss.lookType+1) % 2;
+		actions.getBookListDiscuss({state, commit, rootState});
 	},
 };
 

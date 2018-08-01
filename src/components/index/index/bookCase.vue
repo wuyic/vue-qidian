@@ -38,10 +38,9 @@
 
 		created() {
 			//获取书架列表数据
-			this.$store.dispatch('getBookBigType');
-			this.$store.dispatch('getBookSmallTypeAll');
-			this.$store.dispatch('getBookCase');
-//      this.$store.dispatch('test');
+			this.$store.dispatch('bookcase/getBookBigType');
+			this.$store.dispatch('bookcase/getBookSmallTypeAll');
+			this.$store.dispatch('bookcase/getBookCase');
 		},
 
 		computed: {

@@ -8,7 +8,7 @@
                    <!--DeviceType2 CreateTime 1530058005000-->
                    <p class="userName">{{item.NickName}}</p>
                    <p class="timeSource">{{item.CreateTime}}</p>
-                   <p class="disContent">{{item.Content}}</p>
+                   <p class="disContent" v-html="dealWithEmoji(item.Content)"></p>
                </div>
            </div>
        </Loading>
@@ -31,14 +31,18 @@
 		},
         computed:{
             ...mapGetters('booklist', {
-            	discuss:'getBookListDiscussGetter'
+            	discuss:'getBookListDiscussGetter',
+            }),
+            ...mapGetters('chat', {
+	            dealWithEmoji:'dealWithEmoji'
             })
         },
 
 		methods: {
             ...mapActions('booklist', [
-	            'refreshDataBookListDiscuss', 'getBookListDiscuss'
-            ])
+	            'refreshDataBookListDiscuss', 'getBookListDiscuss',
+            ]),
+
         },
 	}
 </script>
