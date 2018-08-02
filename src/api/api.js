@@ -292,7 +292,7 @@ export default {
 					method:'get',
 					param:paramsToUrlParam({
 						adpos:'bookdetail',
-						bookid:options.bookid || 0,
+						bookid:options.bookId || 0,
 					}),
 				}
 			}
@@ -311,8 +311,8 @@ export default {
 					url:'https://mage.if.qidian.com/Atom.axd/Api/Book/Get',
 					method:'get',
 					param:paramsToUrlParam({
-						BookId:options.BookId || 0,
-						iosDeviceType:options.BookId || 0,
+						BookId:options.bookId || 0,
+						iosDeviceType:options.iosDeviceType || 0,
 						isOutBook:options.isOutBook || 0,
 						preview:options.preview || 0
 					}),
@@ -325,14 +325,14 @@ export default {
 	 * @returns {AxiosPromise<any>}
 	 * isFreeUser 0 bushi  1shi
 	 */
-	BookGetBookDiscount({bookid, isFreeUser}) {
+	BookGetBookDiscount({bookId, isFreeUser}) {
 		return axios.get(
 			nodeServiceUrl, {
 				params: {
 					url: 'https://mage.if.qidian.com/Atom.axd/Api/Book/GetBookDiscount',
 					method: 'post',
 					param: paramsToUrlParam({
-						bookid: bookid,
+						bookid: bookId,
 						isFreeUser: isFreeUser
 					}),
 				}
@@ -467,14 +467,14 @@ export default {
 	 * lookType 0 全部  1只看作者
 	 * @returns {AxiosPromise<any>}
 	 */
-	BookListGetRelation({bookid}) {
+	BookListGetRelation({bookId}) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
 					url:'https://mage.if.qidian.com/Atom.axd/Api/BookList/GetRelation',
 					method:'post',
 					param:paramsToUrlParam({
-						bookid:bookid,
+						bookid:bookId,
 						isRecommended:	1,
 						page:	1,
 						size:	3,

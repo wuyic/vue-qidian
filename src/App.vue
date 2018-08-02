@@ -34,6 +34,11 @@
         src: url('./assets/font/PingFang-SC-Regular.otf') ;       /*字体源文件*/
     }
 
+    @font-face {
+        font-family: 'PingFangSC-Medium';   /*字体名称*/
+        src: url('./assets/font/PingFang-medium.ttf') ;       /*字体源文件*/
+    }
+
     * {
         margin: 0;
         padding: 0;

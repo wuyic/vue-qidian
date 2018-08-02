@@ -1,5 +1,6 @@
 import api from '../../api/api'
 import {BookCase} from '../class/bookCase'
+import {Book} from '../class/book'
 import {bookSmallType} from '../../api/data'
 
 const state = {
@@ -20,7 +21,8 @@ const state = {
 	bookCaseState: [],
 
 	bookDetail:{
-		pageIndex:0,
+		bookId:1003580078,
+		detail:{},
 	}
 };
 
@@ -66,8 +68,20 @@ const mutations = {
 		state.bookSmallType = data;
 	},
 
+	/**
+	 * 筛选选择
+	 * @param state
+	 * @param data
+	 */
 	setSaixuanChoosed(state, data) {
 		state.bookCase.saixuanChoosed = data;
+	},
+
+	/**
+	 *  初始化书籍详情
+	 */
+	initBookDetail(state) {
+		state.bookDetail.detail = new Book({bookId:state.bookDetail.bookId})
 	}
 };
 
@@ -83,7 +97,14 @@ const mutations = {
  *
  * @type {{}}
  */
-const getters = {};
+const getters = {
+
+	getterBookDetail(state) {
+		console.log('state', state);
+		return state.bookDetail.detail;
+	}
+
+};
 
 /**
  * Action 类似于 mutation，不同在于：
@@ -96,15 +117,6 @@ const getters = {};
  * @type {{}}
  */
 const actions = {
-
-
-	test({state, commit, rootState}) {
-		api.test().then((data) => {
-				console.log(data);
-			}
-		)
-	},
-
 	/**
 	 * 获取我的书架列表
 	 * @param state
@@ -154,6 +166,13 @@ const actions = {
 				}
 			)
 		// }
+	},
+
+	/**
+	 * 获取书籍详细信息
+	 */
+	getBookDetail({state, commit, rootState}) {
+		commit('initBookDetail');
 	}
 };
 

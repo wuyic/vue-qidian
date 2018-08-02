@@ -9,7 +9,7 @@
                 <p class="bookTitle"  v-html="dealAnsWord(bookInfo.BookName)"></p>
                 <p class="description"  v-html="dealAnsWord(bookInfo.Description)"></p>
                 <div class="descBottom">
-                    <div class="userBox" >
+                    <div class="userBox">
                         <img class="userImg" src="../../assets/image/icon_loginaccount_24x24.png" alt="">
                         <p class="author" v-html="dealAnsWord(bookInfo.Author)"></p>
                     </div>
@@ -23,7 +23,7 @@
         </div>
 
         <!--书单详情中的书籍缩略信息-->
-        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position == 'bookListDetail'">
+        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position == 'bookListDetail'" @click="$router.push({name:'bookDetail'})">
             <div style="font-size: 0;flex-shrink: 0;">
                 <img class="bookImage" style="width: 1.1rem; height: 1.5rem" :src='"https://qidian.qpic.cn/qdbimg/349573/" + bookInfo.bookId + "/180"' alt="">
             </div>
