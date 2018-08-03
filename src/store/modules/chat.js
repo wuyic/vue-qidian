@@ -70,6 +70,11 @@ const getters = {
 	 * @param state
 	 */
 	dealWithEmoji: (state) => needDeal => {
+
+		if (!needDeal) {
+			return  ''
+		}
+
 		return needDeal.replace(/\[fn=(.*?)\]/g, (word, $1)=>{
 			let img = require('@/assets/image/expression/fn=' + $1 + '.png');
 			return "<img data-id='[fn="+$1+"]' style='width:0.3rem; height:0.3rem;vertical-align: middle;' src='"+img+"' >"

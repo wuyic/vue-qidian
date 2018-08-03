@@ -1,7 +1,8 @@
 import axios from 'axios'
 import {bookBigType,bookSmallType} from './data'
 
-const nodeServiceUrl = 'http://192.168.1.194:5678/get';
+const nodeServiceUrl = 'http://127.0.0.1:5678/get';
+// const nodeServiceUrl = 'http://192.168.1.194:5678/get';
 
 function paramsToUrlParam(obj) {
 

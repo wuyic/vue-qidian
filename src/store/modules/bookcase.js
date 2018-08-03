@@ -23,6 +23,8 @@ const state = {
 	bookDetail:{
 		bookId:1003580078,
 		detail:{},
+		showMoreDesc:false,
+		showMoreDescHeight:'1.2rem',
 	}
 };
 
@@ -82,6 +84,18 @@ const mutations = {
 	 */
 	initBookDetail(state) {
 		state.bookDetail.detail = new Book({bookId:state.bookDetail.bookId})
+	},
+
+	/**
+	 *
+	 */
+	bookDetailChangeMoreDesc(state) {
+		if (state.bookDetail.showMoreDesc) {
+			state.bookDetail.showMoreDescHeight = '1.2rem';
+		} else {
+			state.bookDetail.showMoreDescHeight = 'none';
+		}
+		state.bookDetail.showMoreDesc = !state.bookDetail.showMoreDesc;
 	}
 };
 
@@ -102,6 +116,13 @@ const getters = {
 	getterBookDetail(state) {
 		console.log('state', state);
 		return state.bookDetail.detail;
+	},
+
+	getterBookDetailShowMoreDesc(state) {
+		return {
+			more:state.bookDetail.showMoreDesc,
+			height:state.bookDetail.showMoreDescHeight
+		};
 	}
 
 };

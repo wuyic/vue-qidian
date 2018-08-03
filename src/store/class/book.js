@@ -97,22 +97,43 @@ export function Book(options) {
 		// );
 	};
 
+	/**
+	 * 大数字 以万为单位
+	 * @param num
+	 * @param needDecimal 是否需要保留以为小数
+	 * @param than        达到多少比例开始以万为单位
+	 * @returns {string}
+	 */
 	this.dealNum = (num, needDecimal, than) => {
 		than = than || 10000;
 		if (needDecimal) {
 			if (num >= than) {
 				return (num/10000).toFixed(1) + '万';
 			} else {
-				return Math.floor(num) + '';
+				return Math.ceil(num) + '';
 			}
 		} else  {
 			if (num >= than) {
-				return Math.floor(num/10000) + '万';
+				return Math.ceil(num/10000) + '万';
 			} else {
-				return Math.floor(num) + '';
+				return Math.ceil(num) + '';
 			}
 		}
 	};
+
+
+	/**
+	 * 换行符转换为 <br />
+	 */
+	this.whiteSpace = (desc) => {
+		let regx = /\n/g;
+		if (desc && desc.length > 0) {
+			return desc.replace(regx, '<br/>')
+		} else {
+			return ''
+		}
+	};
+
 
 	if (this.bookId == -1) {
 		return ;

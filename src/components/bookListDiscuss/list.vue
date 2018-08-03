@@ -76,7 +76,7 @@
             .userName {
                 text-align: left;
                 font-size: 0.26rem;
-                color:#5aaadb;
+                color:#5c9cda;
             }
 
             .timeSource {

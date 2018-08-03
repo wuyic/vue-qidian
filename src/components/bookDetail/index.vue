@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color: #eee; height: 100%">
+    <div style="background-color: #eee;">
         <!--头部有背景的-->
         <div class="bookDetailAll"
             :style="{backgroundImage: 'url('+bookDetail.bookDetail.CategoryPicture || urlBase+')'}"
@@ -59,16 +59,121 @@
             <div class="bookDesc">
                 <div>
                     <p class="title">简介</p>
-                    <p class="desc">{{bookDetail.bookDetail.Description}}</p>
+                    <p class="desc" :style="{maxHeight:showMoreDesc.height}" v-html="bookDetail.whiteSpace(bookDetail.bookDetail.Description)"></p>
                 </div>
-                <div class="more">
-                    <img src="../../assets/image/icon_open_16x16.png" alt="">
+                <div class="more" @click="bookDetailChangeMoreDesc">
+                    <img v-if="!showMoreDesc.more" src="../../assets/image/icon_open_16x16.png" alt="">
+                    <img v-if="showMoreDesc.more" src="../../assets/image/icon_stuff_16x16.png" alt="">
                 </div>
             </div>
-            <div class="mulu"></div>
-            <div class="hearBook"></div>
+            <div class="mulu">
+                <div>
+                    <p class="title">目录</p>
+                </div>
+                <div class="right">
+                    <p>连载至 1234 章 更新与一个月以前</p>
+                    <img src="../../assets/image/more_small_16x16.png" alt="">
+                </div>
+            </div>
+            <div class="hearBook">
+                <div>
+                    <p class="title">听书</p>
+                </div>
+                <div class="right">
+                    <p>连载至44章</p>
+                    <img src="../../assets/image/more_small_16x16.png" alt="">
+                </div>
+            </div>
         </div>
 
+        <!--荣誉-->
+        <div class="sameDiv bookHonor">
+            <div>
+                <p class="title">作品荣誉</p>
+            </div>
+            <div class="right">
+                <p>更上一层楼</p>
+                <img src="../../assets/image/more_small_16x16.png" alt="">
+            </div>
+        </div>
+
+        <!--书评-->
+        <div class="sameDiv bookReviewList">
+            <div class="listTitle">
+                <div>
+                    <p class="title">书评</p>
+                </div>
+                <div class="right">
+                    <p>1万+</p>
+                    <img src="../../assets/image/more_small_16x16.png" alt="">
+                </div>
+            </div>
+            <div class="reviewList"
+                 v-for="(item, index) in bookDetail.bookDetail.BookReviewList"
+                 v-if="index < 3"
+            >
+                <div>
+                    <img class="userImg" :src="item.UserHeadIcon"/>
+                </div>
+                <div class="discussInfo">
+                    <div class="userInfo">
+                        <div class="info">
+                            <p class="userName">{{item.UserName}}</p>
+                            <p class="timeSource">{{item.From}}</p>
+                        </div>
+                        <div class="count">
+                            <img src="../../assets/image/icon_comment.png" alt="">
+                            <p>7</p>
+                        </div>
+                    </div>
+                    <p class="disContent" v-html="dealWithEmoji(item.Body)"></p>
+                </div>
+
+            </div>
+        </div>
+
+        <!--作家-->
+        <div class="sameDiv authorInfo">
+            <div class="authorTitle">
+                <div>
+                    <p class="title">作家</p>
+                </div>
+                <div class="right">
+                    <img src="../../assets/image/more_small_16x16.png" alt="">
+                </div>
+            </div>
+            <div class="userInfo">
+                <div class="leftInfo">
+                    <img :src="bookDetail.bookDetail.AuthorInfo.RealImageUrl" alt="">
+                </div>
+                <div class="rightInfo">
+                    <p>{{bookDetail.bookDetail.AuthorInfo.AuthorName}}</p>
+                    <p>{{bookDetail.bookDetail.AuthorInfo.AuthorDesc}}</p>
+                </div>
+            </div>
+
+            <div class="bookInfoList" v-if="bookDetail.bookDetail.AuthorOtherBooksCount">
+                <div class="list" v-for="(item, index) in bookDetail.bookDetail.SameRecommend">
+                    <img :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"' alt="">
+                    <div class="bookName">
+                        <p>{{item.BookName}}</p>
+                    </div>
+                    <p>{{bookDetail.dealNum(item.BssReadTotal, 1)}}人读过</p>
+                </div>
+            </div>
+        </div>
+
+        <!--书单收录-->
+        <div class="sameDiv bookListhaveThisBook"></div>
+
+        <!--书友还看过-->
+        <div class="sameDiv bookFriendsRecommend"></div>
+
+        <!--同类作品-->
+        <div class="sameDiv sameRecommend"></div>
+
+        <!--版权信息-->
+        <div class="sameDiv copyRight "></div>
     </div>
 </template>
 <!--bgImg: -->
@@ -76,7 +181,7 @@
 	/**
 	 * 书籍详情
 	 */
-	import {mapGetters, mapActions} from 'vuex'
+	import {mapGetters, mapActions, mapMutations} from 'vuex'
 	export default {
 		name: 'bookDetail',
 		data() {
@@ -92,8 +197,12 @@
 		},
         computed:{
             ...mapGetters('bookcase', {
-	            bookDetail:'getterBookDetail'
+	            bookDetail:'getterBookDetail',
+	            showMoreDesc:'getterBookDetailShowMoreDesc',
             }),
+	        ...mapGetters('chat', {
+		        dealWithEmoji:'dealWithEmoji'
+	        }),
 
             calcReward() {
             	let arr = [];
@@ -104,11 +213,51 @@
             	return arr;
             }
         },
-		methods: {},
+		methods: {
+            ...mapMutations('bookcase', [
+	            'bookDetailChangeMoreDesc'
+            ])
+        },
 	}
 </script>
 
 <style lang="scss" scoped>
+
+    .right {
+        display: -webkit-flex;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        width: 5.5rem;
+
+        p {
+            color: #9b9b9b;
+            font-size: 0.26rem;
+            padding-right: 0.2rem;
+        }
+
+        img {
+            width: 0.35rem;
+            height: 0.35rem;
+        }
+    }
+
+    .title {
+        height: 0.8rem;
+        line-height: 0.8rem;
+        text-align: left;
+        font-family: PingFang-Medium;
+        color:#000;
+        font-size: 0.30rem;
+    }
+
+    .sameDiv {
+        margin-top: 0.2rem;
+        background-color: #fff;
+        width: 7.5rem;
+    }
+
     .bookDetailAll {
         height: 3.53rem;
         width: 7.5rem;
@@ -292,6 +441,7 @@
         background-color: #fff;
         overflow: hidden;
 
+
         .bookDesc {
             border-bottom:1px solid #dcdcdc;
             margin-left: 0.3rem;
@@ -316,12 +466,11 @@
                 text-align: left;
                 width: 6.5rem;
                 color:#7a7a7a;
-                font-size: 0.28rem;
+                font-size: 0.26rem;
                 line-height: 0.4rem;
                 overflow:hidden;
                 text-overflow:clip;
-                height: 1.2rem;
-
+                max-height: 1.2rem;
              }
 
             .more {
@@ -336,16 +485,251 @@
 
         .mulu {
             height: 0.8rem;
-            margin-left: 0.3rem;
-            width: 7.2rem;
+            margin:0 0.3rem;
+            width: 6.9rem;
             border-bottom:1px solid #dcdcdc;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .hearBook {
             height: 0.8rem;
-            margin-left: 0.3rem;
-            width: 7.2rem;
+            margin:0 0.3rem;
+            width: 6.9rem;
+
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
     }
+
+    .bookHonor {
+        height: 0.8rem;
+        padding:0 0.3rem;
+        width: 6.9rem;
+        display: -webkit-flex;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .bookReviewList {
+        width: 7.5rem;
+        background-color: #fff;
+
+        .listTitle {
+            height: 0.8rem;
+            margin:0 0.3rem;
+            width: 6.9rem;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom:1px solid #dcdcdc;
+
+        }
+
+        .reviewList {
+            display: -webkit-flex;
+            display: flex;
+            justify-content: flex-start;
+            padding:0.3rem 0 0 0.28rem ;
+            background-color: #fff;
+            align-items: flex-start;
+
+            .userImg {
+                width: 0.6rem;
+                height: 0.6rem;
+                border-radius: 0.3rem;
+            }
+
+            .discussInfo {
+                padding:0 0.25rem 0.3rem 0.1rem;
+                width: 6.2rem;
+
+                .userInfo {
+                    height: 0.6rem;
+                    display: -webkit-flex;
+                    display: flex;
+                    justify-content: space-between;
+                    width: 6.2rem;
+                    overflow: hidden;
+
+                    .info {
+                        width: 4.2rem;
+                        .userName {
+                            text-align: left;
+                            font-size: 0.26rem;
+                            color:#5c9cda;
+                            line-height: 0.3rem;
+                        }
+
+                        .timeSource {
+                            transform: scale(0.8);
+                            transform-origin: left;
+                            line-height: 0.37rem;
+                            text-align: left;
+                            font-size: 0.24rem;
+                            color:#9b9b9b;
+                        }
+                    }
+
+                    .count {
+                        width: 2rem;
+                        height: 0.6rem;
+                        display: -webkit-flex;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                        font-size: 0;
+                        overflow: hidden;
+
+                        p {
+                            color:#9b9b9b;
+                            font-size: 0.24rem;
+                            line-height: 0.6rem;
+                            padding: 0 0.1rem;
+
+                        }
+                        img {
+                            width: 0.35rem;
+                            height: 0.35rem;
+                        }
+                    }
+
+                }
+
+
+
+                .disContent {
+                    padding-top: 0.1rem;
+                    line-height: 0.4rem;
+                    text-align: left;
+                    font-size: 0.27rem;
+                    color:#4a4a4a;
+                }
+            }
+        }
+    }
+
+    .authorInfo {
+        width: 7.5rem;
+        background-color: #fff;
+
+        .authorTitle {
+            height: 0.8rem;
+            margin:0 0.3rem;
+            width: 6.9rem;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom:1px solid #dcdcdc;
+        }
+
+        .userInfo {
+
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            margin:0.3rem 0.3rem;
+            width: 6.9rem;
+
+            .leftInfo {
+                width: 0.85rem;
+                flex-shrink:0;
+                img {
+                    height: 0.85rem;
+                    width: 0.85rem;
+                    border-radius: 0.425rem;
+                }
+            }
+
+            .rightInfo {
+                text-align: left;
+                padding-left:0.2rem;
+
+                :first-child {
+                    color:#4a4a4a;
+                    font-size: 0.3rem;
+                    margin-top: -0.15rem;
+                    line-height: 1.6;
+                }
+
+                :nth-child(2) {
+                    color:#b7b7b7;
+                    font-size: 0.24rem;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .bookInfoList {
+            background-color: #fff;
+            width: auto;
+            overflow-x: scroll;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .list {
+                margin: 0 0.3rem;
+                width: 1.5rem;
+                img {
+                    width: 1.5rem;
+                    height: 2rem;
+                }
+
+                .bookName {
+                    display: -webkit-flex;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction:column;
+                    min-height: 0.9rem;
+
+                    p {
+                        text-align: left;
+                        font-size: 0.28rem;
+                        color:#4a4a4a;
+                        line-height: 0.4rem;
+                    }
+                }
+
+                :nth-child(3) {
+                    line-height: 0.6rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    text-align: left;
+                    font-size: 0.24rem;
+                    color: #9b9b9b;
+                }
+            }
+        }
+    }
+
+    .bookListhaveThisBook {
+
+    }
+
+    .bookFriendsRecommend {
+
+    }
+
+    .sameRecommend {
+
+    }
+
+    .copyRight {
+
+    }
+
+
+
+
 </style>
 
