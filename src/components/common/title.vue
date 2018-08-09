@@ -8,6 +8,7 @@
 
             <div class="headCenter">
                 <p style="font-size: 0.30rem">{{headCenter.text}}</p>
+                <p class="headCenterSmall" v-if="headCenter.textSmall" >{{headCenter.textSmall}}</p>
             </div>
 
             <div class="headRight">
@@ -80,7 +81,7 @@
     .common .headTitle {
         background-color: #d43c33;
         width: 6.96rem;
-        height: 0.8rem;
+        height: 44px;
         padding-left: 0.27rem;
         padding-right: 0.27rem;
         display: -webkit-flex;
@@ -91,8 +92,8 @@
     }
 
     .common .headLeftImg {
-        width: 0.6rem;
-        height: 0.60rem;
+        width: 30px;
+        height: 30px;
         margin-left: -0.2rem;
     }
 
@@ -106,6 +107,18 @@
     .common .headCenter {
         width: 50vw;
         flex-grow: 1;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .common .headCenter .headCenterSmall {
+        font-size: 0.24rem;
+        color:#fff;
+        transform: scale(0.8);
+        line-height: 1;
     }
 
     .common .headRight {
@@ -116,8 +129,8 @@
     }
 
     .common .rightImg {
-        width: 0.7rem;
-        height: 0.7rem;
+        width: 35px;
+        height: 35px;
         align-self: flex-end;
     }
 

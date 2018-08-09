@@ -32,7 +32,7 @@ app.get('/get', function (req, res) {
 		headers: {
 			'Accept': 'application/json',
 			'content-type': 'application/x-www-form-urlencoded',
-			'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzEyMDg5MjQwNTl8MHxmOWY4OWViMi0yY2M2LTQ1OTktYjFlMC1iZGZkMmQzZTE5NDk=; appId=12; areaId=40; cmfuToken=N((FDfgTTAYvRs4os0VKZ0NeLRvY8rwn1ojNWf7dH3FAHjB14Tb0MGA_9N3LPwiKf6sieW_HwVavj-EkI_aVEMe5KHOh3CwtOpyYMF_xWI3b-MzfqHDcSW_7EP4dMHYe9W5tU6yOn0-31mVCX5U-cvCuJe-d_4f-rF0gzc2rmxgTXcmfeDQfDNcnXXXocj0YAm4pPHMXkFE78E4paRre1BOUnTJ5LX9WdpFBSIlIaMCQb_V379XHJs34k_cqHsmgT5B0; ywguid=461199585; ywkey=ywgwFAYuQlvK',
+			'Cookie': 'appId=12; areaId=40; ywguid=461199585; ywkey=ywBzo7arVGYB; _csrfToken=sCHHFCYOHmGn1rBeKOEocllMN7bCkGZeBauwcasH; hiijack=0; newstatisticUUID=1532924619_18376831',
 			'User-Agent': 'QDReaderAppStore/4.77 (iPhone; iOS 11.3.1; Scale/3.00)',
 			'Accept-Language': 'zh-Hans-CN;q=1',
 			'Accept-Encoding': 'gzip, deflate',

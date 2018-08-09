@@ -82,7 +82,10 @@ const mutations = {
 	/**
 	 *  初始化书籍详情
 	 */
-	initBookDetail(state) {
+	initBookDetail(state, bookId) {
+		if (bookId) {
+			state.bookDetail.bookId = bookId;
+		}
 		state.bookDetail.detail = new Book({bookId:state.bookDetail.bookId})
 	},
 
@@ -192,8 +195,10 @@ const actions = {
 	/**
 	 * 获取书籍详细信息
 	 */
-	getBookDetail({state, commit, rootState}) {
-		commit('initBookDetail');
+	getBookDetail({state, commit, rootState}, {bookId}) {
+		if (bookId) {
+			commit('initBookDetail', bookId);
+		}
 	}
 };
 

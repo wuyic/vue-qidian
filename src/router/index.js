@@ -7,6 +7,7 @@ import bookListmyCollect from '@/components/myCollectBookList/index'
 import myBookListCreate  from '@/components/myBookListCreate/index'
 import booklistDetail    from '@/components/bookListDetail/index'
 import bookDetail        from '@/components/bookDetail/index'
+import bookFansRank      from '@/components/bookFansRank/index'
 import booklistDiscuss   from '@/components/booklistDiscuss/index'
 import search            from '@/components/search/index'
 
@@ -89,12 +90,21 @@ export default new Router({
 			}
 		},
 		{
-			path: '/book/detail',
+			path: '/book/detail/:id',
 			name: 'bookDetail',
 			component: bookDetail,
 			meta: {
 				introduce:'书籍详情',
 				title: '书籍详情',
+			}
+		},
+		{
+			path: '/book/fansRank/:id',
+			name: 'bookFansRank',
+			component: bookFansRank,
+			meta: {
+				introduce:'书籍粉丝榜单',
+				title: '粉丝榜',
 			}
 		},
 		{

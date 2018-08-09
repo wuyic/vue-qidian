@@ -9,13 +9,13 @@ export function Book(options) {
 	 * @type {{}}
 	 */
 	this.bookDetail = {
-		CategoryPicture:null,
-		BookName:'',
-		AuthorName:'',
-		AuthorLevel:'',
-		BookStar:0,
-		BssReadTotal:0,
-		AuthorInfo:{},
+		CategoryPicture: null,
+		BookName: '',
+		AuthorName: '',
+		AuthorLevel: '',
+		BookStar: 0,
+		BssReadTotal: 0,
+		AuthorInfo: {},
 	};
 
 	/**
@@ -34,9 +34,7 @@ export function Book(options) {
 	 * 详情
 	 * @type {{}}
 	 */
-	this.nonAnony = {
-
-	};
+	this.nonAnony = {};
 
 	/**
 	 * 推荐票
@@ -69,10 +67,18 @@ export function Book(options) {
 	this.bookReview = {};
 
 	/**
+	 * 相关书单
+	 */
+	this.relationBookList = {
+		list: [],
+		allCount: [],
+	};
+
+	/**
 	 * 初始化
 	 */
 	this.init = () => {
-		api.BookGet({bookId:this.bookId}).then(
+		api.BookGet({bookId: this.bookId}).then(
 			data => {
 				console.log('获取书籍信息成功', data);
 				if (!data.data.Result) {
@@ -90,11 +96,21 @@ export function Book(options) {
 		// 		console.log('获取书籍折扣成功', data);
 		// 	}
 		// );
-		// api.BookListGetRelation({bookId:this.bookId}).then(
-		// 	data => {
-		// 		console.log('获取相关书单成功', data);
-		// 	}
-		// );
+		api.BookListGetRelation({bookId: this.bookId}).then(
+			data => {
+				console.log('获取相关书单成功', data);
+				if (!data.data.Result) {
+					let list = this.relationBookList.list = [...data.data.Data];
+					data.data.Data.forEach((item, index) => {
+						Vue.set(list[index], 'isShowMoreDesc', false);
+						Vue.set(list[index], 'changeShowMoreDesc', function() {
+							this.isShowMoreDesc = !this.isShowMoreDesc;
+						});
+					});
+					this.relationBookList.allCount = data.data.count;
+				}
+			}
+		);
 	};
 
 	/**
@@ -108,16 +124,30 @@ export function Book(options) {
 		than = than || 10000;
 		if (needDecimal) {
 			if (num >= than) {
-				return (num/10000).toFixed(1) + '万';
+				return (num / 10000).toFixed(1) + '万';
 			} else {
 				return Math.ceil(num) + '';
 			}
-		} else  {
+		} else {
 			if (num >= than) {
-				return Math.ceil(num/10000) + '万';
+				return Math.ceil(num / 10000) + '万';
 			} else {
 				return Math.ceil(num) + '';
 			}
+		}
+	};
+
+	/**
+	 * 处理， 带加号
+	 * @param num
+	 * @param than
+	 */
+	this.dealNumWithAdd = (num, than) => {
+		than = than || 10000;
+		if (num >= than) {
+			return Math.floor(num / 10000) + '万+';
+		} else {
+			return Math.floor(num) + '';
 		}
 	};
 
@@ -136,8 +166,18 @@ export function Book(options) {
 
 
 	if (this.bookId == -1) {
-		return ;
+		return;
 	}
 
 	this.init();
+}
+
+function Abc() {
+	this.b = 123;
+	this.c = {
+		b: 456,
+		callB: () => {
+			console.log(this, this.b, self.b)
+		}
+	}
 }
