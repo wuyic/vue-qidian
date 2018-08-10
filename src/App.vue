@@ -1,7 +1,7 @@
 <template>
-    <div id="app" >
+    <div id="app">
         <div :class="{router:getTitle.isShowFoot,routerFoot:!getTitle.isShowFoot}">
-            <router-view />
+            <router-view/>
         </div>
         <footCommon></footCommon>
         <Toast ref="toast" :type="'toast'"></Toast>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-//	import titleCommon from './components/common/title.vue'
+	//	import titleCommon from './components/common/title.vue'
 	import footCommon from './components/common/foot.vue';
 	import Toast from './components/common/plug/Toast.vue'
 
@@ -18,11 +18,11 @@
 		components: {
 //			titleCommon: titleCommon,
 			footCommon: footCommon,
-			Toast:Toast
+			Toast: Toast
 		},
 		mounted() {
 
-        },
+		},
 
 
 	}
@@ -45,22 +45,25 @@
         font-family: "PingFangSC-Regular";
     }
 
-    img{
+    img {
         display: inline-block;
         max-width: 100%;
     }
 
     ::-webkit-input-placeholder { /* WebKit browsers */
-        color:    #ccc;
+        color: #ccc;
     }
+
     :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-        color:    #ccc;
+        color: #ccc;
     }
+
     ::-moz-placeholder { /* Mozilla Firefox 19+ */
-        color:    #ccc;
+        color: #ccc;
     }
+
     :-ms-input-placeholder { /* Internet Explorer 10+ */
-        color:    #ccc;
+        color: #ccc;
     }
 
     .head-title {
@@ -70,8 +73,6 @@
         position: fixed;
         z-index: 1000;
     }
-
-
 
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -87,7 +88,7 @@
 
     .routerFoot {
         /*width: 7.7rem;*/
-        height:100vh;
+        height: 100vh;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -96,6 +97,6 @@
         /*width: 7.7rem;*/
         overflow-y: scroll;
         overflow-x: hidden;
-        height:calc(100vh - 50px)
+        height: calc(100vh - 50px)
     }
 </style>

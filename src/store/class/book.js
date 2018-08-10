@@ -3,6 +3,9 @@ import api from "../../api/api";
 
 export function Book(options) {
 
+
+	this.userId = '188378520';
+
 	this.bookId = options && options.bookId || -1;
 	/**
 	 * 详情
@@ -75,6 +78,18 @@ export function Book(options) {
 	};
 
 	/**
+	 * 书籍粉丝
+	 */
+	this.bookFans = {
+		pageIndex:1,
+		pageCount:20,
+		list:[],
+		mineInBook:{},
+		mengzhuInfo:{},
+		
+	};
+
+	/**
 	 * 初始化
 	 */
 	this.init = () => {
@@ -86,16 +101,16 @@ export function Book(options) {
 				}
 			}
 		);
-		// api.BookGetBookAd({bookId:this.bookId}).then(
-		// 	data => {
-		// 		console.log('获取书籍广告成功', data);
-		// 	}
-		// );
-		// api.BookGetBookDiscount({bookId:this.bookId, isFreeUser:0}).then(
-		// 	data => {
-		// 		console.log('获取书籍折扣成功', data);
-		// 	}
-		// );
+		api.BookGetBookAd({bookId:this.bookId}).then(
+			data => {
+				console.log('获取书籍广告成功', data);
+			}
+		);
+		api.BookGetBookDiscount({bookId:this.bookId, isFreeUser:0}).then(
+			data => {
+				console.log('获取书籍折扣成功', data);
+			}
+		);
 		api.BookListGetRelation({bookId: this.bookId}).then(
 			data => {
 				console.log('获取相关书单成功', data);
@@ -113,71 +128,45 @@ export function Book(options) {
 		);
 	};
 
+
 	/**
-	 * 大数字 以万为单位
-	 * @param num
-	 * @param needDecimal 是否需要保留以为小数
-	 * @param than        达到多少比例开始以万为单位
-	 * @returns {string}
+	 * 获取书籍粉丝信息
 	 */
-	this.dealNum = (num, needDecimal, than) => {
-		than = than || 10000;
-		if (needDecimal) {
-			if (num >= than) {
-				return (num / 10000).toFixed(1) + '万';
-			} else {
-				return Math.ceil(num) + '';
+	this.getBookFansInfo = () => {
+
+		api.BookStoreGetBookFansList({bookId:this.bookId, pageIndex:this.bookFans.pageIndex}).then(
+			data => {
+				console.log('获取书籍粉丝列表成功', data);
+				if (data.data.Result == 0) {
+					this.bookFans.list = [...this.bookFans.list, data.data.Data]
+				}
 			}
-		} else {
-			if (num >= than) {
-				return Math.ceil(num / 10000) + '万';
-			} else {
-				return Math.ceil(num) + '';
+		);
+
+		this.bookFans.pageIndex == 1
+		&& api.BookStoreGetBookFansFames({bookId:this.bookId, pageIndex:this.bookFans.pageIndex}).then(
+			data => {
+				console.log('获取 书籍粉丝 榜首', data);
 			}
-		}
+		);
+		this.bookFans.pageIndex == 1
+		&& api.BookStoreGetUserBookFansValue({bookId:this.bookId, userId:this.userId}).then(
+			data => {
+				console.log('获取 我在该书籍中的粉丝值', data);
+			}
+		);
+		this.bookFans.pageIndex == 1
+		&& api.InterActionGetMengZhuDonateInfo({bookId:this.bookId}).then(
+			data => {
+				console.log('获取书籍盟主信息成功', data);
+			}
+		)
+
 	};
-
-	/**
-	 * 处理， 带加号
-	 * @param num
-	 * @param than
-	 */
-	this.dealNumWithAdd = (num, than) => {
-		than = than || 10000;
-		if (num >= than) {
-			return Math.floor(num / 10000) + '万+';
-		} else {
-			return Math.floor(num) + '';
-		}
-	};
-
-
-	/**
-	 * 换行符转换为 <br />
-	 */
-	this.whiteSpace = (desc) => {
-		let regx = /\n/g;
-		if (desc && desc.length > 0) {
-			return desc.replace(regx, '<br/>')
-		} else {
-			return ''
-		}
-	};
-
 
 	if (this.bookId == -1) {
 		return;
 	}
 
 	this.init();
-}
-
-function Abc() {
-	this.b = 123;
-	this.c = {
-		b: 456,
-		callB: () => {
-			console.log(this, this.b, self.b)
-		}
-	}
 }

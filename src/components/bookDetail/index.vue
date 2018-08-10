@@ -33,7 +33,7 @@
                         <img src="../../assets/image/HalfStar_icon_16x16.png" alt=""
                              v-for="item in Math.round((bookDetail.bookDetail.BookStar*10%10)/10)">
                         <p>
-                            {{bookDetail.dealNum(bookDetail.bookDetail.BssReadTotal)}}人读过
+                            {{dealNum(bookDetail.bookDetail.BssReadTotal)}}人读过
                         </p>
                     </div>
                     <div class="booktype">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="bookstatus">
                         <p>
-                            {{bookDetail.dealNum(bookDetail.bookDetail.WordsCnt, 1) + '字 | ' + bookDetail.bookDetail.BookStatus}}</p>
+                            {{dealNum(bookDetail.bookDetail.WordsCnt, 1) + '字 | ' + bookDetail.bookDetail.BookStatus}}</p>
                     </div>
                 </div>
             </div>
@@ -61,14 +61,13 @@
             <p class="name">{{item.name}}</p>
         </div>
     </div>
-
     <!--简介 目录 听书-->
     <div class="bookIntr">
         <div class="bookDesc">
             <div>
                 <p class="title">简介</p>
                 <p class="desc" :style="{maxHeight:showMoreDesc.height}"
-                   v-html="bookDetail.whiteSpace(bookDetail.bookDetail.Description)"></p>
+                   v-html="whiteSpace(bookDetail.bookDetail.Description)"></p>
             </div>
             <div class="more" @click="bookDetailChangeMoreDesc">
                 <img v-if="!showMoreDesc.more" src="../../assets/image/icon_open_16x16.png" alt="">
@@ -114,7 +113,7 @@
                 <p class="title">书评</p>
             </div>
             <div class="right">
-                <p>{{bookDetail.dealNumWithAdd(bookDetail.bookDetail.BookForumCount)}}</p>
+                <p>{{dealNumWithAdd(bookDetail.bookDetail.BookForumCount)}}</p>
                 <img src="../../assets/image/more_small_16x16.png" alt="">
             </div>
         </div>
@@ -172,7 +171,7 @@
                     <div class="bookName">
                         <p>{{item.BookName}}</p>
                     </div>
-                    <p>{{bookDetail.dealNum(item.BssReadTotal, 1)}}人读过</p>
+                    <p>{{dealNum(item.BssReadTotal, 1)}}人读过</p>
                 </div>
             </div>
         </div>
@@ -198,7 +197,7 @@
                 <div class="booklistDesc">
                     <div>
                         <p class="desc" :style="{maxHeight:!item.isShowMoreDesc?'1.2rem':'none'}"
-                           v-html="bookDetail.whiteSpace(item.bookIntroWords)"></p>
+                           v-html="whiteSpace(item.bookIntroWords)"></p>
                     </div>
                     <div class="more" @click="item.changeShowMoreDesc()">
                         <img v-if="!item.isShowMoreDesc" src="../../assets/image/icon_open_16x16.png" alt="">
@@ -242,7 +241,7 @@
                     <div class="bookName">
                         <p>{{item.BookName}}</p>
                     </div>
-                    <p>{{bookDetail.dealNum(item.BssReadTotal, 1)}}人读过</p>
+                    <p>{{dealNum(item.BssReadTotal, 1)}}人读过</p>
                 </div>
             </div>
         </div>
@@ -270,7 +269,7 @@
                     <div class="bookName">
                         <p>{{item.BookName}}</p>
                     </div>
-                    <p>{{bookDetail.dealNum(item.BssReadTotal, 1)}}人读过</p>
+                    <p>{{dealNum(item.BssReadTotal, 1)}}人读过</p>
                 </div>
             </div>
         </div>
@@ -283,7 +282,7 @@
         </div>
 
         <div class="desc">
-            <p v-html="bookDetail.whiteSpace(bookDetail.bookDetail.CopyRight)">
+            <p v-html="whiteSpace(bookDetail.bookDetail.CopyRight)">
 
             </p>
         </div>
@@ -331,16 +330,16 @@
 				console.log('bookDetail', this.bookDetail);
 				arr.push({
 					name: '月票',
-					value: this.bookDetail.dealNum(this.bookDetail.bookDetail.MonthTicketCount, 1) || 0
+					value: this.dealNum(this.bookDetail.bookDetail.MonthTicketCount, 1) || 0
 				});
 				arr.push({
 					name: '推荐',
-					value: this.bookDetail.dealNum(this.bookDetail.bookDetail.RecommendAll, 0, 100000) || 0
+					value: this.dealNum(this.bookDetail.bookDetail.RecommendAll, 0, 100000) || 0
 				});
-				arr.push({name: '打赏', value: this.bookDetail.dealNum(this.bookDetail.bookDetail.DonateCount, 1) || 0});
+				arr.push({name: '打赏', value: this.dealNum(this.bookDetail.bookDetail.DonateCount, 1) || 0});
 				arr.push({
 					name: '粉丝',
-					value: this.bookDetail.dealNum(this.bookDetail.bookDetail.BookFansCount, 1) || 0,
+					value: this.dealNum(this.bookDetail.bookDetail.BookFansCount, 1) || 0,
 				});
 				return arr;
 			},

@@ -6,7 +6,7 @@ import 'es6-promise/auto'
 import Vuex from 'vuex'
 import store from './store'
 import router from './router'
-import config from '../config/config/config'
+import config from './config/config'
 import axios from 'axios'
 import qs from 'qs';
 

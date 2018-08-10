@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 import bookcase from './modules/bookcase'
+import book from './modules/book'
 import booklist from './modules/booklist'
 import search from './modules/search'
 import ad from './modules/ad'
@@ -28,6 +29,7 @@ export default new Vuex.Store({
 	actions: {},
 	modules: {
 		bookcase: bookcase, // 书架
+		book: book, // 书架
 		booklist: booklist, // 书单
 		search: search,   // 搜索
 		ad: ad,       // 广告
@@ -39,7 +41,7 @@ export default new Vuex.Store({
 
     //设置部分缓存
 	plugins: [createPersistedState({
-			paths: ['bookcase', 'booklist', 'search', 'ad']
+			paths: ['bookcase', 'booklist', 'search', 'ad', 'book']
 		}
 	)]
 })

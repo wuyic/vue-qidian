@@ -57,6 +57,9 @@ let apiList = {
 	BookStoreGetList   :false,  //精选中 的书籍
 	BookStoreGetIntellRecommend   :false,  //精选中推荐、
 	BookStoreGetRelatedBooks      :false,  //获取 书友还看过、
+	BookStoreGetBookFansList      :false,  //获取 书籍粉丝列表、
+	BookStoreGetBookFansFames     :false,  //获取 书籍粉丝 榜首
+	BookStoreGetUserBookFansValue     :false,  //获取 我在该书籍中的粉丝值
 
 	BookGetBookDiscount:false, //书籍 获取书籍折扣
 	BookGet            :false, //书籍 获取书籍详细信息
@@ -69,6 +72,7 @@ let apiList = {
 	InterActionGetMonthTicket  :false, //书籍 获取 月票
 	InterActionGetDonate       :false, //书籍 获取 打赏
 	InterActionGetReview       :false, //书籍 获取 推荐票 月票 打赏 总揽
+	InterActionGetMengZhuDonateInfo :false, //InterActionGetMengZhuDonateInfo
 
 
 	ReviewGet          :false, //书籍 获取 书评
@@ -87,6 +91,84 @@ let apiList = {
 
 
 export default {
+	/**
+	 * 获取 书籍盟主信息
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	InterActionGetMengZhuDonateInfo(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/InterAction/GetMengZhuDonateInfo',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId:options.bookId || -1,
+					}),
+				}
+			}
+		)
+	},
+	/**
+	 * 获取 我在该书籍中的粉丝值
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookStoreGetUserBookFansValue(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookStore/GetUserBookFansValue',
+					method:'get',
+					param:paramsToUrlParam({
+						bookId:options.bookId || -1,
+						userId:options.userId || -1,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取 书籍粉丝 榜首
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookStoreGetBookFansFames(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookStore/GetBookFansFames',
+					method:'get',
+					param:paramsToUrlParam({
+						bookId:options.bookId || -1,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取 书籍粉丝列表
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	BookStoreGetBookFansList(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/BookStore/GetBookFansList',
+					method:'get',
+					param:paramsToUrlParam({
+						bookId:options.bookId || -1,
+						pageIndex:options.pageIndex || 1,
+						pageSize:options.pageSize || 20,
+					}),
+				}
+			}
+		)
+	},
+
 	/**
 	 * 获取 书友还看过
 	 * @returns {AxiosPromise<any>}
