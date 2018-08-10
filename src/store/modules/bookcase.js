@@ -1,6 +1,5 @@
 import api from '../../api/api'
 import {BookCase} from '../class/bookCase'
-import {Book} from '../class/book'
 import {bookSmallType} from '../../api/data'
 
 const state = {
@@ -19,13 +18,6 @@ const state = {
 		type4: [], //出版
 	},
 	bookCaseState: [],
-
-	bookDetail:{
-		bookId:1003580078,
-		detail:{},
-		showMoreDesc:false,
-		showMoreDescHeight:'1.2rem',
-	}
 };
 
 
@@ -78,28 +70,6 @@ const mutations = {
 	setSaixuanChoosed(state, data) {
 		state.bookCase.saixuanChoosed = data;
 	},
-
-	/**
-	 *  初始化书籍详情
-	 */
-	initBookDetail(state, bookId) {
-		if (bookId) {
-			state.bookDetail.bookId = bookId;
-		}
-		state.bookDetail.detail = new Book({bookId:state.bookDetail.bookId})
-	},
-
-	/**
-	 *
-	 */
-	bookDetailChangeMoreDesc(state) {
-		if (state.bookDetail.showMoreDesc) {
-			state.bookDetail.showMoreDescHeight = '1.2rem';
-		} else {
-			state.bookDetail.showMoreDescHeight = 'none';
-		}
-		state.bookDetail.showMoreDesc = !state.bookDetail.showMoreDesc;
-	}
 };
 
 /**
@@ -116,17 +86,7 @@ const mutations = {
  */
 const getters = {
 
-	getterBookDetail(state) {
-		console.log('state', state);
-		return state.bookDetail.detail;
-	},
 
-	getterBookDetailShowMoreDesc(state) {
-		return {
-			more:state.bookDetail.showMoreDesc,
-			height:state.bookDetail.showMoreDescHeight
-		};
-	}
 
 };
 
@@ -192,14 +152,6 @@ const actions = {
 		// }
 	},
 
-	/**
-	 * 获取书籍详细信息
-	 */
-	getBookDetail({state, commit, rootState}, {bookId}) {
-		if (bookId) {
-			commit('initBookDetail', bookId);
-		}
-	}
 };
 
 export default {

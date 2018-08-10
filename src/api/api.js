@@ -72,7 +72,8 @@ let apiList = {
 	InterActionGetMonthTicket  :false, //书籍 获取 月票
 	InterActionGetDonate       :false, //书籍 获取 打赏
 	InterActionGetReview       :false, //书籍 获取 推荐票 月票 打赏 总揽
-	InterActionGetMengZhuDonateInfo :false, //InterActionGetMengZhuDonateInfo
+	InterActionGetMengZhuDonateInfo :false, //书籍盟主需打赏多少的信息
+	InterActionAddDonate       :false, //打赏 书籍
 
 
 	ReviewGet          :false, //书籍 获取 书评
@@ -92,7 +93,29 @@ let apiList = {
 
 export default {
 	/**
-	 * 获取 书籍盟主信息
+	 * 打赏 书籍
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	InterActionAddDonate(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/InterAction/AddDonate',
+					method:'post',
+					param:paramsToUrlParam({
+						bookId	:options.bookId || -1,
+						description	:options.description || -1,
+						moneyType	:options.moneyType || -1,
+						totalMoney	:options.totalMoney || -1,
+					}),
+				}
+			}
+		)
+	},
+
+	/**
+	 * 获取 书籍盟主需打赏多少的信息
 	 * @returns {AxiosPromise<any>}
 	 * isFreeUser 0 bushi  1shi
 	 */

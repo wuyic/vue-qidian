@@ -82,5 +82,12 @@ export default {
 				return ''
 			}
 		};
+
+		/**
+		 * 十进制数字 转换为千分位字符串
+		 */
+		Vue.prototype.formatNum = (num) => {
+			return  (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+		};
 	}
 }

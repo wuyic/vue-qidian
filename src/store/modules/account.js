@@ -4,7 +4,7 @@ import api from '../../api/api'
  *  支付
  */
 const state = {
-	paySetting:{
+	paySetting: {
 		"appId": 33,
 		"areaId": 40,
 		"bannerText": "",
@@ -91,9 +91,7 @@ const state = {
 /**
  *
  */
-const mutations = {
-
-};
+const mutations = {};
 
 /**
  * @type {{}}
@@ -117,7 +115,7 @@ const actions = {
 	 */
 	getSettingForPay({state, commit, rootState}) {
 		api.getSettingForPay({}).then(
-			data=>{
+			data => {
 				console.log('获取支付配置成功', data);
 				if (data.data.code == 200) {
 					state.paySetting = data.data.data;
@@ -129,7 +127,7 @@ const actions = {
 	/**
 	 *  送花
 	 */
-	accountGiveFlower({state, commit, dispatch,rootState}) {
+	accountGiveFlower({state, commit, dispatch, rootState}) {
 		let detail = rootState.booklist.bookListDetail;
 		let bookListId = detail.id;
 		let num = 0;
@@ -139,17 +137,41 @@ const actions = {
 			}
 		});
 		if (num > 0) {
-			api.BookListGoTip({booklistId:bookListId, num:num}).then(
+			api.BookListGoTip({booklistId: bookListId, num: num}).then(
 				(data) => {
 					console.log('送花完毕', data);
 					if (!data.data.Result) {
-						dispatch('toast/toastText', {text:'献花成功', timeout:1500})
+						dispatch('toast/toastText', {text: '献花成功', timeout: 1500})
 					} else {
-						dispatch('toast/toastText', {text:data.data.Message, timeout:1500})
+						dispatch('toast/toastText', {text: data.data.Message, timeout: 1500})
 					}
 				}
 			)
 		}
+	},
+
+
+	/**
+	 * 打赏书籍
+	 */
+	donateBook({state, commit, dispatch, rootState}, {bookId, money, desc}) {
+		let options = {
+			bookId: bookId,
+			description: desc,
+			moneyType: money,
+			totalMoney: money,
+		};
+		api.InterActionAddDonate(options).then(
+			data => {
+				console.log('打赏返回成功', data);
+				if (data.data.Result == 0) {
+					dispatch('toast/toastText', {text: '打赏成功', timeout: 1500}, {root:true})
+				} else {
+					console.log(data.data.Message);
+					dispatch('toast/toastText', {text: data.data.Message, timeout: 1500}, {root:true})
+				}
+			}
+		)
 	}
 };
 

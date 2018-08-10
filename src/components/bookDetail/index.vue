@@ -2,7 +2,7 @@
     <div style="background-color: #eee;">
         <!--头部有背景的-->
         <div class="bookDetailAll"
-             :style="{backgroundImage: 'url('+bookDetail.bookDetail.CategoryPicture || urlBase+')'}"
+             :style="{backgroundImage: 'url('+bookDetail.CategoryPicture || urlBase+')'}"
         >
             <div class="indexTitle">
                 <div class="headLeft" @click="$router.go(-1)">
@@ -16,32 +16,32 @@
             <div class="bookInfoBox">
                 <div>
                     <img class="bookImg"
-                         :src='"https://qidian.qpic.cn/qdbimg/" + bookDetail.bookDetail.AuthorId + "/" + bookDetail.bookDetail.BookId + "/180"'
+                         :src='"https://qidian.qpic.cn/qdbimg/" + bookDetail.AuthorId + "/" + bookDetail.BookId + "/180"'
                          alt="">
                 </div>
                 <div class="bookInfo">
                     <div class="booktitle">
-                        <p>{{bookDetail.bookDetail.BookName}}</p>
+                        <p>{{bookDetail.BookName}}</p>
                     </div>
                     <div class="bookauthor">
-                        <p class="name">{{bookDetail.bookDetail.AuthorInfo.AuthorName}}</p>
-                        <p class="level">{{bookDetail.bookDetail.AuthorInfo.AuthorLevel}}</p>
+                        <p class="name">{{bookDetail.AuthorInfo.AuthorName}}</p>
+                        <p class="level">{{bookDetail.AuthorInfo.AuthorLevel}}</p>
                     </div>
                     <div class="bookstar">
                         <img src="../../assets/image/Staricon_16x16.png" alt=""
-                             v-for="item in Math.floor(bookDetail.bookDetail.BookStar)">
+                             v-for="item in Math.floor(bookDetail.BookStar)">
                         <img src="../../assets/image/HalfStar_icon_16x16.png" alt=""
-                             v-for="item in Math.round((bookDetail.bookDetail.BookStar*10%10)/10)">
+                             v-for="item in Math.round((bookDetail.BookStar*10%10)/10)">
                         <p>
-                            {{dealNum(bookDetail.bookDetail.BssReadTotal)}}人读过
+                            {{dealNum(bookDetail.BssReadTotal)}}人读过
                         </p>
                     </div>
                     <div class="booktype">
-                        <p>{{bookDetail.bookDetail.CategoryName + ' | ' + bookDetail.bookDetail.SubCategoryName}}</p>
+                        <p>{{bookDetail.CategoryName + ' | ' + bookDetail.SubCategoryName}}</p>
                     </div>
                     <div class="bookstatus">
                         <p>
-                            {{dealNum(bookDetail.bookDetail.WordsCnt, 1) + '字 | ' + bookDetail.bookDetail.BookStatus}}</p>
+                            {{dealNum(bookDetail.WordsCnt, 1) + '字 | ' + bookDetail.BookStatus}}</p>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
             <div>
                 <p class="title">简介</p>
                 <p class="desc" :style="{maxHeight:showMoreDesc.height}"
-                   v-html="whiteSpace(bookDetail.bookDetail.Description)"></p>
+                   v-html="whiteSpace(bookDetail.Description)"></p>
             </div>
             <div class="more" @click="bookDetailChangeMoreDesc">
                 <img v-if="!showMoreDesc.more" src="../../assets/image/icon_open_16x16.png" alt="">
@@ -80,16 +80,16 @@
             </div>
             <div class="right">
                 <p>
-                    连载至 {{bookDetail.bookDetail.TotalChapterCount}} 章 更新与{{judgeTime(Math.max(bookDetail.bookDetail.LastChapterUpdateTime, bookDetail.bookDetail.LastVipChapterUpdateTime))}}以前</p>
+                    连载至 {{bookDetail.TotalChapterCount}} 章 更新与{{judgeTime(Math.max(bookDetail.LastChapterUpdateTime, bookDetail.LastVipChapterUpdateTime))}}以前</p>
                 <img src="../../assets/image/more_small_16x16.png" alt="">
             </div>
         </div>
-        <div class="hearBook" v-if="bookDetail.bookDetail.AudioInfo">
+        <div class="hearBook" v-if="bookDetail.AudioInfo">
             <div>
                 <p class="title">听书</p>
             </div>
             <div class="right">
-                <p>连载至{{bookDetail.bookDetail.AudioInfo.ChapterIndex}}章</p>
+                <p>连载至{{bookDetail.AudioInfo.ChapterIndex}}章</p>
                 <img src="../../assets/image/more_small_16x16.png" alt="">
             </div>
         </div>
@@ -113,12 +113,12 @@
                 <p class="title">书评</p>
             </div>
             <div class="right">
-                <p>{{dealNumWithAdd(bookDetail.bookDetail.BookForumCount)}}</p>
+                <p>{{dealNumWithAdd(bookDetail.BookForumCount)}}</p>
                 <img src="../../assets/image/more_small_16x16.png" alt="">
             </div>
         </div>
         <div class="reviewList"
-             v-for="(item, index) in bookDetail.bookDetail.BookReviewList"
+             v-for="(item, index) in bookDetail.BookReviewList"
              v-if="index < 3"
         >
             <div>
@@ -153,19 +153,19 @@
         </div>
         <div class="userInfo">
             <div class="leftInfo">
-                <img :src="bookDetail.bookDetail.AuthorInfo.RealImageUrl" alt="">
+                <img :src="bookDetail.AuthorInfo.RealImageUrl" alt="">
             </div>
             <div class="rightInfo">
-                <p>{{bookDetail.bookDetail.AuthorInfo.AuthorName}}</p>
-                <p>{{bookDetail.bookDetail.AuthorInfo.AuthorDesc}}</p>
+                <p>{{bookDetail.AuthorInfo.AuthorName}}</p>
+                <p>{{bookDetail.AuthorInfo.AuthorDesc}}</p>
             </div>
         </div>
 
         <div style="overflow: hidden; height: 3.7rem;"
-             v-if="calcHaslength(bookDetail.bookDetail.AuthorRecommend)"
+             v-if="calcHaslength(bookDetail.AuthorRecommend)"
         >
-            <div class="bookInfoList" v-if="calcHaslength(bookDetail.bookDetail.AuthorRecommend)">
-                <div class="list" v-for="(item, index) in bookDetail.bookDetail.AuthorRecommend">
+            <div class="bookInfoList" v-if="calcHaslength(bookDetail.AuthorRecommend)">
+                <div class="list" v-for="(item, index) in bookDetail.AuthorRecommend">
                     <img :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"'
                          alt="">
                     <div class="bookName">
@@ -181,7 +181,7 @@
     <div class="sameDiv bookListhaveThisBook">
         <div class="authorTitle">
             <div>
-                <p class="title" style="width: 4rem">书单收录 （{{bookDetail.relationBookList.allCount}}）</p>
+                <p class="title" style="width: 4rem">书单收录 （{{relationBookList.allCount}}）</p>
             </div>
             <div class="right">
                 <img src="../../assets/image/more_small_16x16.png" alt="">
@@ -190,9 +190,9 @@
 
         <div class="booklistDetail">
             <div class="list"
-                 v-for="(item, index) in bookDetail.relationBookList.list"
+                 v-for="(item, index) in relationBookList.list"
                  :data-booklistId="item.id"
-                 :style="{borderBottom:index+1<bookDetail.relationBookList.list.length?'1px solid #dcdcdc':''}"
+                 :style="{borderBottom:index+1<relationBookList.list.length?'1px solid #dcdcdc':''}"
             >
                 <div class="booklistDesc">
                     <div>
@@ -220,7 +220,7 @@
 
     <!--书友还看过-->
     <div class="sameDiv bookFriendsRecommend"
-         v-if="calcHaslength(bookDetail.bookDetail.BookFriendsRecommend)"
+         v-if="calcHaslength(bookDetail.BookFriendsRecommend)"
     >
         <div class="authorTitle">
             <div>
@@ -233,7 +233,7 @@
         <div style="overflow: hidden; height: 3.6rem;padding-top: 0.3rem">
             <div class="bookInfoList">
                 <div class="list"
-                     v-for="(item, index) in bookDetail.bookDetail.BookFriendsRecommend"
+                     v-for="(item, index) in bookDetail.BookFriendsRecommend"
                      @click="$router.push({name:'bookDetail', params:{id:item.BookId}})"
                 >
                     <img :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"'
@@ -249,7 +249,7 @@
     </div>
 
     <!--同类作品-->
-    <div class="sameDiv sameRecommend" v-if="calcHaslength(bookDetail.bookDetail.SameRecommend)">
+    <div class="sameDiv sameRecommend" v-if="calcHaslength(bookDetail.SameRecommend)">
         <div class="authorTitle">
             <div>
                 <p class="title" style="width: 4rem">同类作品</p>
@@ -261,7 +261,7 @@
         <div style="overflow: hidden; height: 3.6rem;padding-top: 0.3rem">
             <div class="bookInfoList">
                 <div class="list"
-                     v-for="(item, index) in bookDetail.bookDetail.SameRecommend"
+                     v-for="(item, index) in bookDetail.SameRecommend"
                      @click="$router.push({name:'bookDetail', params:{id:item.BookId}})"
                 >
                     <img :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"'
@@ -282,7 +282,7 @@
         </div>
 
         <div class="desc">
-            <p v-html="whiteSpace(bookDetail.bookDetail.CopyRight)">
+            <p v-html="whiteSpace(bookDetail.CopyRight)">
 
             </p>
         </div>
@@ -314,11 +314,12 @@
 
 		},
 		created() {
-			this.$store.dispatch('bookcase/getBookDetail', {bookId: this.$route.params.id});
+			this.$store.dispatch('book/getBookDetail', {bookId: this.$route.params.id});
 		},
 		computed: {
-			...mapGetters('bookcase', {
+			...mapGetters('book', {
 				bookDetail: 'getterBookDetail',
+				relationBookList: 'getRelationBookList',
 				showMoreDesc: 'getterBookDetailShowMoreDesc',
 			}),
 			...mapGetters('chat', {
@@ -330,16 +331,16 @@
 				console.log('bookDetail', this.bookDetail);
 				arr.push({
 					name: '月票',
-					value: this.dealNum(this.bookDetail.bookDetail.MonthTicketCount, 1) || 0
+					value: this.dealNum(this.bookDetail.MonthTicketCount, 1) || 0
 				});
 				arr.push({
 					name: '推荐',
-					value: this.dealNum(this.bookDetail.bookDetail.RecommendAll, 0, 100000) || 0
+					value: this.dealNum(this.bookDetail.RecommendAll, 0, 100000) || 0
 				});
-				arr.push({name: '打赏', value: this.dealNum(this.bookDetail.bookDetail.DonateCount, 1) || 0});
+				arr.push({name: '打赏', value: this.dealNum(this.bookDetail.DonateCount, 1) || 0});
 				arr.push({
 					name: '粉丝',
-					value: this.dealNum(this.bookDetail.bookDetail.BookFansCount, 1) || 0,
+					value: this.dealNum(this.bookDetail.BookFansCount, 1) || 0,
 				});
 				return arr;
 			},

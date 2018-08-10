@@ -10,104 +10,143 @@
         <div class="indexReco">
             <div class="fourFans">
                 <div class="cell"
-                     v-for="(item, index) in fourList"
-                     v-if="item.isHave"
+                     v-for="(item, index) in fourRankTop"
+                     v-if="index != 3"
+                     @click="!item.isHave && donate(item.type, 'open', )"
                 >
                     <img :src="item.img" alt="">
                     <img :src="item.nameImg" alt="">
-                    <p>{{item.name}}</p>
+                    <p :style="{color:item.fontColor}">{{item.name}}</p>
                 </div>
             </div>
             <div class="fansList">
-                <div>
-                    <div class="list">
+                <loading
+                 :isLoadMore="true"
+                 :onLoadMore="getBookFansList"
+                >
+                    <div class="list" v-for="(item, index) in bookFansInfo.list">
                         <div class="rankLevel">
-                            <img src="" alt="">
+                            <img v-if="item.OrderId==1" src="../../assets/image/fanslistno1.png" alt="">
+                            <img v-if="item.OrderId==2" src="../../assets/image/fanslistno2.png" alt="">
+                            <img v-if="item.OrderId==3" src="../../assets/image/fanslistno3.png" alt="">
+                            <p v-if="item.OrderId>3">{{item.OrderId}}</p>
                         </div>
                         <div class="rankInfo">
                             <div class="userImg">
-
+                                <img :src="item.RealImageUrl" alt="">
+                                <p>{{item.RankName}}</p>
                             </div>
-                            <p></p>
-                            <p></p>
+                            <div>
+                                <p>{{item.NickName}}</p>
+                            </div>
+                           <div>
+                               <p>{{formatNum(item.Amount)}}</p>
+                           </div>
                         </div>
                     </div>
-                </div>
+                </loading>
             </div>
             <div class="mine">
                 <div class="image">
-                    <img src="https://qidian.qpic.cn/qd_face/349573/6039679/100" alt="">
-                    <p>见习</p>
+                    <img :src="bookFansInfo.mineInBook.HeadImageUrl" alt="">
+                    <p>{{bookFansInfo.mineInBook.RankName}}</p>
                 </div>
                 <div class="info">
-                    <p>当前粉丝值0 <span >未上榜</span></p>
-                    <p>再获得是的撒风建设大街</p>
+                    <p>当前粉丝值{{bookFansInfo.mineInBook.Amount}}
+                        <span>{{bookFansInfo.mineInBook.Rank==0?'未上榜':'第'+bookFansInfo.mineInBook.FansRank+'名'}}</span>
+                    </p>
+                    <p v-html="bookFansInfo.mineInBook.UpgradeDesc"></p>
                 </div>
                 <div class="rankImg">
                     <img src="../../assets/image/fanslist_cardenter.png" alt="">
                 </div>
             </div>
         </div>
+
+        <Toast
+          :toastName="'BookFansBecomeMZ'"
+          :type="'toastBox'"
+          :position="'center'"
+          ref="toast"
+        >
+            <div class="becomeMZ">
+                <div class="close" @click="donate('', 'close')">
+                    <img src="../../assets/image/icon_closePocket.png" alt="">
+                </div>
+                <div class="donateName">
+                   <p> {{donateInfo.typeName}}</p>
+                </div>
+                <div class="number" v-if="donateInfo.amount">
+                   <p> {{formatNum(donateInfo.amount)}} 点</p>
+                </div>
+                <div class="tips">
+                    <p v-html="whiteSpace(donateInfo.message)"
+                       :style="{color: donateInfo.amount ? '#9B9B9B' : '#4A4A4A'}"
+                    ></p>
+                </div>
+                <div class="button" @click="donateBook({bookId:'', money:'', desc:''})">
+                    <p>{{donateInfo.amount ? '打赏' : '我知道了'}}</p>
+                </div>
+            </div>
+        </Toast>
+
+
     </div>
 </template>
 
 <script>
-	import {mapGetters, mapActions} from 'vuex'
+	import {mapGetters, mapActions, mapMutations} from 'vuex'
 	import indexTitle from '../common/title.vue';
 	import loading from '../common/plug/loading.vue';
+	import Toast from '../common/plug/Toast.vue';
 
 	export default {
 		name: 'index',
 		data() {
 			return {
-				fourList:[{
-					fontColor:'#123',
-					isHave:true,
-                    name:'虚位以待',
-                    img:require('../../assets/image/icon_fansVacancy_Gold.png'),
-                    nameImg:require('../../assets/image/speciallabel_1.png'),
-                },{
-					fontColor:'#aacbdf',
-					isHave:true,
-					name:'虚位以待',
-					img:require('../../assets/image/icon_fansVacancy_Silver.png'),
-					nameImg:require('../../assets/image/speciallabel_2.png'),
-                },{
-					fontColor:'#c4c4c4',
-					isHave:true,
-					name:'虚位以待提队友机制直径',
-					img:require('../../assets/image/icon_fansVacancy_Others.png'),
-					nameImg:require('../../assets/image/speciallabel_3.png'),
-                },{
-					fontColor:'#c4c4c4',
-					isHave:false,
-					name:'虚位以待',
-					img:require('../../assets/image/icon_fansVacancy_Others.png'),
-					nameImg:require('../../assets/image/speciallabel_4.png'),
-                },{
-					fontColor:'#c4c4c4',
-					isHave:true,
-					name:'虚位以待',
-					img:require('../../assets/image/icon_fansVacancy_Others.png'),
-					nameImg:require('../../assets/image/speciallabel_5.png'),
-				}]
+
             }
 		},
 
 		created() {
-			this.bookDetail.getBookFansInfo();
+			this.getBookFansList(this.$route.params.id);
+			this.getBookFansInfo();
+        },
+
+        mounted() {
+
         },
 
 		components: {
-			indexTitle
+			indexTitle,loading,Toast
 		},
 		computed: {
-			...mapGetters('bookcase', {
-				bookDetail: 'getterBookDetail',
-			}),
+            ...mapGetters('book', {
+            	bookFansInfo:'getterBookFansInfo',
+	            fourRankTop :'getterFourRankTop',
+	            donateInfo:'setFansInfoDonateInfoByType',
+            })
 		},
 		methods: {
+			...mapActions('book', {
+				getBookFansList:'getBookFansList',
+				getBookFansInfo:'getBookFansInfo'
+			}),
+            ...mapActions('account', {
+	            donateBook:'donateBook',
+			}),
+            ...mapMutations('book', [
+	            'setFansInfoDonateType'
+            ]),
 
+            donate(type, status) {
+	            if (status == 'open') {
+	            	this.setFansInfoDonateType(type);
+	            	this.$refs.toast.toastBox({type:'BookFansBecomeMZ', status:true})
+                } else {
+		            this.$refs.toast.toastBox({type:'BookFansBecomeMZ', status:false})
+                }
+            },
 		}
 	}
 </script>
@@ -176,8 +215,94 @@
 
             .fansList {
                 margin-top: 0.3rem;
-                height: 9.35rem;
+                height: 9.2rem;
                 background-color: #fff;
+
+                .list {
+                    width: 7.2rem;
+
+                    padding-left: 0.3rem;
+                    display: -webkit-flex;
+                    display: flex;
+                    align-items: center;
+                    background-color: #fff;
+
+                    .rankLevel {
+                        flex-shrink:0;
+                        width: 0.8rem;
+                        img {
+                            margin-left: -0.1rem;
+                            width: 0.4rem;
+                        }
+
+                        p {
+                            color:#9b9b9b;
+                            font-size: 0.30rem;
+                            width: 0.8rem;
+                            text-align: center;
+                        }
+                    }
+
+                    .rankInfo {
+                        width: 6.9rem;
+                        padding-right: 0.3rem;
+                        height: 1.05rem;
+                        display: -webkit-flex;
+                        display: flex;
+                        align-items: center;
+                        background-color: #fff;
+                        border-bottom: 1px solid #f1f1f1;
+
+                        .userImg {
+                            flex-shrink: 0;
+                            width: 0.64rem;
+                            height: 100%;
+                            position: relative;
+
+                            img {
+                                width: 0.64rem;
+                                height: 0.64rem;
+                                border-radius: 0.32rem;
+                                position: absolute;
+                                right: 0;
+                                top:0.2rem;
+                            }
+
+                            p {
+                                position: absolute;
+                                background-color: #ffba02;
+                                font-size: 0.24rem;
+                                height: 0.4rem;
+                                line-height: 0.4rem;
+                                transform: scale(0.7);
+                                border-radius: 0.2rem;
+                                width: 0.8rem;
+                                right: -0.05rem;
+                                bottom: 0;
+                                color:#fff;
+                            }
+                        }
+
+
+                        :nth-child(2) {
+                            flex-grow: 1;
+                            margin-left: 0.15rem;
+
+                            p {
+                                font-size: 0.28rem;
+                                text-align: left;
+                            }
+                        }
+                        :nth-child(3) {
+                            flex-shrink: 0;
+                            p {
+                                color:#b8b8b8;
+                            }
+                        }
+
+
+                    }
+                }
             }
 
             .mine {
@@ -258,6 +383,74 @@
         }
 
     }
+
+
+    .becomeMZ {
+        width: 5.1rem;
+        height: 4.5rem;
+        background-color: #fff;
+        border-radius: 0.1rem;
+
+        .close {
+            height: 0.6rem;
+            display: -webkit-flex;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+
+            img {
+                width: 0.45rem;
+                height: 0.45rem;
+                padding-right: 0.2rem;
+            }
+        }
+
+        .donateName {
+
+            p {
+                line-height: 0.6rem;
+                font-size: 0.34rem;
+                color:#4a4a4a;
+            }
+        }
+
+        .number {
+
+            p {
+                line-height: 0.8rem;
+                color:#4a4a4a;
+                font-size: 0.45rem;
+                font-family: "PingFangSC-Medium";
+            }
+        }
+
+        .tips {
+
+            p {
+                padding: 0.2rem 0.5rem;
+                color:#9b9b9b;
+                font-size: 0.24rem;
+            }
+        }
+
+        .button {
+
+            background-color: #d43c33;
+            margin: 0.4rem auto 0;
+            border-radius: 0.31rem;
+            width: 2.7rem;
+            height: 0.62rem;
+
+            p {
+                font-size: 0.3rem;
+                line-height: 0.62rem;
+                color:#fff;
+            }
+        }
+    }
+
+
+
 
 
 
