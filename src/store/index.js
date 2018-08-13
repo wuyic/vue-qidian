@@ -10,6 +10,7 @@ import loading from './modules/loading'
 import account from './modules/account'
 import toast from './modules/toast'
 import chat from './modules/chat'
+import user from './modules/user'
 
 Vue.use(Vuex);
 
@@ -35,13 +36,14 @@ export default new Vuex.Store({
 		ad: ad,       // 广告
 		loading: loading,  // 上拉加载 下拉刷新
 		toast: toast,    // 弹出层
-		account: account,  // 用户
+		account: account,  // 账户
 		chat: chat,     // 聊天
+		user: user,     // 用户
 	},
 
     //设置部分缓存
 	plugins: [createPersistedState({
-			paths: ['bookcase', 'booklist', 'search', 'ad', 'book']
+			paths: ['bookcase', 'booklist', 'search', 'ad', 'book', 'user']
 		}
 	)]
 })

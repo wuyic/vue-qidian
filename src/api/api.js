@@ -79,12 +79,8 @@ let apiList = {
 	ReviewGet          :false, //书籍 获取 书评
 	ReviewGetReply     :false, //书籍 获取 回复书评
 
-
-	UserGetAuthorInfo  :false, //书籍 获取 回复书评
-
-
-
-
+	UserGetAuthorInfo  :false, //获取作者主页信息
+	UserGetUserPageInfo:false, //获取 用户主页信息
 
 
 
@@ -92,6 +88,26 @@ let apiList = {
 
 
 export default {
+	/**
+	 * 获取 用户主页信息
+	 * @returns {AxiosPromise<any>}
+	 * isFreeUser 0 bushi  1shi
+	 */
+	UserGetUserPageInfo(options) {
+		return axios.get(
+			nodeServiceUrl, {
+				params:{
+					url:'https://mage.if.qidian.com/Atom.axd/Api/User/GetUserPageInfo',
+					method:'post',
+					param:paramsToUrlParam({
+						userId:options.userId,
+					}),
+				}
+			}
+		)
+	},
+
+
 	/**
 	 * 打赏 书籍
 	 * @returns {AxiosPromise<any>}
@@ -212,7 +228,7 @@ export default {
 		)
 	},
 	/**
-	 * 书籍 获取 书评
+	 * 书籍 获取 书籍信息
 	 * @returns {AxiosPromise<any>}
 	 * isFreeUser 0 bushi  1shi
 	 */

@@ -31,6 +31,36 @@
             </div>
         </div>
 
+        <!--个人中心里书单列表数据-->
+        <div :class="{searchResult:true,isBottom:isBottom}" v-if="type=='userInfoBookList'">
+            <div class="allImg">
+                <img class="bookImage1"
+                     :src='calcImage(bookListInfo.threeBookIds, 0)'
+                     onError="this.src=require('../../assets/image/QDDefaultNoBookImage_white_48x64.png')" alt="">
+                <img class="bookImage2"
+                     :src='calcImage(bookListInfo.threeBookIds, 0)'
+                     onError="this.src=require('../../assets/image/QDDefaultNoBookImage_white_48x64.png')" alt="">
+                <img class="bookImage3"
+                     :src='calcImage(bookListInfo.threeBookIds, 0)'
+                     onError="this.src=require('../../assets/image/QDDefaultNoBookImage_white_48x64.png')" alt="">
+            </div>
+            <div class="right">
+                <div class="bookTitleBox">
+                    <p class="bookTitle" v-html="bookListInfo.bookListName"></p>
+                    <div class="bookTips" :style="{backgroundColor:getColor(bookListInfo.bookListType)}">
+                        {{bookListInfo.label}}
+                    </div>
+                </div>
+                <p class="description" v-html="bookListInfo.description"></p>
+                <div class="descBottom">
+                    <div class="userBox">
+                        <p class="author" style="padding-left: 0" v-html="dealAnsWord(bookListInfo.OwnerName)"></p>
+                        <p class="author" style="padding-left: 0" >{{bookListInfo.bookCount}}本 · {{bookListInfo.collectCount}}关注</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--书单详情里的推荐列表-->
         <div :class="{searchResult:true,isBottom:isBottom}" v-if="type=='bookListRecomond'">
             <div class="allImg">

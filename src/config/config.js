@@ -89,5 +89,19 @@ export default {
 		Vue.prototype.formatNum = (num) => {
 			return  (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
 		};
+		/**
+		 * remToPx
+		 */
+		Vue.prototype.remToPx = (num) => {
+			let oneRed = document.documentElement.style.fontSize.replace('px', '');
+			return Number.parseInt(oneRed) * num;
+		};
+		/**
+		 * Px to Rem
+		 */
+		Vue.prototype.pxToRem = (num) => {
+			let oneRed = document.documentElement.style.fontSize.replace('px', '');
+			return Math.round(num/Number.parseInt(oneRed)*100)/100;
+		};
 	}
 }

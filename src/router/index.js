@@ -10,6 +10,7 @@ import bookDetail        from '@/components/bookDetail/index'
 import bookFansRank      from '@/components/bookFansRank/index'
 import booklistDiscuss   from '@/components/booklistDiscuss/index'
 import search            from '@/components/search/index'
+import userInfo          from '@/components/userinfo/index'
 
 import good from '@/components/good'
 import find from '@/components/find'
@@ -154,6 +155,15 @@ export default new Router({
 				isShowFoot: false,
 				bottom: 4,
 			},
+		},
+		{
+			path: '/userInfo/:type/:id',
+			name: 'userInfo',
+			component: userInfo,
+			meta: {
+				introduce:'查看其他用户信息',
+				title: '用户信息',
+			}
 		},
 	]
 })

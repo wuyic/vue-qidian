@@ -143,7 +143,9 @@
 
     <!--作家-->
     <div class="sameDiv authorInfo">
-        <div class="authorTitle">
+        <div class="authorTitle"
+             @click="$router.push({name:'userInfo', params:{id:bookDetail.AuthorInfo.AuthorId, type:'author'}})"
+        >
             <div>
                 <p class="title">作家</p>
             </div>
@@ -151,7 +153,9 @@
                 <img src="../../assets/image/more_small_16x16.png" alt="">
             </div>
         </div>
-        <div class="userInfo">
+        <div class="userInfo"
+             @click="$router.push({name:'userInfo', params:{id:bookDetail.AuthorInfo.AuthorId, type:'author'}})"
+        >
             <div class="leftInfo">
                 <img :src="bookDetail.AuthorInfo.RealImageUrl" alt="">
             </div>
@@ -165,7 +169,9 @@
              v-if="calcHaslength(bookDetail.AuthorRecommend)"
         >
             <div class="bookInfoList" v-if="calcHaslength(bookDetail.AuthorRecommend)">
-                <div class="list" v-for="(item, index) in bookDetail.AuthorRecommend">
+                <div class="list" v-for="(item, index) in bookDetail.AuthorRecommend"
+                     @click="$router.push({name:'bookDetail', params:{id:item.BookId}})"
+                >
                     <img :src='"https://qidian.qpic.cn/qdbimg/" + item.AuthorId + "/" + item.BookId + "/180"'
                          alt="">
                     <div class="bookName">
