@@ -3,10 +3,13 @@
         <!--用户信息-->
         <div class="user">
             <div class="info">
-                <img :src="user.userInfo.headImage" alt="">
-                <p>{{user.userInfo.nickName}}</p>
-                <p>{{user.userInfo.description}}</p>
+                <img class="image" :src="user.userInfo.headImage" alt="">
+                <img class="type" v-if="user.userInfo.userTypeName == '高级VIP'" src="../../assets/image/user_vip_red.png" alt="">
+                <img class="type" v-if="user.userInfo.userTypeName == '初级VIP'" src="../../assets/image/user_vip_golden.png" alt="">
+                <p class="name">{{user.userInfo.nickName}}</p>
+                <p class="desc">{{user.userInfo.description}}</p>
                 <p
+                    class="goto"
                     v-if="user.userInfo.authorId"
                     @click="$router.push({name:'userInfo', params:{type:'author', id:user.userInfo.authorId}})"
                 >
@@ -29,8 +32,7 @@
             <!--@click="$router.push({name:'booklistDetail', id:item.bookListId})"-->
             <div class="cell"
                  v-for="(item, index) in user.bookList"
-
-                 @click="gotoBookListDetail({router:$router, id:item.bookListId})"
+                 @click="$router.push({name:'booklistDetail', params:{id:item.bookListId}})"
             >
                 <bookListInfo
                         :type="'userInfoBookList'"
@@ -120,9 +122,6 @@
             ...mapActions('user', [
             	'GetUserPageInfo'
             ]),
-            ...mapActions('booklist', [
-            	'gotoBookListDetail'
-            ])
 		}
 	}
 </script>
@@ -146,25 +145,33 @@
                 text-align:left;
                 position:relative;
 
-                :nth-child(1) {
+                .image {
                     width: 1.26rem;
                     height: 1.26rem;
                     border-radius: 0.63rem;
-                    border: 3px solid #fff;
+                    border: 0.05rem solid #fff;
                     margin-top: -0.55rem;
                     background-color: #fff;
                 }
-                :nth-child(2) {
+
+                .type {
+                    display: block;
+                    height: 0.3rem;
+                    width: 0.84rem;
+                    margin:-0.35rem 0 0 0.26rem;
+                }
+
+                .name {
                     line-height: 2;
                     color: #4a4a4a;
                     font-size: 0.32rem;
                     font-family: PingFangSC-Medium;
                 }
-                :nth-child(3) {
+                .desc {
                     color:#9b9b9b;
                     padding-bottom: 0.2rem;
                 }
-                :nth-child(4) {
+                .goto {
                     width: 2rem;
                     height: 0.65rem;
                     line-height: 0.65rem;

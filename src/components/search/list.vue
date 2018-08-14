@@ -98,11 +98,11 @@
                 <loading :isLoadMore="true" :onLoadMore="getMore">
                     <div v-for="item in searchResult.bookCardList" class="ansBookCardList">
                         <bookSearchAuthor v-if="item.CardType==3" :authorInfo="item.Info"></bookSearchAuthor>
-                        <bookInList v-if="item.CardType==0" :bookInfo="item.Info"></bookInList>
+                        <bookInList v-if="item.CardType==0" :bookInfo="item.Info"  :position="'bookInfoInSearchResult'"></bookInList>
                         <bookRecomond v-if="item.CardType==2" :bookInfo="item.Info"></bookRecomond>
                     </div>
                     <div v-for="(item, index) in searchResult.book" class="ansBookInfo">
-                        <bookInList :bookInfo="item" :isBottom="true"></bookInList>
+                        <bookInList :bookInfo="item" :isBottom="true" :position="'bookInfoInSearchResult'"></bookInList>
                     </div>
                 </loading>
             </div>

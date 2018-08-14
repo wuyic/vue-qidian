@@ -1,11 +1,11 @@
 <template>
     <div class="userInfo">
-        <div class="title" :style="calcBgColor">
-            <div class="headLeft" @click="$router.go(-1)">
+        <div class="title" :style="calcBgColor()">
+            <div class="headLeft" @click="$router.go(-1)" :style="calcBgColor(1)">
                 <img class="headLeftImg" src="../../assets/image/QDNavBackButton_36x36_fff.png" alt="">
                 <p style="margin-left: -0.1rem;">返回</p>
             </div>
-            <div class="headCenter">
+            <div class="headCenter" @click="change()">
                 <p :style="{fontSize: '0.30rem', marginTop:marginTop+'rem'}">张三李四</p>
             </div>
 
@@ -20,7 +20,7 @@
             >
             </div>
             <UserInfo v-if="type=='user'"></UserInfo>
-            <UserInfo v-if="type=='author'"></UserInfo>
+            <AuthorInfo v-if="type=='author'"></AuthorInfo>
         </div>
     </div>
 </template>
@@ -43,12 +43,18 @@
                 marginTop:'-2.6'
 			}
 		},
+        watch: {
+			'$route'  (to, from) {
+				if (to.name == 'userInfo') {
+					this.type = to.params.type;
+					this.id = to.params.id;
+                }
+			}
+        },
 
 		created() {
 			this.type = this.$route.params.type;
 			this.id = this.$route.params.id;
-//			console.log('type', this.type, 'id', this.id);
-
 		},
 
 		mounted() {
@@ -78,21 +84,7 @@
 				}
 			},
 
-			calcBgColor() {
-				let bgUser = {backgroundColor: '#d43c33'};
-				let bgAuthor = {backgroundColor: '#24282e'};
 
-				if (!this.isShowTitle) {
-					return {backgroundColor: 'transparent'};
-				}
-
-				if (this.type == 'user') {
-					return bgUser;
-				} else {
-					return bgAuthor
-				}
-
-			}
 		},
 
 		components: {
@@ -116,7 +108,27 @@
 				tempMT = Math.max(tempMT, 0);
 
 				this.marginTop = this.pxToRem(tempMT);
-			}
+			},
+
+			calcBgColor(left) {
+				let bgUser = {backgroundColor: '#d43c33'};
+				let bgAuthor = {backgroundColor: '#24282e'};
+
+				if (!this.isShowTitle && !left) {
+					return {backgroundColor: 'transparent'};
+				}
+
+				if (this.type == 'user') {
+					return bgUser;
+				} else {
+					return bgAuthor
+				}
+
+			},
+
+            change() {
+
+            }
 		}
 	}
 </script>
@@ -168,7 +180,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                
+
             }
 
             .headRight {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--书籍列表信息-->
-        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position != 'bookListDetail'">
+        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position == 'bookInfoInSearchResult'">
             <div style="font-size: 0;flex-shrink: 0;">
                 <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
             </div>
@@ -22,8 +22,37 @@
             </div>
         </div>
 
+        <!--书籍列表信息 个人中心不带用户信息的-->
+        <div :class="{ansBook:true, isBottom:isBottom}"
+             v-if="position == 'bookInfoInUserInfo'"
+             @click="$router.push({name:'bookDetail', params:{id:bookInfo.BookId}})"
+        >
+            <div style="font-size: 0;flex-shrink: 0;">
+                <img class="bookImage" :src='"https://qidian.qpic.cn/qdbimg/" + bookInfo.AuthorId + "/" + bookInfo.BookId + "/180"' alt="">
+            </div>
+            <div class="right">
+                <p class="bookTitle"  v-html="dealAnsWord(bookInfo.BookName)"></p>
+                <p class="description"  v-html="dealAnsWord(bookInfo.Description)"></p>
+                <div class="descBottom">
+                    <div class="userBox">
+                        <!--<img class="userImg" src="../../assets/image/icon_loginaccount_24x24.png" alt="">-->
+                        <!--<p class="author" v-html="dealAnsWord(bookInfo.Author)"></p>-->
+                    </div>
+                    <div class="biaoqianBox">
+                        <p class="biaoqian">{{bookInfo.CategoryName}}</p>
+                        <p class="biaoqian">{{bookInfo.BookStatus}}</p>
+                        <p class="biaoqian">{{Math.round(bookInfo.WordsCount/1000)/10}}万字</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!--书单详情中的书籍缩略信息-->
-        <div :class="{ansBook:true, isBottom:isBottom}"  v-if="position == 'bookListDetail'" @click="$router.push({name:'bookDetail'})">
+        <div :class="{ansBook:true, isBottom:isBottom}"
+             v-if="position == 'bookListDetail'"
+             @click="$router.push({name:'bookDetail', params:{id:bookInfo.BookId}})"
+        >
             <div style="font-size: 0;flex-shrink: 0;">
                 <img class="bookImage" style="width: 1.1rem; height: 1.5rem" :src='"https://qidian.qpic.cn/qdbimg/349573/" + bookInfo.bookId + "/180"' alt="">
             </div>

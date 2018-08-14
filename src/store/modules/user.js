@@ -15,7 +15,12 @@ const state = {
 	 * 其他作者信息
 	 */
 	otherAuthor:{
-
+		Books:[], //作家著作
+		DynamicInfo:[], //作家动态
+		AuthorTitleInfo:{}, //作家 标签
+		NewBookNoticeInfoList:[], //
+		TABookList:[], //他的书单
+		YOUTABookList:[], //有他书籍的书单
 	}
 };
 /**
@@ -48,7 +53,11 @@ const mutations = {
 const getters = {
 	getterUserInfo(state) {
 		return state.otherUser;
-	}
+	},
+	getterAuthorInfo(state) {
+		return state.otherAuthor;
+	},
+
 };
 
 /**

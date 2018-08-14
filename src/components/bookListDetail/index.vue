@@ -45,9 +45,16 @@
 				],
 			}
 		},
+		watch: {
+			'$route'  (to, from) {
+				if (to.name == 'bookListDetail') {
+
+				}
+			}
+		},
 
 		created() {
-			this.$store.dispatch('booklist/getBookListDetail'); //获取书单详情
+			this.$store.dispatch('booklist/getBookListDetail', {booklistId:this.$route.params.id}); //获取书单详情
             this.listMy[3].func = this.jumpTo;
             this.listMy[3].funcParams = {type: 'html', params: {url: this.bookListDetail.info.helpUrl, title: '关于书单'}};
 			this.list[1] = this.listMy[3];

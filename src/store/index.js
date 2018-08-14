@@ -4,6 +4,7 @@ import createPersistedState from "vuex-persistedstate";
 import bookcase from './modules/bookcase'
 import book from './modules/book'
 import booklist from './modules/booklist'
+import bookstore from './modules/bookstore'
 import search from './modules/search'
 import ad from './modules/ad'
 import loading from './modules/loading'
@@ -39,6 +40,7 @@ export default new Vuex.Store({
 		account: account,  // 账户
 		chat: chat,     // 聊天
 		user: user,     // 用户
+		bookstore: bookstore,  // 书店
 	},
 
     //设置部分缓存

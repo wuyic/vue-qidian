@@ -1,26 +1,33 @@
 <template>
-    <div>
-        <indexTitle></indexTitle>
+    <div class="bookStore">
+        <!--顶部四个-->
+        <div class="title">
+
+        </div>
+        <!--畅销精选-->
+
+
     </div>
 </template>
 
 <script>
-	import indexTitle from './index/index/title.vue';
 
 	export default {
-		name: 'good',
+		name: 'bookStore',
 		data() {
 			return {
 				msg: 'Welcome to Your Vue.js App'
 			}
 		},
 		components: {
-			indexTitle: indexTitle
+
 		}
 	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+    .bookStore {
 
+    }
 </style>

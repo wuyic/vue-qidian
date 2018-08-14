@@ -445,20 +445,17 @@ const actions = {
 	},
 
 	/**
-	 * 跳转到书单详情页面
+	 * 书单详情
 	 */
-	gotoBookListDetail({state, commit, rootState}, {router, id}) {
+	getBookListDetail: ({state, commit, rootState}, options) => {
+
+		let id = options && options.booklistId || 0;
+
 		if (id) {
 			commit('refreshBookListDetail');
 			state.bookListDetail.id = id;
-			router.push({name: 'booklistDetail'})
 		}
-	},
 
-	/**
-	 * 书单详情
-	 */
-	getBookListDetail: ({state, commit, rootState}) => {
 		let detail = state.bookListDetail;
 
 		if (detail.id == 0) {

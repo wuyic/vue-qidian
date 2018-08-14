@@ -320,6 +320,7 @@
 
 		},
 		created() {
+			console.log('id', this.$route.params.id);
 			this.$store.dispatch('book/getBookDetail', {bookId: this.$route.params.id});
 		},
 		computed: {

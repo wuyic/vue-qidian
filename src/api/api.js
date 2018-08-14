@@ -239,7 +239,7 @@ export default {
 					url:'https://mage.if.qidian.com/Atom.axd/Api/User/GetAuthorInfo',
 					method:'post',
 					param:paramsToUrlParam({
-						authorId:options.authorId || 3653702,
+						authorId:options.authorId || -1,
 						pageIndex:options.pageIndex || -1,
 						pageSize:options.pageSize || 10,
 					}),
@@ -524,16 +524,16 @@ export default {
 	 * 精选中 的书籍
 	 * @returns {AxiosPromise<any>}
 	 */
-	BookStoreGetList({rCount, sId}) {
+	BookStoreGetList(option) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
 					url:'https://mage.if.qidian.com/Atom.axd/Api/BookStore/GetBookStoreList',
 					method:'get',
 					param:paramsToUrlParam({
-						rCount:rCount,
+						rCount:option.rCount || 4,
 						rdm:1532591067,
-						sId:sId
+						sId:option.sId || 0, //0 男  1女
 					}),
 				}
 			}
@@ -543,18 +543,18 @@ export default {
 	 * 精选中 推荐
 	 * @returns {AxiosPromise<any>}
 	 */
-	BookStoreGetIntellRecommend({rCount, sId}) {
+	BookStoreGetIntellRecommend(options) {
 		return axios.get(
 			nodeServiceUrl, {
 				params:{
 					url:'https://mage.if.qidian.com/Atom.axd/Api/Recommend/GetIntellRecommend',
 					method:'get',
 					param:paramsToUrlParam({
-						ndreson:1,
-						pageIndex:1,
-						pageSize:20,
-						rCount:4,
-						rectype:201
+						ndreson:options.ndreson || 1,
+						pageIndex:options.pageIndex || 1,
+						pageSize:options.pageSize || 20,
+						rCount:options.rCount || 4,
+						rectype:options.rectype || 201,
 					}),
 				}
 			}

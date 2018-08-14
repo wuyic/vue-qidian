@@ -32,12 +32,15 @@ app.get('/get', function (req, res) {
 		headers: {
 			'Accept': 'application/json',
 			'content-type': 'application/x-www-form-urlencoded',
-			'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzM4OTgzODcyNjJ8MHw5NmIxZWRjYi0xNjE3LTQ3NjItODlhMC0yZWVjMTc2NWVmNDQ=; appId=12; areaId=40; cmfuToken=N((2kQpEjAf_6yJl7sLwViDHW_d0ZHywKqJPaSqDibkk80C2531yt1BO8-5a_V104e8zwmHXTIZmbo80NClrMZVWdCcyr7uJASdSdLe2ylhg7-rjnD24vxli-BTLUHdTYByKBI6n-I75KdCAot8lMSnv4Kpt9TlALrDG9mig1_PFKsl5KtHs1tzHSmXSdpoZa2-BuWeF9XlRwkxtQ8f1FXaCxNIzD5dHCseE0Zcw1TXApbC64QMSQSaSOnHeWsAf22Y0; ywguid=461199585; ywkey=ywBzo7arVGYB; wal=1; _csrfToken=sCHHFCYOHmGn1rBeKOEocllMN7bCkGZeBauwcasH; hiijack=0; newstatisticUUID=1532924619_18376831',
-			'User-Agent': 'QDReaderAppStore/4.77 (iPhone; iOS 11.3.1; Scale/3.00)',
+			// 'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzM4OTgzODcyNjJ8MHw5NmIxZWRjYi0xNjE3LTQ3NjItODlhMC0yZWVjMTc2NWVmNDQ=; appId=12; areaId=40; cmfuToken=N((2kQpEjAf_6yJl7sLwViDHW_d0ZHywKqJPaSqDibkk80C2531yt1BO8-5a_V104e8zwmHXTIZmbo80NClrMZVWdCcyr7uJASdSdLe2ylhg7-rjnD24vxli-BTLUHdTYByKBI6n-I75KdCAot8lMSnv4Kpt9TlALrDG9mig1_PFKsl5KtHs1tzHSmXSdpoZa2-BuWeF9XlRwkxtQ8f1FXaCxNIzD5dHCseE0Zcw1TXApbC64QMSQSaSOnHeWsAf22Y0; ywguid=461199585; ywkey=ywBzo7arVGYB; wal=1; _csrfToken=sCHHFCYOHmGn1rBeKOEocllMN7bCkGZeBauwcasH; hiijack=0; newstatisticUUID=1532924619_18376831',
+			'Cookie': 'QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzQxNjE1MTg3MjN8MHw5NmIxZWRjYi0xNjE3LTQ3NjItODlhMC0yZWVjMTc2NWVmNDQ=; appId=12; areaId=40; cmfuToken=N((q5lkFcLUDyXAeR-LXzBkN_gF08kHNrqqC9SohtM03bHJGnda6m-ACbE44E4zUJ00GWcKmkPnh1fl40GropmgYe98y39uDUL5Th5z_gR3AmGlgB_vQnF_2oWJtZcMPdU0rstnW3cE4FVN3wxHMSTaN2Ylu2neAMGdQFLPYhsnVur7aaup7QEeY90YuNC4-Qai73FmfrtLUbneC5UFAlmhhLR8P_sztdr6acw85SJkhzG2baAhMCAdS65Sck0qOpHn0; ywguid=461199585; ywkey=ywBzo7arVGYB; wal=1; _csrfToken=sCHHFCYOHmGn1rBeKOEocllMN7bCkGZeBauwcasH; hiijack=0; newstatisticUUID=1532924619_18376831',
+			'User-Agent': 'QDReaderAppStore/4.77 (iPhone; iOS 11.4; Scale/3.00)',
 			'Accept-Language': 'zh-Hans-CN;q=1',
 			'Accept-Encoding': 'gzip, deflate',
 			'Referer': 'http://ios.qidian.com',
 			'QDHeader': 'OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8My45LjF8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MTcxfEFwcFN0b3JlfDM=',
+			// 'QDHeader': 'OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzQxNTczNTE1MDh8MHw5NmIxZWRjYi0xNjE3LTQ3NjItODlhMC0yZWVjMTc2NWVmNDQ==',
+
 			'ywguid':'461199585',
 		},
 		body: req.query.method=='post' ? req.query.param : ''
@@ -76,3 +79,13 @@ console.log("node服务已经开启，监听端口：5678");
 //     uin:	'461199585',
 //     version:	'4.7.7',
 // })
+
+// Content-Type	application/x-www-form-urlencoded
+// Cookie	QDHeader=OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzQxNjE1MTg3MjN8MHw5NmIxZWRjYi0xNjE3LTQ3NjItODlhMC0yZWVjMTc2NWVmNDQ=; appId=12; areaId=40; cmfuToken=N((q5lkFcLUDyXAeR-LXzBkN_gF08kHNrqqC9SohtM03bHJGnda6m-ACbE44E4zUJ00GWcKmkPnh1fl40GropmgYe98y39uDUL5Th5z_gR3AmGlgB_vQnF_2oWJtZcMPdU0rstnW3cE4FVN3wxHMSTaN2Ylu2neAMGdQFLPYhsnVur7aaup7QEeY90YuNC4-Qai73FmfrtLUbneC5UFAlmhhLR8P_sztdr6acw85SJkhzG2baAhMCAdS65Sck0qOpHn0; ywguid=461199585; ywkey=ywBzo7arVGYB; wal=1; _csrfToken=sCHHFCYOHmGn1rBeKOEocllMN7bCkGZeBauwcasH; hiijack=0; newstatisticUUID=1532924619_18376831
+// Content-Length	43
+// Connection	keep-alive
+// QDSign	+rqYGkHXfncdLmlm+k2KLMbQOs4GLI7+Un9TDnNw0Evduc/DtvcOvELa7JwTl2IO9RFbWEiWRquvDb8KuaWl2SyNhrPa7jz0JIgAXOOAzpj8sJ59VktAmPscgew7jdfqA1TJ8BiUnxYYGWlBIq4uFA==
+// User-Agent	QDReaderAppStore/4.7.7 (iPhone; iOS 11.4; Scale/3.00)
+// Accept-Language	zh-Hans-CN;q=1
+// Accept-Encoding	gzip, deflate
+// QDHeader	OTNmOTg5NzI5ZTk3NTdmNzE0MTc2Mzg0ZjgxNmMzMTF8NC43Ljd8MTI0MnwyMjA4fEFwcFN0b3JlfDExLjQwfDV8aU9TL2lQaG9uZS9pUGhvbmU4LDJ8MjA0fEFwcFN0b3JlfDN8MTg4Mzc4NTIwfDE1MzQxNTczNTE1MDh8MHw5NmIxZWRjYi0xNjE3LTQ3NjItODlhMC0yZWVjMTc2NWVmNDQ=

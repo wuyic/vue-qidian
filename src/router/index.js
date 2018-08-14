@@ -12,7 +12,7 @@ import booklistDiscuss   from '@/components/booklistDiscuss/index'
 import search            from '@/components/search/index'
 import userInfo          from '@/components/userinfo/index'
 
-import good from '@/components/good'
+import good from '@/components/good/index'
 import find from '@/components/find'
 import mine from '@/components/mine'
 
@@ -73,7 +73,7 @@ export default new Router({
 			}
 		},
 		{
-			path: '/booklist/detail',
+			path: '/booklist/detail/:id',
 			name: 'booklistDetail',
 			component: booklistDetail,
 			meta: {
@@ -109,7 +109,7 @@ export default new Router({
 			}
 		},
 		{
-			path: '/good',
+			path: '/good/index',
 			name: 'good',
 			component: good,
 			meta: {
